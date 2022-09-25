@@ -1,4 +1,4 @@
-package com.ork.newarchitecture;
+package dev.dgren.ork.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.ork.BuildConfig;
-import com.ork.newarchitecture.components.MainComponentsRegistry;
-import com.ork.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import dev.dgren.ork.BuildConfig;
+import dev.dgren.ork.newarchitecture.components.MainComponentsRegistry;
+import dev.dgren.ork.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

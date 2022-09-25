@@ -1,4 +1,4 @@
-package com.ork;
+package dev.dgren.ork;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

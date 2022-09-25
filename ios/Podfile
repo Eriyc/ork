@@ -19,7 +19,7 @@ target 'ork' do
     :fabric_enabled => flags[:fabric_enabled],
     # Enables Flipper.
     #
-    # Note that if you have use_frameworks! enabled, Flipper will not work and
+    # Note that if you have use_frameworks! enabled, Flipper will not wOrk and
     # you should disable the next line.
     :flipper_configuration => FlipperConfiguration.enabled,
     # An absolute path to your application root.

@@ -1,4 +1,4 @@
-package com.ork.newarchitecture.modules;
+package dev.dgren.ork.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

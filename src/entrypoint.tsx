@@ -5,16 +5,18 @@ import React, {FC} from 'react';
 import {Router} from './router';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {AuthProvider} from './features/context/auth';
-import {ThemeProvider} from './features';
+import {APIProvider, ThemeProvider} from './features';
 
 const ORKEntrypoint: FC = () => {
   return (
     <GestureHandlerRootView style={full}>
-      <AuthProvider>
-        <ThemeProvider>
-          <Router />
-        </ThemeProvider>
-      </AuthProvider>
+      <APIProvider>
+        <AuthProvider>
+          <ThemeProvider>
+            <Router />
+          </ThemeProvider>
+        </AuthProvider>
+      </APIProvider>
     </GestureHandlerRootView>
   );
 };
