@@ -3,4 +3,5 @@ declare module 'react-native-dotenv' {
   export const SUPABASE_URL: string;
   export const TEST_EMAIL: string;
   export const TEST_PASS: string;
+  export const NODE_ENV: 'development' | 'production';
 }
