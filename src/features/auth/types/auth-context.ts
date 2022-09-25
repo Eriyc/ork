@@ -3,7 +3,8 @@ type AuthContextData = {
   loading: boolean;
   signIn(): Promise<void>;
   signOut(): void;
-  signInWithProvider(): Promise<void>;
+  deleteOwnAccount(): Promise<void>;
+  signInWithProvider(provider: 'apple' | 'google'): Promise<void>;
 };
 
 interface Response {

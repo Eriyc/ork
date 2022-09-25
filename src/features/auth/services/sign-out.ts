@@ -1,5 +1,6 @@
 import client from '@/utils/client';
 
 export const signOut = async () => {
-  await client.auth.signOut();
+  const {error} = await client.auth.signOut();
+  console.log(error);
 };

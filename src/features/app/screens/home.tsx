@@ -8,8 +8,12 @@ const HomeScreen: FC = () => {
 
   return (
     <View>
-      <Text>Get on it, {auth.authData?.first_name}</Text>
+      <Text>
+        Get on it,{' '}
+        {auth.authData?.first_name ?? auth.authData?.email.split('@')[0]}
+      </Text>
       <Button title="Sign Out" onPress={auth.signOut} />
+      <Button title="Delete account" onPress={auth.deleteOwnAccount} />
     </View>
   );
 };

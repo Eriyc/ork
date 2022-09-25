@@ -6,10 +6,16 @@ export const signInWithEmailAndPassword = async (
   email: string,
   password: string,
 ): Promise<AuthData | AuthError> => {
-  await client.auth.signUp({
-    email: 'eric@dgren.dev',
+  const {} = await client.auth.signUp({
+    email: 'ericdahlgren03+test@gmail.com',
     password: 'testpass',
+    options: {
+      data: {
+        full_name: 'Eric Dahlgren',
+      },
+    },
   });
+
   const {data, error} = await client.auth.signInWithPassword({
     email: email ?? '',
     password: password ?? '',

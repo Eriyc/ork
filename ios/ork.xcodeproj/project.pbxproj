@@ -42,6 +42,7 @@
 		78DFF6C4E09B5D86238C7D08 /* Pods-ork.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ork.release.xcconfig"; path = "Target Support Files/Pods-ork/Pods-ork.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ork/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9596826928DD898A00C99A60 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
+		95B2104128E0A83700D917C5 /* ork.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ork.entitlements; path = ork/ork.entitlements; sourceTree = "<group>"; };
 		AC902FCFBD3C936D27E405B1 /* Pods-ork-orkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ork-orkTests.release.xcconfig"; path = "Target Support Files/Pods-ork-orkTests/Pods-ork-orkTests.release.xcconfig"; sourceTree = "<group>"; };
 		C43E1CBFF93CFA885D06578E /* libPods-ork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ork.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6999C9E596EA586697DF6C1 /* Pods-ork.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ork.debug.xcconfig"; path = "Target Support Files/Pods-ork/Pods-ork.debug.xcconfig"; sourceTree = "<group>"; };
@@ -88,6 +89,7 @@
 		13B07FAE1A68108700A75B9A /* ork */ = {
 			isa = PBXGroup;
 			children = (
+				95B2104128E0A83700D917C5 /* ork.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -498,6 +500,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ork/ork.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 54VDJLDH46;
 				ENABLE_BITCODE = NO;
@@ -526,6 +529,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ork/ork.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 54VDJLDH46;
 				INFOPLIST_FILE = ork/Info.plist;

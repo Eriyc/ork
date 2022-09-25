@@ -6,7 +6,7 @@ interface Props {
   provider: 'apple' | 'google';
 }
 export const signInWithProvider = async ({provider}: Props) => {
-  const url = `${SUPABASE_URL}/auth/v1/authorize?provider=${provider}&redirect_to=ork://callback`;
+  const url = `${SUPABASE_URL}/auth/v1/authorize?provider=${provider}&redirect_to=ork://callback&scope=email`;
 
   if (await InAppBrowser.isAvailable()) {
     InAppBrowser.openAuth(url, 'ork://callback', {}).then(async response => {
