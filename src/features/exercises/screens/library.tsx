@@ -1,12 +1,10 @@
 import React, {FC} from 'react';
 import {FlatList} from 'react-native';
-import {useExercises} from '../actions';
+import {useExercises} from '../hooks';
 import {ExerciseRow} from '../components';
 
 const ExerciseLibraryScreen: FC = () => {
-  const {exercises} = useExercises();
-
-  console.log(exercises);
+  const {data: exercises} = useExercises();
 
   return (
     <FlatList

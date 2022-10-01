@@ -25,3 +25,4 @@ const useAuthNavigation = () => useNavigation<NavigationProp<AuthRoutes>>();
 export {AuthStack, useAuthNavigation};
 export * from './services';
 export * from './types';
+export * from './utils';

@@ -1,7 +1,8 @@
+import {generateUsername} from '@/features/auth';
 import {useAuth} from '@/features/context';
 import {Text} from '@/features/ui';
 import React, {FC} from 'react';
-import {Button, View} from 'react-native';
+import {View} from 'react-native';
 
 const HomeScreen: FC = () => {
   const auth = useAuth();
@@ -9,11 +10,9 @@ const HomeScreen: FC = () => {
   return (
     <View>
       <Text>
-        Get on it,{' '}
-        {auth.authData?.first_name ?? auth.authData?.email.split('@')[0]}
+        WE GO JIM,{' '}
+        {auth.authData?.first_name ?? generateUsername(auth.authData!.email)}
       </Text>
-      <Button title="Sign Out" onPress={auth.signOut} />
-      <Button title="Delete account" onPress={auth.deleteOwnAccount} />
     </View>
   );
 };

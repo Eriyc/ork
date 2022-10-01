@@ -1,7 +1,7 @@
 import {Card, Text} from '@/features/ui';
 import React, {FC} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {useExercise} from '../../actions';
+import {useExercise} from '../../hooks';
 
 const ExerciseInstructionsScreen: FC = () => {
   const exercise = useExercise();

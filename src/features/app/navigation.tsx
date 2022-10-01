@@ -15,7 +15,7 @@ import {
   ExerciseDetailsNavigator,
   ExerciseLibraryScreen,
 } from '../exercises';
-import {WorkoutHistoryScreen} from '../workout';
+import {SheetProvider, WorkoutHistoryScreen} from '../workout';
 import {MyTemplatesScreen} from '../workout/screens/templates';
 
 type AppStack = {
@@ -37,28 +37,30 @@ const BottomTabs = createBottomTabNavigator<TabStack>();
 
 const TabStack = () => {
   return (
-    <BottomTabs.Navigator tabBar={props => <ORKTabBar {...props} />}>
-      <BottomTabs.Screen name="Home" component={HomeScreen} />
-      <BottomTabs.Screen
-        name="History"
-        component={WorkoutHistoryScreen}
-        options={{
-          tabBarLabel: 'History',
-          headerShown: true,
-        }}
-      />
-      <BottomTabs.Screen name="MyTemplates" component={MyTemplatesScreen} />
-      <BottomTabs.Screen
-        name="ExerciseLibrary"
-        component={ExerciseLibraryScreen}
-        options={{
-          title: 'Library',
-          tabBarLabel: 'Library',
-          headerShown: true,
-        }}
-      />
-      <BottomTabs.Screen name="Settings" component={SettingsScreen} />
-    </BottomTabs.Navigator>
+    <SheetProvider>
+      <BottomTabs.Navigator tabBar={props => <ORKTabBar {...props} />}>
+        <BottomTabs.Screen name="Home" component={HomeScreen} />
+        <BottomTabs.Screen
+          name="History"
+          component={WorkoutHistoryScreen}
+          options={{
+            tabBarLabel: 'History',
+            headerShown: true,
+          }}
+        />
+        <BottomTabs.Screen name="MyTemplates" component={MyTemplatesScreen} />
+        <BottomTabs.Screen
+          name="ExerciseLibrary"
+          component={ExerciseLibraryScreen}
+          options={{
+            title: 'Library',
+            tabBarLabel: 'Library',
+            headerShown: true,
+          }}
+        />
+        <BottomTabs.Screen name="Settings" component={SettingsScreen} />
+      </BottomTabs.Navigator>
+    </SheetProvider>
   );
 };
 

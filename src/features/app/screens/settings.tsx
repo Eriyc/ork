@@ -17,6 +17,12 @@ const SettingsScreen: FC = () => {
         title="Change theme"
         onPress={() => navigation.navigate('EditTheme')}
       />
+      <Button color="orange" title="Sign Out" onPress={auth.signOut} />
+      <Button
+        color="red"
+        title="Delete account"
+        onPress={auth.deleteOwnAccount}
+      />
       <AppVersion />
     </View>
   );

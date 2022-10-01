@@ -3,7 +3,7 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import {ExerciseInstructionsScreen} from './instructions';
 import {ExerciseHistoryScreen} from './history';
 import {useAppNavigation, useAppRoute} from '@/features/app';
-import {ExerciseProvider, useExercise} from '../../actions';
+import {ExerciseProvider, useExercise} from '../../hooks';
 import {useFocusEffect} from '@react-navigation/native';
 
 export type DetailRoutes = {
