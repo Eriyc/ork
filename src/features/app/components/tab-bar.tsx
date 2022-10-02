@@ -8,6 +8,7 @@ import type {TabStack} from '../navigation';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ActiveWorkoutSheet, useWorkoutSheet} from '@/features/workout';
 import Animated from 'react-native-reanimated';
+import {useWorkoutStore} from '@/features/workout/store';
 
 const IconFor = (route: keyof TabStack) => {
   switch (route) {
@@ -30,6 +31,7 @@ export const ORKTabBar = (props: BottomTabBarProps) => {
   const {height} = useWindowDimensions();
 
   const sheet = useWorkoutSheet();
+  const workoutStatus = useWorkoutStore(workoutState => workoutState.status);
 
   return (
     <View style={[styles.wrapper]}>
@@ -40,7 +42,7 @@ export const ORKTabBar = (props: BottomTabBarProps) => {
         <Card
           style={styles.card}
           onLayout={({nativeEvent: {layout}}) => {
-            sheet.setTabHeight(layout.height);
+            sheet.setTabHeight(layout.height - 4);
           }}>
           <SafeAreaView
             style={styles.innerContainer}
@@ -49,7 +51,7 @@ export const ORKTabBar = (props: BottomTabBarProps) => {
               const active = state.index === index;
 
               let onPress = () => navigation.navigate(descriptor.route.name);
-              if (active && index === 2) {
+              if (active && index === 2 && workoutStatus !== 'inactive') {
                 onPress = sheet.showSheet;
               }
 

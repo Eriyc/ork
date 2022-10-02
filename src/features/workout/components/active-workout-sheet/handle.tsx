@@ -1,16 +1,35 @@
 import {Text, useTheme} from '@/features/ui';
+import {calcDiff} from '@/utils';
 import {BottomSheetHandleProps} from '@gorhom/bottom-sheet';
-import React, {FC} from 'react';
-import {View, StyleSheet, StatusBar} from 'react-native';
+import React, {FC, useEffect, useState} from 'react';
+import {View, StyleSheet, StatusBar, Pressable} from 'react-native';
 import Animated, {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';
+import {useWorkoutStore} from '../../store';
+import {useWorkoutSheet} from './sheet-provider';
 
 const ActiveWorkoutSheetHandle: FC<BottomSheetHandleProps> = ({
   animatedIndex,
 }) => {
+  const {showSheet} = useWorkoutSheet();
+  const startTime = useWorkoutStore(s => s.startTime);
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    if (!startTime) {
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearTimeout(timeoutId);
+  }, [currentTime, startTime]);
+
   const handleStyle = useAnimatedStyle(() => {
     const opacity = interpolate(
       animatedIndex.value,
@@ -45,18 +64,25 @@ const ActiveWorkoutSheetHandle: FC<BottomSheetHandleProps> = ({
   return (
     <View style={[styles.container]}>
       <StatusBar
-        animated
-        backgroundColor={'gray'}
+        backgroundColor={'#f4f4f4'}
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <Animated.View style={[toolbarStyle]}>
         <Text>Toolbar</Text>
       </Animated.View>
       <Animated.View style={[handleStyle]}>
-        <View style={[styles.titleContainer]}>
-          <Text style={[styles.title]}>Afternoon Workout</Text>
-          <Text style={[styles.timer]}>00:10</Text>
-        </View>
+        <Pressable onPress={showSheet}>
+          <View style={[styles.titleContainer]}>
+            <Text style={[styles.title]} maxFontSizeMultiplier={1.4}>
+              Afternoon Workout
+            </Text>
+            {startTime && (
+              <Text style={[styles.timer]} maxFontSizeMultiplier={1.3}>
+                {calcDiff(currentTime, startTime)}
+              </Text>
+            )}
+          </View>
+        </Pressable>
       </Animated.View>
     </View>
   );

@@ -4,6 +4,7 @@ import React, {
   PropsWithChildren,
   RefObject,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -14,11 +15,13 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useWindowDimensions, ViewStyle} from 'react-native';
 import {
   AnimatedStyleProp,
+  Extrapolate,
   interpolate,
   SharedValue,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+import {useWorkoutStore} from '../../store';
 
 type SheetApi = {
   ref: RefObject<BottomSheet>;
@@ -40,6 +43,15 @@ export const SheetProvider: FC<PropsWithChildren> = ({children}) => {
   const {height} = useWindowDimensions();
   const [tabHeight, setTabHeight] = useState(0);
 
+  const workoutStatus = useWorkoutStore(state => state.status);
+  useEffect(() => {
+    if (workoutStatus === 'active') {
+      showSheet();
+    } else if (workoutStatus === 'inactive') {
+      hideSheet();
+    }
+  }, [workoutStatus]);
+
   const snapPoints = useMemo(
     () => [tabHeight + HANDLEBAR_HEIGHT, height - top],
     [height, top, tabHeight],
@@ -48,10 +60,12 @@ export const SheetProvider: FC<PropsWithChildren> = ({children}) => {
   const currentPosition = useSharedValue(0);
 
   const tabStyle = useAnimatedStyle(() => {
-    const translateY = interpolate(currentPosition.value, snapPoints, [
-      tabHeight,
-      0,
-    ]);
+    const translateY = interpolate(
+      currentPosition.value,
+      [snapPoints[0], snapPoints[1] - HANDLEBAR_HEIGHT],
+      [tabHeight, 0],
+      Extrapolate.CLAMP,
+    );
 
     return {
       transform: [{translateY}],
