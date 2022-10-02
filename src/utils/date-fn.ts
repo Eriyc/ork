@@ -7,10 +7,6 @@ const decompose = (total: number, breakpoints: number[]) => {
 
 export const toHHMMSS = (date: Date) =>
   decompose(Math.floor(date.getTime() / 1000), [3600, 60])
-    .map(s => {
-      console.log(s);
-      return s;
-    })
     .reduce<number[]>(
       (arr, val, index) =>
         val < 0
