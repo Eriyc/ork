@@ -1,34 +1,18 @@
 import {Text, useTheme} from '@/features/ui';
-import {calcDiff} from '@/utils';
 import {BottomSheetHandleProps} from '@gorhom/bottom-sheet';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC} from 'react';
 import {View, StyleSheet, StatusBar, Pressable} from 'react-native';
 import Animated, {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import {useWorkoutStore} from '../../store';
 import {useWorkoutSheet} from './sheet-provider';
 
-const ActiveWorkoutSheetHandle: FC<BottomSheetHandleProps> = ({
-  animatedIndex,
-}) => {
+const ActiveWorkoutSheetHandle: FC<
+  BottomSheetHandleProps & {timer: string}
+> = ({animatedIndex, timer}) => {
   const {showSheet} = useWorkoutSheet();
-  const startTime = useWorkoutStore(s => s.startTime);
-  const [currentTime, setCurrentTime] = useState(new Date());
-
-  useEffect(() => {
-    if (!startTime) {
-      return;
-    }
-
-    const timeoutId = setTimeout(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-
-    return () => clearTimeout(timeoutId);
-  }, [currentTime, startTime]);
 
   const handleStyle = useAnimatedStyle(() => {
     const opacity = interpolate(
@@ -76,11 +60,9 @@ const ActiveWorkoutSheetHandle: FC<BottomSheetHandleProps> = ({
             <Text style={[styles.title]} maxFontSizeMultiplier={1.4}>
               Afternoon Workout
             </Text>
-            {startTime && (
-              <Text style={[styles.timer]} maxFontSizeMultiplier={1.3}>
-                {calcDiff(currentTime, startTime)}
-              </Text>
-            )}
+            <Text style={[styles.timer]} maxFontSizeMultiplier={1.3}>
+              {timer}
+            </Text>
           </View>
         </Pressable>
       </Animated.View>

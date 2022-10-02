@@ -1,4 +1,10 @@
-import React, {FC, PropsWithChildren} from 'react';
+import React, {
+  FC,
+  PropsWithChildren,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import {useWorkoutSheet} from './sheet-provider';
 import BottomSheet from '@gorhom/bottom-sheet';
@@ -8,14 +14,35 @@ import {Text} from '@/features/ui';
 import {workoutStyles} from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {SetRow} from './set-row';
+import {useWorkoutStore} from '../../store';
+import {calcDiff} from '@/utils';
 
 const ActiveWorkoutSheet: FC<PropsWithChildren> = ({}) => {
   const {ref, onChange, snapPoints, currentPosition} = useWorkoutSheet();
+  const workout = useWorkoutStore();
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    if (!workout.startTime) {
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearTimeout(timeoutId);
+  }, [currentTime, workout.startTime]);
+
+  const timer = useMemo(
+    () => (workout.startTime ? calcDiff(currentTime, workout.startTime) : '0'),
+    [currentTime, workout.startTime],
+  );
 
   return (
     <>
       <BottomSheet
-        handleComponent={ActiveWorkoutSheetHandle}
+        handleComponent={a => <ActiveWorkoutSheetHandle timer={timer} {...a} />}
         handleHeight={0}
         onChange={onChange}
         snapPoints={snapPoints}
@@ -25,7 +52,7 @@ const ActiveWorkoutSheet: FC<PropsWithChildren> = ({}) => {
         <SafeAreaView style={[styles.col]} edges={['right', 'left']}>
           <ScrollView contentContainerStyle={[styles.container]}>
             <Text>Afternoon Workout</Text>
-            <Text>10:00</Text>
+            <Text>{timer}</Text>
 
             <View style={[styles.exercise]}>
               <Text>Pushups</Text>
