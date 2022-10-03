@@ -5,7 +5,7 @@ import {workoutStyles} from '../styles';
 
 const WorkoutTypeSelect: FC = () => {
   return (
-    <View style={[workoutStyles.setColumn]}>
+    <View style={[workoutStyles.halfColumn]}>
       <View style={[styles.typeDropdown]}>
         <Text style={[styles.setNumber]}>1</Text>
       </View>

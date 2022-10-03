@@ -1,28 +1,28 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, ViewStyle} from 'react-native';
+
+const colBase: ViewStyle = {
+  flex: 2,
+  justifyContent: 'center',
+  alignItems: 'stretch',
+};
 
 export const workoutStyles = StyleSheet.create({
-  setColumn: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   column: {
-    flex: 2,
-    justifyContent: 'center',
+    ...colBase,
     paddingHorizontal: 4,
-    alignItems: 'center',
-    flexDirection: 'row',
+  },
+  halfColumn: {
+    ...colBase,
+    flex: 1,
   },
   previousColumm: {
-    justifyContent: 'center',
+    ...colBase,
     flex: 3,
-    alignItems: 'center',
   },
   row: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
   },
   textInput: {
     flex: 1,

@@ -1,3 +1,5 @@
+export type Weight = {amount: number; unit: 'kg' | 'lbs'};
+
 export type Set = {
   id: number;
   repetitions: number;

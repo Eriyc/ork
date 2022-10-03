@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const CompleteSetButton: FC = () => {
   return (
-    <View style={[workoutStyles.setColumn, styles.container]}>
+    <View style={[workoutStyles.halfColumn, styles.container]}>
       <View style={[styles.button]}>
         <Icon
           allowFontScaling

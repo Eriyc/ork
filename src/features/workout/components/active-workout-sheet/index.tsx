@@ -1,42 +1,32 @@
-import React, {
-  FC,
-  PropsWithChildren,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import React, {FC, PropsWithChildren, useMemo} from 'react';
+import {StyleSheet, SectionList} from 'react-native';
 import {useWorkoutSheet} from './sheet-provider';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {ActiveWorkoutSheetHandle} from './handle';
-import {Text} from '@/features/ui';
 
-import {workoutStyles} from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {SetRow} from './set-row';
-import {useWorkoutStore} from '../../store';
-import {calcDiff} from '@/utils';
+import {useWorkoutStore, WorkoutData, ExerciseData} from '../../store';
+import {ExerciseHeader} from './exercise-header';
+import {WorkoutHeader} from './workout-header';
+import {useTimer} from '../../hooks';
 
 const ActiveWorkoutSheet: FC<PropsWithChildren> = ({}) => {
   const {ref, onChange, snapPoints, currentPosition} = useWorkoutSheet();
   const workout = useWorkoutStore();
-  const [currentTime, setCurrentTime] = useState(new Date());
 
-  useEffect(() => {
-    if (!workout.startTime) {
-      return;
-    }
+  const timer = useTimer(workout.startTime);
 
-    const timeoutId = setTimeout(() => {
-      setCurrentTime(new Date());
-    }, 1000);
+  const sections = useMemo(
+    () =>
+      Object.entries(workout.exercises).map(([id, exercise]) => ({
+        id,
+        weightUnit: exercise.weightUnit,
+        weightType: exercise.weightType,
 
-    return () => clearTimeout(timeoutId);
-  }, [currentTime, workout.startTime]);
-
-  const timer = useMemo(
-    () => (workout.startTime ? calcDiff(currentTime, workout.startTime) : '0'),
-    [currentTime, workout.startTime],
+        data: exercise.data,
+      })),
+    [workout.exercises],
   );
 
   return (
@@ -50,47 +40,22 @@ const ActiveWorkoutSheet: FC<PropsWithChildren> = ({}) => {
         animatedPosition={currentPosition}
         ref={ref}>
         <SafeAreaView style={[styles.col]} edges={['right', 'left']}>
-          <ScrollView contentContainerStyle={[styles.container]}>
-            <Text>Afternoon Workout</Text>
-            <Text>{timer}</Text>
-
-            <View style={[styles.exercise]}>
-              <Text>Pushups</Text>
-              <View style={[styles.set]}>
-                <View style={[workoutStyles.row]}>
-                  <Text style={[styles.headerLabel, workoutStyles.setColumn]}>
-                    Set
-                  </Text>
-                  <Text
-                    style={[workoutStyles.previousColumm, styles.headerLabel]}>
-                    Previous
-                  </Text>
-                  <Text style={[workoutStyles.column, styles.headerLabel]}>
-                    Weight
-                  </Text>
-                  <Text style={[workoutStyles.column, styles.headerLabel]}>
-                    Reps
-                  </Text>
-                  <View style={[workoutStyles.setColumn]} />
-                </View>
-                <View accessibilityLabel="Sets">
-                  <SetRow />
-                  <SetRow />
-                </View>
-              </View>
-            </View>
-          </ScrollView>
+          <SectionList<ExerciseData, WorkoutData>
+            stickySectionHeadersEnabled={false}
+            contentContainerStyle={[styles.container]}
+            renderSectionHeader={({section}) => (
+              <ExerciseHeader section={section} />
+            )}
+            renderItem={data => <SetRow data={data} />}
+            sections={sections}
+            ListHeaderComponent={<WorkoutHeader timer={timer} />}
+          />
         </SafeAreaView>
       </BottomSheet>
     </>
   );
 };
 const styles = StyleSheet.create({
-  headerLabel: {
-    textTransform: 'uppercase',
-    fontSize: 10,
-    textAlign: 'center',
-  },
   container: {
     padding: 16,
   },
