@@ -1,25 +1,30 @@
 import {calcDiff} from '@/utils';
-import {useEffect, useMemo, useState} from 'react';
 
-export const useTimer = (startTime: Date | null) => {
-  const [currentTime, setCurrentTime] = useState(new Date());
+import create from 'zustand';
 
-  useEffect(() => {
-    if (!startTime) {
-      return;
-    }
-
-    const timeoutId = setTimeout(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-
-    return () => clearTimeout(timeoutId);
-  }, [currentTime, startTime]);
-
-  const timer = useMemo(
-    () => (startTime ? calcDiff(currentTime, startTime) : '0'),
-    [currentTime, startTime],
-  );
-
-  return timer;
+type TimerStore = {
+  time: string;
+  startTime: Date | null;
+  setStartTime: (date: Date) => void;
+  endTimer: () => void;
 };
+let timer: NodeJS.Timeout;
+
+const startTimer = () => {
+  timer = setTimeout(() => {
+    useTimer.setState(state => ({
+      time: state.startTime ? calcDiff(new Date(), state.startTime) : undefined,
+    }));
+    startTimer();
+  }, 1000);
+};
+
+export const useTimer = create<TimerStore>(set => ({
+  time: '00:00',
+  startTime: null,
+  setStartTime: (time: Date) => {
+    set({startTime: time});
+    startTimer();
+  },
+  endTimer: () => clearTimeout(timer),
+}));

@@ -7,8 +7,13 @@ import type {TabStack} from '../navigation';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ActiveWorkoutSheet, useWorkoutSheet} from '@/features/workout';
-import Animated from 'react-native-reanimated';
+import Animated, {
+  Extrapolate,
+  interpolate,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 import {useWorkoutStore} from '@/features/workout/store';
+import {HANDLEBAR_HEIGHT} from '@/features/workout/components/active-workout-sheet/handle';
 
 const IconFor = (route: keyof TabStack) => {
   switch (route) {
@@ -33,12 +38,25 @@ export const ORKTabBar = (props: BottomTabBarProps) => {
   const sheet = useWorkoutSheet();
   const workoutStatus = useWorkoutStore(workoutState => workoutState.status);
 
+  const tabStyle = useAnimatedStyle(() => {
+    const translateY = interpolate(
+      sheet.currentPosition.value,
+      [sheet.snapPoints[0], sheet.snapPoints[1] - HANDLEBAR_HEIGHT],
+      [sheet.tabHeight, 0],
+      Extrapolate.CLAMP,
+    );
+
+    return {
+      transform: [{translateY}],
+    };
+  });
+
   return (
     <View style={[styles.wrapper]}>
       <View pointerEvents="box-none" style={[styles.sheetWrapper, {height}]}>
         <ActiveWorkoutSheet />
       </View>
-      <Animated.View style={sheet.tabStyle}>
+      <Animated.View style={tabStyle}>
         <Card
           style={styles.card}
           onLayout={({nativeEvent: {layout}}) => {

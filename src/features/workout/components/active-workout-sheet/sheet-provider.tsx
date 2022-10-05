@@ -3,6 +3,7 @@ import React, {
   FC,
   PropsWithChildren,
   RefObject,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -12,22 +13,15 @@ import React, {
 import BottomSheet from '@gorhom/bottom-sheet';
 import {HANDLEBAR_HEIGHT} from './handle';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useWindowDimensions, ViewStyle} from 'react-native';
-import {
-  AnimatedStyleProp,
-  Extrapolate,
-  interpolate,
-  SharedValue,
-  useAnimatedStyle,
-  useSharedValue,
-} from 'react-native-reanimated';
+import {useWindowDimensions} from 'react-native';
+import {SharedValue, useSharedValue} from 'react-native-reanimated';
 import {useWorkoutStore} from '../../store';
 
 type SheetApi = {
   ref: RefObject<BottomSheet>;
+  ready: boolean;
   tabHeight: number;
   snapPoints: number[];
-  tabStyle: AnimatedStyleProp<ViewStyle>;
   currentPosition: SharedValue<number>;
 
   setTabHeight: (height: number) => void;
@@ -41,15 +35,26 @@ export const SheetProvider: FC<PropsWithChildren> = ({children}) => {
   const ref = useRef<BottomSheet>(null);
   const {top} = useSafeAreaInsets();
   const {height} = useWindowDimensions();
-  const [tabHeight, setTabHeight] = useState(0);
+  const [tabHeight, _setTabHeight] = useState(0);
+  const [ready, setReady] = useState(false);
+
+  const setTabHeight = (tHeight: number) => {
+    if (tHeight !== tabHeight) {
+      _setTabHeight(tHeight);
+    }
+  };
 
   const workoutStatus = useWorkoutStore(state => state.status);
+
   useEffect(() => {
     if (workoutStatus === 'active') {
+      setReady(true);
       showSheet();
     } else if (workoutStatus === 'inactive') {
+      setReady(false);
       hideSheet();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workoutStatus]);
 
   const snapPoints = useMemo(
@@ -59,28 +64,15 @@ export const SheetProvider: FC<PropsWithChildren> = ({children}) => {
 
   const currentPosition = useSharedValue(0);
 
-  const tabStyle = useAnimatedStyle(() => {
-    const translateY = interpolate(
-      currentPosition.value,
-      [snapPoints[0], snapPoints[1] - HANDLEBAR_HEIGHT],
-      [tabHeight, 0],
-      Extrapolate.CLAMP,
-    );
-
-    return {
-      transform: [{translateY}],
-    };
-  });
-
-  const showSheet = () => {
+  const showSheet = useCallback(() => {
     ref.current?.snapToIndex(1);
-  };
+  }, []);
 
-  const hideSheet = () => {
+  const hideSheet = useCallback(() => {
     ref.current?.close();
-  };
+  }, []);
 
-  const onChange = (_index: number) => {};
+  const onChange = useCallback((_index: number) => {}, []);
 
   return (
     <SheetContext.Provider
@@ -92,8 +84,8 @@ export const SheetProvider: FC<PropsWithChildren> = ({children}) => {
         tabHeight,
         setTabHeight,
         snapPoints,
-        tabStyle,
         currentPosition,
+        ready,
       }}>
       {children}
     </SheetContext.Provider>

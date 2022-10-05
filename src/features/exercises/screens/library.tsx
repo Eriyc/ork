@@ -1,10 +1,20 @@
 import React, {FC} from 'react';
-import {FlatList} from 'react-native';
+import {ActivityIndicator, FlatList, StyleSheet, View} from 'react-native';
 import {useExercises} from '../hooks';
 import {ExerciseRow} from '../components';
+import {Text} from '@/features/ui';
 
 const ExerciseLibraryScreen: FC = () => {
-  const {data: exercises} = useExercises();
+  const {data: exercises, isLoading} = useExercises();
+
+  if (isLoading) {
+    return (
+      <View style={[styles.loadingContainer]}>
+        <ActivityIndicator />
+        <Text>Fetching exercises</Text>
+      </View>
+    );
+  }
 
   return (
     <FlatList
@@ -13,5 +23,13 @@ const ExerciseLibraryScreen: FC = () => {
     />
   );
 };
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export {ExerciseLibraryScreen};

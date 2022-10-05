@@ -1,28 +1,20 @@
-import {WorkoutSlice} from '../types';
+import {AllSlices, WorkoutSlice} from '../types';
+import produce from 'immer';
+import {nanoid} from 'nanoid';
 
-export const createExercisesSlice: WorkoutSlice<'ExercisesSlice'> = (
-  set,
-  get,
-) => ({
-  exercises: {
-    pushup: {
+export const createExercisesSlice: WorkoutSlice<'ExercisesSlice'> = set => ({
+  exercises: [
+    {
       id: 'pushup',
-
-      weightType: 'normal',
+      weightType: 'assisted',
       weightUnit: 'kg',
-
-      data: [
-        {
-          type: 'default',
-          previous: {weight: 0, reps: 10},
-          rpe: undefined,
-          weight: {isPlaceholder: false, value: undefined},
-          reps: {isPlaceholder: false, value: undefined},
-        },
-      ],
+      data: [nanoid(), nanoid()],
     },
-  },
-  addSet: exerciseId => {},
-  removeSet: (exerciseId, index) => {},
-  updateSet: () => {},
+  ],
+  addSet: exerciseId =>
+    set(
+      produce<AllSlices>(s => {
+        s.exercises.find(e => e.id === exerciseId)?.data.push(nanoid());
+      }),
+    ),
 });

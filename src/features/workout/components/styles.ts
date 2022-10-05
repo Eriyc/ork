@@ -18,6 +18,7 @@ export const workoutStyles = StyleSheet.create({
   previousColumm: {
     ...colBase,
     flex: 3,
+    alignItems: 'center',
   },
   row: {
     flex: 1,

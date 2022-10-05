@@ -7,12 +7,15 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';
+import {useTimer} from '../../hooks';
 import {useWorkoutSheet} from './sheet-provider';
 
-const ActiveWorkoutSheetHandle: FC<
-  BottomSheetHandleProps & {timer: string}
-> = ({animatedIndex, timer}) => {
+const ActiveWorkoutSheetHandle: FC<BottomSheetHandleProps> = ({
+  animatedIndex,
+}) => {
   const {showSheet} = useWorkoutSheet();
+
+  const timer = useTimer(t => t.time);
 
   const handleStyle = useAnimatedStyle(() => {
     const opacity = interpolate(
