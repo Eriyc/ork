@@ -20,13 +20,20 @@ export type StatusSlice = {
   endWorkout: () => void;
 };
 
-type UpdateSetValues = {weight?: number; reps?: number; rpe?: number};
+type UpdateSetValues = {
+  weight?: number;
+  reps?: number;
+  rpe?: number;
+  type: SetTypes;
+};
 type UpdateSetProps = RequireAtLeastOne<UpdateSetValues>;
 
+export type SetTypes = 'default' | 'warmup' | 'drop' | 'failure';
 export type WeightUnit = 'kg' | 'lbs';
+export type WeightType = 'normal' | 'bodyweight' | 'assisted';
 export type ExerciseSetData = {
   id: string;
-  type: 'default' | 'warmup' | 'drop' | 'failure';
+  type: SetTypes;
   previous: {weight: number; reps: number; unit: WeightUnit};
   rpe?: number;
   weight: {isPlaceholder: boolean; value?: number};
@@ -36,7 +43,7 @@ export type ExerciseSetData = {
 
 export type WorkoutData = {
   id: string;
-  weightType: 'normal' | 'bodyweight' | 'assisted';
+  weightType: WeightType;
   weightUnit: WeightUnit;
 
   data: ExerciseSetData[];

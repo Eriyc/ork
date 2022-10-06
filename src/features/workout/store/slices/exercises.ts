@@ -60,6 +60,10 @@ export const createExercisesSlice: WorkoutSlice<'ExercisesSlice'> = set => ({
         if (data.rpe) {
           item.rpe = data.rpe;
         }
+
+        if (data.type) {
+          item.type = data.type;
+        }
       }),
     ),
   removeSet: (exerciseId, setId) =>

@@ -85,4 +85,23 @@ describe('Workout store', () => {
     });
     expect(store.current.exercises[0].data[0].completed).toBe(false);
   });
+
+  test('sets can change type', () => {
+    const {result: store} = renderHook(() => useWorkoutStore());
+
+    const exerciseId = 'pushup';
+    const setId = store.current.exercises[0].data[0].id;
+
+    act(() => store.current.updateSet(exerciseId, setId, {type: 'warmup'}));
+    expect(store.current.exercises[0].data[0].type).toStrictEqual('warmup');
+
+    act(() => store.current.updateSet(exerciseId, setId, {type: 'failure'}));
+    expect(store.current.exercises[0].data[0].type).toStrictEqual('failure');
+
+    act(() => store.current.updateSet(exerciseId, setId, {type: 'drop'}));
+    expect(store.current.exercises[0].data[0].type).toStrictEqual('drop');
+
+    act(() => store.current.updateSet(exerciseId, setId, {type: 'default'}));
+    expect(store.current.exercises[0].data[0].type).toStrictEqual('default');
+  });
 });
