@@ -24,6 +24,7 @@ export const workoutStyles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 4,
   },
   textInput: {
     flex: 1,

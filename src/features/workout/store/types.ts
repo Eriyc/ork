@@ -23,26 +23,37 @@ export type StatusSlice = {
 type UpdateSetValues = {weight?: number; reps?: number; rpe?: number};
 type UpdateSetProps = RequireAtLeastOne<UpdateSetValues>;
 
+export type WeightUnit = 'kg' | 'lbs';
 export type ExerciseSetData = {
-  id?: string;
+  id: string;
   type: 'default' | 'warmup' | 'drop' | 'failure';
-  previous: {weight: number; reps: number};
+  previous: {weight: number; reps: number; unit: WeightUnit};
   rpe?: number;
   weight: {isPlaceholder: boolean; value?: number};
   reps: {isPlaceholder: boolean; value?: number};
+  completed: boolean;
 };
 
-export type WeightUnit = 'kg' | 'lbs';
 export type WorkoutData = {
   id: string;
   weightType: 'normal' | 'bodyweight' | 'assisted';
   weightUnit: WeightUnit;
 
-  data: string[];
+  data: ExerciseSetData[];
 };
 export type ExercisesSlice = {
   exercises: WorkoutData[];
   addSet(id: string): void;
+  updateSet(
+    exerciseId: string,
+    setId: string,
+    data: UpdateSetProps,
+    placeholder?: boolean,
+  ): void;
+  removeSet(exerciseId: string, setId: string): void;
+  removeExercise(exerciseId: string): void;
+
+  toggleExercise: (exerciseId: string, setId: string) => void;
 };
 
 type SliceMap = {

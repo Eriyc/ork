@@ -1,2 +1,2 @@
 export * from './workout';
-export type {WorkoutData, ExerciseData, WeightUnit} from './types';
+export type {WorkoutData, ExerciseSetData, WeightUnit} from './types';

@@ -1,14 +1,36 @@
 import React, {FC} from 'react';
-import {Button, SectionList, StyleSheet, View} from 'react-native';
-import {useWorkoutStore} from '../../store';
+import {
+  Button,
+  SectionList,
+  SectionListData,
+  SectionListRenderItem,
+  StyleSheet,
+} from 'react-native';
+
+import {useWorkoutStore, WorkoutData} from '../../store';
 import {ExerciseSetRow} from '../exercise-set-row';
-import {ExerciseHeader} from './exercise-header';
-import {WorkoutHeader} from './workout-header';
+
+import {ExerciseHeader} from './section-header';
+import {WorkoutHeader} from './list-header';
+import {ExerciseSetData} from '../../store/types';
 
 const renderHeader = () => <WorkoutHeader />;
-const renderSectionHeader = ({section}) => <ExerciseHeader section={section} />;
-const renderItem = data => {
-  return <ExerciseSetRow {...data} />;
+
+const renderSectionHeader = ({
+  section,
+}: {
+  section: SectionListData<ExerciseSetData, WorkoutData>;
+}) => <ExerciseHeader section={section} />;
+
+const renderItem: SectionListRenderItem<
+  ExerciseSetData,
+  WorkoutData
+> = data => {
+  const number = data.section.data
+    .slice(0, data.index + 1)
+    .reduce((acc, curr) => (acc += curr.type !== 'warmup' ? 1 : 0), 0);
+
+  return <ExerciseSetRow {...data} setNumber={number} key={data.item.id} />;
 };
 
 type AddSet = (id: string) => void;
@@ -16,7 +38,15 @@ type FooterProps = {
   addSet: AddSet;
 };
 const Footer = ({addSet}: FooterProps) => {
-  return <Button title="Add exercise" onPress={() => addSet('pushup')} />;
+  return (
+    <Button
+      title="Add exercise"
+      onPress={() => {
+        addSet('pushup');
+        addSet('pushup-extreme');
+      }}
+    />
+  );
 };
 
 const renderFooter = (addSet: AddSet) => <Footer addSet={addSet} />;

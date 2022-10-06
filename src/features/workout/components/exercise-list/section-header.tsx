@@ -4,14 +4,16 @@ import {View, StyleSheet, SectionListData} from 'react-native';
 import {workoutStyles} from '../styles';
 
 import {WorkoutData} from '../../store';
+import {ExerciseSetData} from '../../store/types';
 
 type Props = {
-  section: SectionListData<string, WorkoutData>;
+  section: SectionListData<ExerciseSetData, WorkoutData>;
 };
 const ExerciseHeader: FC<Props> = memo(
   ({section}) => {
     return (
       <View style={[styles.container]}>
+        <Text>{section.id}</Text>
         <View style={[workoutStyles.row]}>
           <Text style={[styles.headerLabel, workoutStyles.halfColumn]}>
             Set
