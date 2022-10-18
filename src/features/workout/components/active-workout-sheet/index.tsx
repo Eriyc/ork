@@ -1,28 +1,41 @@
-import React, {FC, PropsWithChildren} from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, {FC} from 'react';
 import {useWorkoutSheet} from './sheet-provider';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {ActiveWorkoutSheetHandle} from './handle';
 
-const ActiveWorkoutSheet: FC<PropsWithChildren> = ({}) => {
-  const {ref, onChange, snapPoints, currentPosition} = useWorkoutSheet();
+import {ExerciseList} from '../exercise-list';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useRenderTracker} from '../../hooks/use-rerender-count';
+import {useTheme} from '@/features/ui';
+
+const ActiveWorkoutSheet: FC = () => {
+  const {ref, onChange, snapPoints, currentPosition, ready} = useWorkoutSheet();
+  const theme = useTheme();
+
+  useRenderTracker('bottom-sheet');
 
   return (
-    <BottomSheet
-      handleComponent={ActiveWorkoutSheetHandle}
-      handleHeight={0}
-      onChange={onChange}
-      snapPoints={snapPoints}
-      index={-1}
-      animatedPosition={currentPosition}
-      ref={ref}>
-      <View style={[styles.container]} />
-    </BottomSheet>
+    <>
+      <BottomSheet
+        backgroundStyle={{backgroundColor: theme.colors.background}}
+        handleComponent={a => <ActiveWorkoutSheetHandle {...a} />}
+        handleHeight={0}
+        onChange={onChange}
+        snapPoints={snapPoints}
+        index={-1}
+        animatedPosition={currentPosition}
+        ref={ref}>
+        {ready && (
+          <SafeAreaView style={flex} edges={['right', 'left']}>
+            <ExerciseList />
+          </SafeAreaView>
+        )}
+      </BottomSheet>
+    </>
   );
 };
-const styles = StyleSheet.create({
-  container: {},
-});
+
+const flex = {flex: 1};
 
 export {ActiveWorkoutSheet};
 export {SheetProvider, useWorkoutSheet} from './sheet-provider';

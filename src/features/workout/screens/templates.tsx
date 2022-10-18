@@ -1,14 +1,17 @@
 import React, {FC} from 'react';
 import {Button, View} from 'react-native';
-import {useWorkoutSheet} from '../components';
+import {useWorkoutStore} from '../store';
 
 const MyTemplatesScreen: FC = () => {
-  const {showSheet, hideSheet} = useWorkoutSheet();
+  const state = useWorkoutStore();
 
   return (
     <View>
       <View>
-        <Button title="Start an empty workout" onPress={showSheet} />
+        <Button
+          title="Start an empty workout"
+          onPress={state.status === 'inactive' ? state.startWorkout : undefined}
+        />
       </View>
     </View>
   );
