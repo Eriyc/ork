@@ -1,4 +1,5 @@
-import {DefaultTheme, Theme} from '@react-navigation/native';
+import {DefaultTheme} from '@react-navigation/native';
+import {Theme} from './types';
 
 let rgb2hex = (c: string) =>
   '#' +
@@ -16,6 +17,7 @@ const LightTheme: Theme = {
     notification: rgb2hex(DefaultTheme.colors.notification),
     primary: rgb2hex(DefaultTheme.colors.primary),
     text: rgb2hex(DefaultTheme.colors.text),
+    button: rgb2hex(DefaultTheme.colors.border),
   },
 };
 

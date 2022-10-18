@@ -1,4 +1,5 @@
-import {DarkTheme as RNDarkTheme, Theme} from '@react-navigation/native';
+import {DarkTheme as RNDarkTheme} from '@react-navigation/native';
+import {Theme} from './types';
 
 let rgb2hex = (c: string) =>
   '#' +
@@ -16,6 +17,7 @@ const Darktheme: Theme = {
     notification: rgb2hex(RNDarkTheme.colors.notification),
     primary: rgb2hex(RNDarkTheme.colors.primary),
     text: rgb2hex(RNDarkTheme.colors.text),
+    button: '#333',
   },
 };
 

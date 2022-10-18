@@ -8,7 +8,7 @@ const WorkoutHeader: FC = () => {
 
   return (
     <View style={[styles.container]}>
-      <Text>Afternoon Workout</Text>
+      <Text testID="workout-name">Afternoon Workout</Text>
       <Text>{timer}</Text>
     </View>
   );

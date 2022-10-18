@@ -22,7 +22,7 @@ const ExerciseHeader: FC<Props> = memo(
             Previous
           </Text>
           <Text style={[workoutStyles.column, styles.headerLabel]}>
-            Weight ({section.weightUnit})
+            {section.weightUnit}:s
           </Text>
           <Text style={[workoutStyles.column, styles.headerLabel]}>Reps</Text>
           <View style={[workoutStyles.halfColumn]} />

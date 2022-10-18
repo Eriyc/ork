@@ -11,8 +11,8 @@ export const createExercisesSlice: WorkoutSlice<'ExercisesSlice'> = set => ({
 
         const newSet: ExerciseSetData = {
           previous: {reps: 10, weight: 10, unit: 'kg'},
-          reps: {isPlaceholder: false},
-          weight: {isPlaceholder: false},
+          reps: {placeholder: undefined, value: undefined},
+          weight: {placeholder: undefined, value: undefined},
           type: 'default',
           id: nanoid(),
           completed: false,
@@ -30,7 +30,7 @@ export const createExercisesSlice: WorkoutSlice<'ExercisesSlice'> = set => ({
         }
       }),
     ),
-  updateSet: (exerciseId, setId, data, placeholder = false) =>
+  updateSet: (exerciseId, setId, data) =>
     set(
       produce<AllSlices>(state => {
         const exercise = state.exercises.find(e => e.id === exerciseId);
@@ -47,14 +47,14 @@ export const createExercisesSlice: WorkoutSlice<'ExercisesSlice'> = set => ({
 
         if (data.weight) {
           item.weight = {
-            value: data.weight,
-            isPlaceholder: placeholder,
+            ...item.weight,
+            ...data.weight,
           };
         }
         if (data.reps) {
           item.reps = {
-            value: data.reps,
-            isPlaceholder: placeholder,
+            ...item.reps,
+            ...data.reps,
           };
         }
         if (data.rpe) {

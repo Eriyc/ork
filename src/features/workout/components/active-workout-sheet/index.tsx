@@ -6,15 +6,18 @@ import {ActiveWorkoutSheetHandle} from './handle';
 import {ExerciseList} from '../exercise-list';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useRenderTracker} from '../../hooks/use-rerender-count';
+import {useTheme} from '@/features/ui';
 
 const ActiveWorkoutSheet: FC = () => {
   const {ref, onChange, snapPoints, currentPosition, ready} = useWorkoutSheet();
+  const theme = useTheme();
 
   useRenderTracker('bottom-sheet');
 
   return (
     <>
       <BottomSheet
+        backgroundStyle={{backgroundColor: theme.colors.background}}
         handleComponent={a => <ActiveWorkoutSheetHandle {...a} />}
         handleHeight={0}
         onChange={onChange}

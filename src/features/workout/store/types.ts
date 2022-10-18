@@ -21,8 +21,8 @@ export type StatusSlice = {
 };
 
 type UpdateSetValues = {
-  weight?: number;
-  reps?: number;
+  weight?: {value?: number; placeholder?: number};
+  reps?: {value?: number; placeholder?: number};
   rpe?: number;
   type: SetTypes;
 };
@@ -36,8 +36,8 @@ export type ExerciseSetData = {
   type: SetTypes;
   previous: {weight: number; reps: number; unit: WeightUnit};
   rpe?: number;
-  weight: {isPlaceholder: boolean; value?: number};
-  reps: {isPlaceholder: boolean; value?: number};
+  weight: {value?: number; placeholder?: number};
+  reps: {value?: number; placeholder?: number};
   completed: boolean;
 };
 

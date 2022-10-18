@@ -9,3 +9,6 @@ export const useWorkoutStore = create<AllSlices>()((...a) => ({
   ...createStatusSlice(...a),
   ...createExercisesSlice(...a),
 }));
+
+export const updateSet = useWorkoutStore.getState().updateSet;
+export const toggleExercise = useWorkoutStore.getState().toggleExercise;

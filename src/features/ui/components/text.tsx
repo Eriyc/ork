@@ -11,6 +11,7 @@ type Props = {
   | 'adjustsFontSizeToFit'
   | 'minimumFontScale'
   | 'allowFontScaling'
+  | 'testID'
 >;
 const Text: FC<PropsWithChildren<Props>> = ({style, children, ...props}) => {
   const theme = useTheme();

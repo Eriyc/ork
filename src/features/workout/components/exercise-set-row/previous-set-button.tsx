@@ -6,9 +6,12 @@ import {workoutStyles} from '../styles';
 
 type Props = {
   previous: ExerciseSetData['previous'];
+  handlePrevious: () => void;
 };
-const WorkoutPreviousSetStats: FC<Props> = ({previous}) => {
-  const handlePress = () => {};
+const WorkoutPreviousSetStats: FC<Props> = ({previous, handlePrevious}) => {
+  const handlePress = () => {
+    handlePrevious();
+  };
 
   return (
     <View style={[styles.container, workoutStyles.previousColumm]}>

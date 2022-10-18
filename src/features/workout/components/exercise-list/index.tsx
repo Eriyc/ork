@@ -13,6 +13,7 @@ import {ExerciseSetRow} from '../exercise-set-row';
 import {ExerciseHeader} from './section-header';
 import {WorkoutHeader} from './list-header';
 import {ExerciseSetData} from '../../store/types';
+import {AddSetButton} from './add-set-button';
 
 const renderHeader = () => <WorkoutHeader />;
 
@@ -42,7 +43,6 @@ const Footer = ({addSet}: FooterProps) => {
     <Button
       title="Add exercise"
       onPress={() => {
-        addSet('pushup');
         addSet('pushup-extreme');
       }}
     />
@@ -50,6 +50,9 @@ const Footer = ({addSet}: FooterProps) => {
 };
 
 const renderFooter = (addSet: AddSet) => <Footer addSet={addSet} />;
+const renderSectionFooter = (addSet: AddSet, id: string) => (
+  <AddSetButton addSet={addSet} id={id} />
+);
 
 const ExerciseList: FC<{}> = ({}) => {
   const sections = useWorkoutStore(s => s.exercises);
@@ -64,6 +67,9 @@ const ExerciseList: FC<{}> = ({}) => {
       ListHeaderComponent={renderHeader}
       ListFooterComponent={() => renderFooter(addSet)}
       renderSectionHeader={renderSectionHeader}
+      renderSectionFooter={({section}) =>
+        renderSectionFooter(addSet, section.id)
+      }
     />
   );
 };

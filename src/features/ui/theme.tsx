@@ -1,4 +1,3 @@
-import {Theme} from '@react-navigation/native';
 import React, {
   createContext,
   FC,
@@ -9,6 +8,7 @@ import React, {
 import {useColorScheme} from 'react-native';
 import Darktheme from './dark-theme';
 import LightTheme from './light-theme';
+import {Theme} from './types';
 
 type ThemeValue = [Theme, ThemeMode, (mode: ThemeMode) => void];
 type ThemeMode = 'auto' | 'light' | 'dark';
