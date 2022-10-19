@@ -1,4 +1,4 @@
-type Muscle = {
+export type Muscle = {
   name: string;
   group: string;
   heads?: string[];
@@ -16,7 +16,7 @@ export const muscles: Muscle[] = [
   },
 ];
 
-type Exercise = {
+export type Exercise = {
   id: number;
   title: string;
   image: string;

@@ -13,16 +13,20 @@ import {SettingsScreen} from '@/screens/settings';
 import {IconButton} from 'react-native-paper';
 import {TemplatesScreen} from '@/screens/templates';
 import {HistoryScreen} from '@/screens/history';
+import {ExerciseListScreen} from '@/screens/exercise';
+import {ExerciseDetailsScreen} from '@/screens/exercise/details';
 
 type HomeStackRoutes = {
   overview: undefined;
   templates: undefined;
+  exercises: undefined;
 };
 
 type MainStackRoutes = {
   home: NavigatorScreenParams<HomeStackRoutes>;
   settings: undefined;
   history: undefined;
+  exerciseDetails: {id: number};
 };
 
 const Stack = createStackNavigator<MainStackRoutes>();
@@ -30,17 +34,21 @@ const Tabs = createBottomTabNavigator<HomeStackRoutes>();
 
 const HomeStack: FC = () => {
   return (
-    <Tabs.Navigator
-      screenOptions={({navigation}) => ({
-        headerRight: () => (
-          <IconButton
-            icon="cog"
-            onPress={() => navigation.navigate('settings')}
-          />
-        ),
-      })}>
-      <Tabs.Screen name="overview" component={HomeScreen} />
+    <Tabs.Navigator>
+      <Tabs.Screen
+        name="overview"
+        component={HomeScreen}
+        options={({navigation}) => ({
+          headerRight: () => (
+            <IconButton
+              icon="cog"
+              onPress={() => navigation.navigate('settings')}
+            />
+          ),
+        })}
+      />
       <Tabs.Screen name="templates" component={TemplatesScreen} />
+      <Tabs.Screen name="exercises" component={ExerciseListScreen} />
     </Tabs.Navigator>
   );
 };
@@ -55,6 +63,11 @@ export const MainStack: FC = () => {
       />
       <Stack.Screen name="settings" component={SettingsScreen} />
       <Stack.Screen name="history" component={HistoryScreen} />
+      <Stack.Screen
+        name="exerciseDetails"
+        component={ExerciseDetailsScreen}
+        options={{presentation: 'modal'}}
+      />
     </Stack.Navigator>
   );
 };
