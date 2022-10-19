@@ -26,7 +26,11 @@ const ThemeButton: FC<{
       <TouchableRipple
         onPress={() => onPress(theme)}
         style={[styles.touchable]}>
-        <Icon name={icon} color={colors.onSurface} size={32} />
+        <Icon
+          name={icon}
+          color={selected ? colors.onPrimary : colors.onSurface}
+          size={32}
+        />
       </TouchableRipple>
     </Surface>
   );
