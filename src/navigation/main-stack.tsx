@@ -11,14 +11,18 @@ import {
 } from '@react-navigation/native';
 import {SettingsScreen} from '@/screens/settings';
 import {IconButton} from 'react-native-paper';
+import {TemplatesScreen} from '@/screens/templates';
+import {HistoryScreen} from '@/screens/history';
 
 type HomeStackRoutes = {
   overview: undefined;
+  templates: undefined;
 };
 
 type MainStackRoutes = {
   home: NavigatorScreenParams<HomeStackRoutes>;
   settings: undefined;
+  history: undefined;
 };
 
 const Stack = createStackNavigator<MainStackRoutes>();
@@ -26,19 +30,17 @@ const Tabs = createBottomTabNavigator<HomeStackRoutes>();
 
 const HomeStack: FC = () => {
   return (
-    <Tabs.Navigator>
-      <Tabs.Screen
-        name="overview"
-        component={HomeScreen}
-        options={({navigation}) => ({
-          headerRight: () => (
-            <IconButton
-              icon="cog"
-              onPress={() => navigation.navigate('settings')}
-            />
-          ),
-        })}
-      />
+    <Tabs.Navigator
+      screenOptions={({navigation}) => ({
+        headerRight: () => (
+          <IconButton
+            icon="cog"
+            onPress={() => navigation.navigate('settings')}
+          />
+        ),
+      })}>
+      <Tabs.Screen name="overview" component={HomeScreen} />
+      <Tabs.Screen name="templates" component={TemplatesScreen} />
     </Tabs.Navigator>
   );
 };
@@ -52,6 +54,7 @@ export const MainStack: FC = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen name="settings" component={SettingsScreen} />
+      <Stack.Screen name="history" component={HistoryScreen} />
     </Stack.Navigator>
   );
 };
