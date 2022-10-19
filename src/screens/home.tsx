@@ -1,12 +1,19 @@
+import {UserGreeting} from '@/components';
 import {Link} from '@react-navigation/native';
 import React, {FC} from 'react';
 import {View, StyleSheet} from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import {Surface, Text} from 'react-native-paper';
 
 const HomeScreen: FC = () => {
   return (
     <ScrollView style={[styles.container]}>
+      <UserGreeting
+        username="Eric"
+        currentXp={876}
+        totalXp={1000}
+        style={[styles.sectionSpacing]}
+      />
       <View>
         <View style={[styles.sectionHeader]}>
           <Text variant="bodyLarge">History</Text>
@@ -41,6 +48,9 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 8,
     marginBottom: 12,
+  },
+  sectionSpacing: {
+    marginBottom: 16,
   },
 });
 
