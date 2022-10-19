@@ -6,8 +6,8 @@ export const storage = {
   setItem: (name: string, value: string | number | boolean) => {
     return mmkv.set(name, value);
   },
-  getItem: (name: string) => {
-    const value = mmkv.getString(name);
+  getItem: <T extends string>(name: string): T | null => {
+    const value = mmkv.getString(name) as T | null;
     return value ?? null;
   },
   removeItem: (name: string) => {
