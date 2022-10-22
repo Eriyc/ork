@@ -2,7 +2,7 @@ import {WorkoutTimer} from '@/components';
 import {useWorkout} from '@/stores';
 import React, {FC} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {Button, Text} from 'react-native-paper';
+import {Button, IconButton, Text} from 'react-native-paper';
 
 const TemplatesScreen: FC = () => {
   const workout = useWorkout();
@@ -14,15 +14,17 @@ const TemplatesScreen: FC = () => {
         <Text>timer ({workout.workoutStatus})</Text>
         <WorkoutTimer />
         <View style={[styles.row]}>
-          <Button mode="contained" onPress={workout.toggleTimer}>
-            Toggle timer
-          </Button>
-          <Button
+          <IconButton
+            icon={workout.workoutStatus !== 'working' ? 'play' : 'pause'}
+            mode="contained"
+            onPress={workout.toggleTimer}
+          />
+          <IconButton
+            icon="stop"
             mode="contained-tonal"
             onPress={workout.endWorkout}
-            disabled={workout.workoutStatus !== 'working'}>
-            End timer
-          </Button>
+            disabled={workout.workoutStatus !== 'working'}
+          />
         </View>
       </View>
     </View>
