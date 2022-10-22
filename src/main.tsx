@@ -1,8 +1,7 @@
 import React, {FC} from 'react';
 import {StyleSheet} from 'react-native';
 import {ThemeProvider} from './theme';
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-import {HomeScreen} from './screens/home';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {ORKNavigation} from './navigation';
 
 const ORKMain: FC = () => {

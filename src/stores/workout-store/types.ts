@@ -1,9 +1,13 @@
 import {Exercise} from '@/data';
 import {StateCreator} from 'zustand';
 
+export type WeightUnit = 'kg' | 'lbs';
+export type DistanceUnit = 'm' | 'ft' | 'km' | 'mi';
+
 export type WorkoutSection = {
   id: string;
   exerciseId: Exercise['id'];
+  unit: WeightUnit | DistanceUnit;
 };
 
 export type Set = {
@@ -11,11 +15,13 @@ export type Set = {
 };
 
 export type TimerSlice = {
-  startTime: Date | null;
-  endTime: Date | null;
+  times: Date[];
+  workoutStatus: 'paused' | 'working' | 'ended';
 
-  startTimer: () => void;
-  endTimer: () => void;
+  startTime: () => Date;
+
+  toggleTimer: () => void;
+  endWorkout: () => void;
 };
 
 type SliceMap = {

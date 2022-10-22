@@ -1,5 +1,5 @@
 import {storage} from '@/utils/storage';
-import {
+import React, {
   createContext,
   FC,
   PropsWithChildren,
@@ -31,23 +31,26 @@ export const ThemeProvider: FC<PropsWithChildren> = ({children}) => {
     isDeviceDefault && setTheme(Appearance.getColorScheme());
   }, [isDeviceDefault]);
 
+  const changeTheme = useCallback(
+    (newTheme: Themes | 'device') => {
+      setIsDeviceDefault(newTheme === 'device');
+      if (newTheme === 'device') {
+        themeChangeListener();
+      } else {
+        setTheme(newTheme);
+      }
+      storage.setItem('@Theme', newTheme);
+    },
+    [themeChangeListener],
+  );
+
   useEffect(() => {
     const savedTheme = storage.getItem<Themes>('@Theme');
     changeTheme(savedTheme ?? 'device');
 
     const sub = Appearance.addChangeListener(themeChangeListener);
     return () => sub.remove();
-  }, [themeChangeListener]);
-
-  const changeTheme = (theme: Themes | 'device') => {
-    setIsDeviceDefault(theme === 'device');
-    if (theme === 'device') {
-      themeChangeListener();
-    } else {
-      setTheme(theme);
-    }
-    storage.setItem('@Theme', theme);
-  };
+  }, [themeChangeListener, changeTheme]);
 
   return (
     <ThemeContext.Provider value={{theme, isDeviceDefault, changeTheme}}>
