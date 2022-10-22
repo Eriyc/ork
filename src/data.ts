@@ -4,6 +4,15 @@ export type Muscle = {
   heads?: string[];
 };
 
+export type Exercise = {
+  id: number;
+  title: string;
+  image: string;
+  description: string;
+  groups: string[];
+  muscles: (string | [string, string])[];
+};
+
 export const muscles: Muscle[] = [
   {name: 'pectoralis-major', group: 'chest'},
   {name: 'pectoralis-minor', group: 'chest'},
@@ -15,15 +24,6 @@ export const muscles: Muscle[] = [
     heads: ['anterior', 'lateral', 'posterior'],
   },
 ];
-
-export type Exercise = {
-  id: number;
-  title: string;
-  image: string;
-  description: string;
-  groups: string[];
-  muscles: (string | [string, string])[];
-};
 
 export const exercises: Exercise[] = [
   {

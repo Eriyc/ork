@@ -15,6 +15,7 @@ import {TemplatesScreen} from '@/screens/templates';
 import {HistoryScreen} from '@/screens/history';
 import {ExerciseListScreen} from '@/screens/exercise';
 import {ExerciseDetailsScreen} from '@/screens/exercise/details';
+import {exercises} from '@/data';
 
 type HomeStackRoutes = {
   overview: undefined;
@@ -53,6 +54,9 @@ const HomeStack: FC = () => {
   );
 };
 
+const findExerciseTitle = (id: number) =>
+  exercises.find(e => e.id === id)?.title;
+
 export const MainStack: FC = () => {
   return (
     <Stack.Navigator>
@@ -66,7 +70,10 @@ export const MainStack: FC = () => {
       <Stack.Screen
         name="exerciseDetails"
         component={ExerciseDetailsScreen}
-        options={{presentation: 'modal'}}
+        options={({route}) => ({
+          presentation: 'modal',
+          title: findExerciseTitle(route.params.id),
+        })}
       />
     </Stack.Navigator>
   );
