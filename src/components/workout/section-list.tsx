@@ -2,6 +2,7 @@ import {useWorkout} from '@/stores';
 import React, {FC} from 'react';
 import {View, StyleSheet, SectionList} from 'react-native';
 import {Text} from 'react-native-paper';
+import {renderExerciseHeader} from './exercise-header';
 import {renderSetRow} from './set-row';
 
 const WorkoutSectionList: FC = () => {
@@ -16,6 +17,7 @@ const WorkoutSectionList: FC = () => {
         contentContainerStyle={styles.container}
         sections={sections}
         renderItem={renderSetRow}
+        renderSectionHeader={renderExerciseHeader}
       />
     </View>
   );
