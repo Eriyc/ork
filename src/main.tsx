@@ -1,5 +1,4 @@
 import React, {FC} from 'react';
-import {StyleSheet} from 'react-native';
 import {ThemeProvider} from './theme';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {ORKNavigation} from './navigation';
@@ -13,11 +12,5 @@ const ORKMain: FC = () => {
     </ThemeProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-  },
-});
 
 export default ORKMain;
