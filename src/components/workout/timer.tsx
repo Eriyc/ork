@@ -5,6 +5,7 @@ import {StyleSheet} from 'react-native';
 import {Text} from 'react-native-paper';
 
 const calculateElapsedTime = (times: Date[]) =>
+  times &&
   times.reduce<number>((acc, curr, index, arr) => {
     if (index % 2 === 1) return acc;
     if (arr[index + 1] === undefined) return acc + Date.now() - curr.getTime();

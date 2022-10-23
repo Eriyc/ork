@@ -1,3 +1,5 @@
+import {WorkoutSection} from './stores';
+
 export type Muscle = {
   name: string;
   group: string;
@@ -33,5 +35,14 @@ export const exercises: Exercise[] = [
     description: '',
     groups: ['chest', 'arms'],
     muscles: ['pectoralis-major', 'pectoralis-minor', ['deltoids', 'anterior']],
+  },
+];
+
+export const sections: WorkoutSection[] = [
+  {
+    data: [{weight: 10}],
+    exerciseId: 1,
+    id: 'test',
+    unit: 'kg',
   },
 ];

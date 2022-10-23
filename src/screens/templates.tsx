@@ -1,4 +1,4 @@
-import {WorkoutTimer} from '@/components';
+import {WorkoutSectionList, WorkoutTimer} from '@/components';
 import {useWorkout} from '@/stores';
 import React, {FC} from 'react';
 import {View, StyleSheet} from 'react-native';
@@ -26,13 +26,16 @@ const TemplatesScreen: FC = () => {
             disabled={workout.workoutStatus !== 'working'}
           />
         </View>
+        <WorkoutSectionList />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+  },
   row: {
     flexDirection: 'row',
   },

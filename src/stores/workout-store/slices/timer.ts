@@ -1,3 +1,4 @@
+import {sections} from '@/data';
 import {WorkoutState} from '../types';
 
 export const timerSlice: WorkoutState<'TimerSlice'> = (set, get) => ({
@@ -11,6 +12,9 @@ export const timerSlice: WorkoutState<'TimerSlice'> = (set, get) => ({
       set(state => {
         state.workoutStatus = 'ended';
         state.times.push(new Date());
+
+        state.times = [];
+        state.sections = sections;
       });
     }
   },
