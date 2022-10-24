@@ -17,6 +17,12 @@ export type Set = {
   weight: number;
 };
 
+export type Workout = {
+  sections: WorkoutSection[];
+  times: string[];
+  title: string;
+};
+
 export type TimerSlice = {
   times: Date[];
   workoutStatus: 'paused' | 'working' | 'ended';
