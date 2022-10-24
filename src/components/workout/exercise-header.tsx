@@ -1,8 +1,8 @@
 import {exercises} from '@/data';
 import {Set, WorkoutSection} from '@/stores';
 import React, {FC, useMemo} from 'react';
-import {View, StyleSheet, SectionListData} from 'react-native';
-import {Text} from 'react-native-paper';
+import {StyleSheet, SectionListData} from 'react-native';
+import {Surface, Text} from 'react-native-paper';
 
 type SetRowProps = {
   section: SectionListData<Set, WorkoutSection>;
@@ -15,14 +15,19 @@ const WorkoutExerciseHeader: FC<SetRowProps> = ({section}) => {
   )!;
 
   return (
-    <View style={[styles.container]}>
-      <Text>exercise: {exercise.title}</Text>
-    </View>
+    <Surface style={[styles.container]}>
+      <Text variant="titleSmall">{exercise.title}</Text>
+    </Surface>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    marginHorizontal: 4,
+    padding: 8,
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
+  },
 });
 
 const renderExerciseHeader = ({section}: SetRowProps) => (

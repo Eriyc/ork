@@ -26,8 +26,8 @@ const TemplatesScreen: FC = () => {
             disabled={workout.workoutStatus !== 'working'}
           />
         </View>
-        <WorkoutSectionList />
       </View>
+      <WorkoutSectionList />
     </View>
   );
 };

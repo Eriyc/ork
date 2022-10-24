@@ -3,6 +3,7 @@ import {StateCreator} from 'zustand';
 
 export type WeightUnit = 'kg' | 'lbs';
 export type DistanceUnit = 'm' | 'ft' | 'km' | 'mi';
+export type SetType = 'normal' | 'drop' | 'warmup' | 'failure';
 
 export type WorkoutSection = {
   id: string;
@@ -28,6 +29,11 @@ export type TimerSlice = {
 export type SetSlice = {
   sections: WorkoutSection[];
   addSection: (exerciseId: Exercise['id']) => Promise<void>;
+  addSetToSection: (
+    setId: WorkoutSection['id'],
+    index: number,
+    type: SetType,
+  ) => void;
   removeSection: (setId: WorkoutSection['id']) => void;
 };
 
