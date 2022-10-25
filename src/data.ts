@@ -1,3 +1,4 @@
+import {nanoid} from 'nanoid';
 import {WorkoutSection} from './stores';
 
 export type Muscle = {
@@ -61,9 +62,9 @@ export const exercises: Exercise[] = [
 
 export const sections: WorkoutSection[] = [
   {
-    data: [{weight: 10, id: 'testSet1'}],
+    data: [{weight: 10, id: nanoid()}],
     exerciseId: 1,
-    id: 'test',
+    id: nanoid(),
     unit: 'kg',
   },
 ];
