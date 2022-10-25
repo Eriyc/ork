@@ -17,7 +17,7 @@ export const setSlice: WorkoutState<'SetSlice'> = (set, get) => ({
       });
     });
   },
-  addSetToSection: (sectionId, index, type) => {
+  addSetToSection: (sectionId, _index, _type) => {
     const previousSet = get().sections.find(section => section.id === sectionId)
       ?.data[0];
 
