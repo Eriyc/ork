@@ -1,7 +1,7 @@
 import {HomeScreen} from '@/screens/home';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {FC} from 'react';
+import React, {FC} from 'react';
 import {
   NavigationProp,
   NavigatorScreenParams,
@@ -16,6 +16,7 @@ import {HistoryScreen} from '@/screens/history';
 import {ExerciseListScreen} from '@/screens/exercise';
 import {ExerciseDetailsScreen} from '@/screens/exercise/details';
 import {exercises} from '@/data';
+import {WorkoutExercisePickerScreen} from '@/screens/exercise/picker';
 
 type HomeStackRoutes = {
   overview: undefined;
@@ -28,10 +29,17 @@ type MainStackRoutes = {
   settings: undefined;
   history: undefined;
   exerciseDetails: {id: number};
+  exercisePicker: {returnTo: keyof (MainStackRoutes & HomeStackRoutes)};
 };
 
 const Stack = createStackNavigator<MainStackRoutes>();
 const Tabs = createBottomTabNavigator<HomeStackRoutes>();
+
+const renderSettingsButton = ({
+  navigation,
+}: {
+  navigation: NavigationProp<any>;
+}) => <IconButton icon="cog" onPress={() => navigation.navigate('settings')} />;
 
 const HomeStack: FC = () => {
   return (
@@ -40,12 +48,7 @@ const HomeStack: FC = () => {
         name="overview"
         component={HomeScreen}
         options={({navigation}) => ({
-          headerRight: () => (
-            <IconButton
-              icon="cog"
-              onPress={() => navigation.navigate('settings')}
-            />
-          ),
+          headerRight: () => renderSettingsButton({navigation}),
         })}
       />
       <Tabs.Screen name="templates" component={TemplatesScreen} />
@@ -68,6 +71,10 @@ export const MainStack: FC = () => {
       <Stack.Screen name="settings" component={SettingsScreen} />
       <Stack.Screen name="history" component={HistoryScreen} />
       <Stack.Screen
+        name="exercisePicker"
+        component={WorkoutExercisePickerScreen}
+      />
+      <Stack.Screen
         name="exerciseDetails"
         component={ExerciseDetailsScreen}
         options={({route}) => ({
@@ -83,3 +90,5 @@ export const useMainNavigation = <T extends keyof MainStackRoutes>() =>
   useNavigation<NavigationProp<MainStackRoutes, T>>();
 export const useMainRoute = <T extends keyof MainStackRoutes>() =>
   useRoute<RouteProp<MainStackRoutes, T>>();
+export const useHomeRoute = <T extends keyof HomeStackRoutes>() =>
+  useRoute<RouteProp<HomeStackRoutes, T>>();

@@ -1,3 +1,4 @@
+import {useMainNavigation} from '@/navigation';
 import {useWorkout} from '@/stores';
 import React, {FC} from 'react';
 import {View, StyleSheet, SectionList} from 'react-native';
@@ -9,6 +10,8 @@ const WorkoutSectionList: FC = () => {
   const sections = useWorkout(state => state.sections);
   const addSet = useWorkout(state => state.addSetToSection);
 
+  const navigation = useMainNavigation();
+
   return (
     <View style={[styles.container]}>
       <Text>Exercises</Text>
@@ -16,13 +19,26 @@ const WorkoutSectionList: FC = () => {
         style={styles.container}
         sections={sections}
         renderItem={renderSetRow}
+        keyExtractor={({id}) => id}
         stickySectionHeadersEnabled={false}
         renderSectionHeader={renderExerciseHeader}
-        renderSectionFooter={({section}) => (
+        ListFooterComponent={
           <Button
-            onPress={() => addSet(section.id, section.data.length, 'normal')}>
-            Add new set
+            onPress={() =>
+              navigation.navigate('exercisePicker', {
+                returnTo: 'templates',
+              })
+            }>
+            Add exercise
           </Button>
+        }
+        renderSectionFooter={({section}) => (
+          <View style={styles.sectionFooter}>
+            <Button
+              onPress={() => addSet(section.id, section.data.length, 'normal')}>
+              Add new set
+            </Button>
+          </View>
         )}
       />
     </View>
@@ -32,6 +48,10 @@ const WorkoutSectionList: FC = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
+  },
+  sectionFooter: {
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 });
 

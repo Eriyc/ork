@@ -31,7 +31,6 @@ const WorkoutExerciseHeader: FC<SetRowProps> = ({section}) => {
           leadingIcon="delete"
           title="Remove"
           onPress={() => removeSection(section.id)}
-          dense
         />
       </Menu>
     </Surface>
@@ -39,11 +38,7 @@ const WorkoutExerciseHeader: FC<SetRowProps> = ({section}) => {
 };
 
 const styles = StyleSheet.create({
-  menuItem: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
+  menuItem: {},
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -56,7 +51,7 @@ const styles = StyleSheet.create({
 });
 
 const renderExerciseHeader = ({section}: SetRowProps) => (
-  <WorkoutExerciseHeader section={section} />
+  <WorkoutExerciseHeader section={section} key={section.id} />
 );
 
 export {WorkoutExerciseHeader, renderExerciseHeader};

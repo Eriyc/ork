@@ -26,7 +26,10 @@ export const setSlice: WorkoutState<'SetSlice'> = (set, get) => ({
         section => section.id === sectionId,
       );
 
-      state.sections[sectionIndex].data.push(previousSet ?? {weight: 10});
+      state.sections[sectionIndex].data.push({
+        weight: previousSet?.weight ?? 10,
+        id: nanoid(),
+      });
     });
   },
   removeSection: sectionId =>
@@ -35,4 +38,15 @@ export const setSlice: WorkoutState<'SetSlice'> = (set, get) => ({
         section => section.id !== sectionId,
       );
     }),
+  removeSet: (sectionId, setId) => {
+    set(state => {
+      const sectionIndex = state.sections.findIndex(
+        section => section.id === sectionId,
+      );
+
+      state.sections[sectionIndex].data = state.sections[
+        sectionIndex
+      ].data.filter(s => s.id !== setId);
+    });
+  },
 });

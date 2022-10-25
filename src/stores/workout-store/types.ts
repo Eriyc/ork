@@ -14,6 +14,7 @@ export type WorkoutSection = {
 };
 
 export type Set = {
+  id: string;
   weight: number;
 };
 
@@ -36,11 +37,12 @@ export type SetSlice = {
   sections: WorkoutSection[];
   addSection: (exerciseId: Exercise['id']) => Promise<void>;
   addSetToSection: (
-    setId: WorkoutSection['id'],
+    sectionId: WorkoutSection['id'],
     index: number,
     type: SetType,
   ) => void;
-  removeSection: (setId: WorkoutSection['id']) => void;
+  removeSection: (sectionId: WorkoutSection['id']) => void;
+  removeSet: (sectionId: WorkoutSection['id'], setIndex: Set['id']) => void;
 };
 
 type SliceMap = {
