@@ -5,4 +5,5 @@ import {storage} from './storage';
 const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {detectSessionInUrl: false, storage: storage},
 });
+
 export default client;

@@ -48,9 +48,7 @@ const WorkoutSetRow: FC<SetRowProps> = memo(
         <Surface
           style={[styles.row, index % 2 === 1 && styles.evenRow]}
           elevation={0}>
-          <Text>
-            vikt: {set.weight} {set.id}
-          </Text>
+          <Text>vikt: {set.weight.value || set.weight.placeholder}</Text>
         </Surface>
       </Swipeable>
     );

@@ -4,6 +4,11 @@ import {StateCreator} from 'zustand';
 export type WeightUnit = 'kg' | 'lbs';
 export type DistanceUnit = 'm' | 'ft' | 'km' | 'mi';
 export type SetType = 'normal' | 'drop' | 'warmup' | 'failure';
+export type WeightType = 'value' | 'plates';
+type WithPlaceholderValue<T> = {
+  value?: T;
+  placeholder?: T;
+};
 
 export type WorkoutSection = {
   id: string;
@@ -19,7 +24,8 @@ export type SavedWorkoutSection = Omit<WorkoutSection, 'data'> & {
 
 export type Set = {
   id: string;
-  weight: number;
+  weight: WithPlaceholderValue<number>;
+  reps: WithPlaceholderValue<number>;
 };
 export type SavedSet = Set & {sectionId: string};
 

@@ -27,7 +27,8 @@ export const setSlice: WorkoutState<'SetSlice'> = (set, get) => ({
       );
 
       state.sections[sectionIndex].data.push({
-        weight: previousSet?.weight ?? 10,
+        weight: {placeholder: previousSet?.weight?.value, value: undefined},
+        reps: {placeholder: previousSet?.reps?.value, value: undefined},
         id: nanoid(),
       });
     });

@@ -40,7 +40,7 @@ const HistoryScreen: FC = () => {
               <View key={section.id}>
                 <Text>
                   {section.data.length} x {section.exerciseId} - {8}x
-                  {section.data[section.data.length - 1].weight}
+                  {section.data[section.data.length - 1].weight.value}
                   {section.unit}
                 </Text>
               </View>
