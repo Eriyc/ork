@@ -2,9 +2,12 @@ import {ThemeSwitcher} from '@/components';
 import React, {FC} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {Text} from 'react-native-paper';
+import {useMMKV} from 'react-native-mmkv';
+import {Button, Text} from 'react-native-paper';
 
 const SettingsScreen: FC = () => {
+  const instance = useMMKV();
+
   return (
     <ScrollView contentContainerStyle={[styles.container]}>
       <View>
@@ -13,6 +16,7 @@ const SettingsScreen: FC = () => {
         </Text>
       </View>
       <ThemeSwitcher />
+      <Button onPress={() => instance.clearAll()}>Clear local storage</Button>
     </ScrollView>
   );
 };

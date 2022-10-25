@@ -1,6 +1,12 @@
-import {sections} from '@/data';
+import {sections as defaultSections} from '@/data';
 import {storage} from '@/utils/storage';
-import {WorkoutState} from '../types';
+import {nanoid} from 'nanoid';
+import {
+  SavedSet,
+  SavedWorkout,
+  SavedWorkoutSection,
+  WorkoutState,
+} from '../types';
 
 export const timerSlice: WorkoutState<'TimerSlice'> = (set, get) => ({
   times: [],
@@ -16,30 +22,53 @@ export const timerSlice: WorkoutState<'TimerSlice'> = (set, get) => ({
     });
   },
   endWorkout: () => {
-    if (get().times.length % 2 === 1) {
-      set(state => {
-        state.workoutStatus = 'ended';
-        state.times.push(new Date());
+    set(state => {
+      state.workoutStatus = 'ended';
+      state.times.push(new Date());
 
-        // TODO: Migrate to database
-        const savedWorkoutsString = storage.getItem('workouts');
-        const savedWorkouts: any[] = savedWorkoutsString
-          ? JSON.parse(savedWorkoutsString)
-          : [];
+      // TODO: Migrate to database
 
-        const newWorkout = {
-          times: state.times,
-          sections: state.sections,
-          title: 'Workout',
-        };
+      // give workout an id
+      const workoutId = nanoid();
 
-        savedWorkouts.push(newWorkout);
+      const sections: SavedWorkoutSection[] = state.sections.map(
+        ({data: _, ...section}) => ({
+          ...section,
+          workoutId: workoutId,
+        }),
+      );
+      updateStorage('user_id#sections', sections);
 
-        storage.setItem('workouts', JSON.stringify(savedWorkouts));
+      const sets = state.sections.flatMap(section =>
+        section.data.map<SavedSet>(setData => ({
+          ...setData,
+          sectionId: section.id,
+        })),
+      );
+      console.log(sets);
 
-        state.times = [];
-        state.sections = sections;
-      });
-    }
+      updateStorage('user_id#sets', sets);
+
+      const newWorkout: SavedWorkout = {
+        id: workoutId,
+        times: state.times.map(date => date.toISOString()),
+        title: 'Workout',
+      };
+      updateStorage('user_id#workouts', [newWorkout]);
+
+      state.times = [];
+      state.sections = defaultSections;
+    });
   },
 });
+
+const updateStorage = (path: string, items: any[]) => {
+  const savedItemsString = storage.getItem(path);
+  const savedItems: any[] = savedItemsString
+    ? JSON.parse(savedItemsString)
+    : [];
+
+  savedItems.push(...items);
+  const itemsString = JSON.stringify(savedItems);
+  storage.setItem(path, itemsString);
+};

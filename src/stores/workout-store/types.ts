@@ -13,16 +13,22 @@ export type WorkoutSection = {
   data: Set[];
 };
 
+export type SavedWorkoutSection = Omit<WorkoutSection, 'data'> & {
+  workoutId: string;
+};
+
 export type Set = {
   id: string;
   weight: number;
 };
+export type SavedSet = Set & {sectionId: string};
 
 export type Workout = {
   sections: WorkoutSection[];
   times: string[];
   title: string;
 };
+export type SavedWorkout = Omit<Workout, 'sections'> & {id: string};
 
 export type TimerSlice = {
   times: Date[];
