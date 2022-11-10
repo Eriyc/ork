@@ -1,5 +1,6 @@
+import {useMainNavigation} from '@/navigation';
 import React, {FC} from 'react';
-import {View, StyleSheet, StyleProp, ViewStyle} from 'react-native';
+import {View, StyleSheet, StyleProp, ViewStyle, Pressable} from 'react-native';
 import {Avatar, ProgressBar, Text} from 'react-native-paper';
 
 type UserGreetingProps = {
@@ -15,8 +16,11 @@ const UserGreeting: FC<UserGreetingProps> = ({
   username,
   style,
 }) => {
+  const navigation = useMainNavigation();
   return (
-    <View style={[styles.userSection, style]}>
+    <Pressable
+      style={[styles.userSection, style]}
+      onPress={() => navigation.navigate('profile')}>
       <Avatar.Icon icon="account" />
       <View style={[styles.xpBarContainer]}>
         <Text variant="headlineSmall" allowFontScaling={false}>
@@ -27,7 +31,7 @@ const UserGreeting: FC<UserGreetingProps> = ({
           {currentXp} / {totalXp} XP
         </Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

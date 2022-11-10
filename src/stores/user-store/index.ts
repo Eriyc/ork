@@ -1,3 +1,4 @@
+import {storage} from '@/utils/storage';
 import create from 'zustand';
 import {persist} from 'zustand/middleware';
 import {immer} from 'zustand/middleware/immer';
@@ -11,6 +12,8 @@ export const useUser = create<AllSlices, Middleware>(
     })),
     {
       name: 'user-store',
+      getStorage: () => storage,
+      partialize: ({user}) => ({user}),
     },
   ),
 );
