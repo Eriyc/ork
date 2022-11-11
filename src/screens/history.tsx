@@ -1,50 +1,36 @@
-import {SavedSet, SavedWorkout, SavedWorkoutSection} from '@/stores';
-import React, {FC, useMemo} from 'react';
+import client from '@/utils/client';
+import React, {FC, useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import {useMMKVObject} from 'react-native-mmkv';
 import {Surface, Text} from 'react-native-paper';
 
+type Workout = {
+  id: string;
+  creator_id: string;
+  audience: string;
+  published_at: string;
+};
+
 const HistoryScreen: FC = () => {
-  const [workouts] = useMMKVObject<SavedWorkout[]>('user_id#workouts');
-  const [sections] = useMMKVObject<SavedWorkoutSection[]>('user_id#sections');
-  const [sets] = useMMKVObject<SavedSet[]>('user_id#sets');
+  const [workouts, setWorkouts] = useState<Workout[]>([]);
 
-  const fullSections = useMemo(
-    () =>
-      sections?.map(section => ({
-        ...section,
-        data: sets?.filter(set => set.sectionId === section.id) || [],
-      })) || [],
-    [sets, sections],
-  );
+  const fetchWorkout = async () => {
+    const {data} = await client.from('workouts').select('*');
 
-  const fullWorkouts = useMemo(
-    () =>
-      workouts?.map(workout => ({
-        ...workout,
-        sections:
-          fullSections.filter(section => section.workoutId === workout.id) || 0,
-      })) || [],
-    [workouts, fullSections],
-  );
+    setWorkouts(data ?? []);
+  };
+
+  useEffect(() => {
+    fetchWorkout();
+  }, []);
 
   return (
     <View style={[styles.container]}>
       <FlatList
-        data={fullWorkouts}
+        data={workouts}
         renderItem={({item}) => (
           <Surface key={item.id}>
-            <Text>{item.title}</Text>
-            {item.sections.map(section => (
-              <View key={section.id}>
-                <Text>
-                  {section.data.length} x {section.exerciseId} - {8}x
-                  {section.data[section.data.length - 1].weight.value}
-                  {section.unit}
-                </Text>
-              </View>
-            ))}
+            <Text>{item.creator_id}</Text>
           </Surface>
         )}
       />

@@ -1,12 +1,9 @@
 import {sections as defaultSections} from '@/data';
+import {useUser} from '@/stores/user-store';
+import client from '@/utils/client';
 import {storage} from '@/utils/storage';
 import {nanoid} from 'nanoid';
-import {
-  SavedSet,
-  SavedWorkout,
-  SavedWorkoutSection,
-  WorkoutState,
-} from '../types';
+import {WorkoutState} from '../types';
 
 export const timerSlice: WorkoutState<'TimerSlice'> = (set, get) => ({
   times: [],
@@ -21,17 +18,23 @@ export const timerSlice: WorkoutState<'TimerSlice'> = (set, get) => ({
       state.workoutStatus = state.times.length % 2 === 0 ? 'paused' : 'working';
     });
   },
-  endWorkout: () => {
+  endWorkout: async () => {
     set(state => {
       state.workoutStatus = 'ended';
       state.times.push(new Date());
+    });
+    // TODO: Migrate to database
 
-      // TODO: Migrate to database
+    // give workout an id
+    const workoutId = nanoid();
 
-      // give workout an id
-      const workoutId = nanoid();
+    const result = await client.from('workouts').insert({
+      creator_id: useUser.getState().user?.id,
+    });
 
-      const sections: SavedWorkoutSection[] = state.sections.map(
+    console.log(result);
+
+    /* const sections: SavedWorkoutSection[] = state.sections.map(
         ({data: _, ...section}) => ({
           ...section,
           workoutId: workoutId,
@@ -55,7 +58,9 @@ export const timerSlice: WorkoutState<'TimerSlice'> = (set, get) => ({
         title: 'Workout',
       };
       updateStorage('user_id#workouts', [newWorkout]);
+ */
 
+    set(state => {
       state.times = [];
       state.sections = defaultSections;
     });

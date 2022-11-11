@@ -1,7 +1,7 @@
 import {exercises} from '@/data';
 import {Set, useWorkout, WorkoutSection} from '@/stores';
 import React, {FC, useMemo, useState} from 'react';
-import {StyleSheet, SectionListData} from 'react-native';
+import {StyleSheet, SectionListData, View} from 'react-native';
 import {IconButton, Menu, Surface, Text} from 'react-native-paper';
 
 type SetRowProps = {
@@ -21,32 +21,76 @@ const WorkoutExerciseHeader: FC<SetRowProps> = ({section}) => {
 
   return (
     <Surface style={[styles.container]}>
-      <Text variant="titleSmall">{exercise.title}</Text>
-      <Menu
-        anchor={<IconButton icon="dots-vertical" onPress={openMenu} />}
-        onDismiss={closeMenu}
-        visible={visible}>
-        <Menu.Item
-          style={styles.menuItem}
-          leadingIcon="delete"
-          title="Remove"
-          onPress={() => removeSection(section.id)}
-        />
-      </Menu>
+      <View style={[styles.row, styles.info]}>
+        <Text variant="titleSmall">{exercise.title}</Text>
+        <Menu
+          anchor={<IconButton icon="dots-vertical" onPress={openMenu} />}
+          onDismiss={closeMenu}
+          visible={visible}>
+          <Menu.Item
+            style={styles.menuItem}
+            leadingIcon="delete"
+            title="Remove"
+            onPress={() => removeSection(section.id)}
+          />
+        </Menu>
+      </View>
+      <View style={[styles.row]}>
+        <Text
+          variant="labelLarge"
+          style={[styles.header, styles.smallHeader]}
+          allowFontScaling={false}>
+          Set
+        </Text>
+        <Text
+          variant="labelLarge"
+          style={[styles.header, styles.bigHeader]}
+          allowFontScaling={false}>
+          Previous
+        </Text>
+        <Text
+          variant="labelLarge"
+          style={[styles.header, styles.bigHeader]}
+          allowFontScaling={false}>
+          Weight
+        </Text>
+        <Text
+          variant="labelLarge"
+          style={[styles.header, styles.bigHeader]}
+          allowFontScaling={false}>
+          Reps
+        </Text>
+        <View style={[styles.smallHeader]} />
+      </View>
     </Surface>
   );
 };
 
 const styles = StyleSheet.create({
   menuItem: {},
-  container: {
+  row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  info: {
+    paddingBottom: 8,
+  },
+  container: {
     marginHorizontal: 4,
     padding: 8,
     borderTopLeftRadius: 4,
     borderTopRightRadius: 4,
+  },
+  header: {textTransform: 'uppercase'},
+  bigHeader: {
+    flex: 2,
+    marginHorizontal: 4,
+    textAlign: 'center',
+  },
+  smallHeader: {
+    flex: 0.8,
+    textAlign: 'center',
   },
 });
 
