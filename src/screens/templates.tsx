@@ -2,14 +2,15 @@ import {WorkoutSectionList, WorkoutTimer} from '@/components';
 import {useWorkout} from '@/stores';
 import React, {FC} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {Button, IconButton, Text} from 'react-native-paper';
+import {IconButton, Text} from 'react-native-paper';
 
 const TemplatesScreen: FC = () => {
   const workout = useWorkout();
 
   return (
     <View style={[styles.container]}>
-      <Button mode="contained-tonal">Start an empty workout</Button>
+      {/*       <Button mode="contained-tonal">Start an empty workout</Button>
+       */}
       <View>
         <Text>timer ({workout.workoutStatus})</Text>
         <WorkoutTimer />
@@ -33,9 +34,7 @@ const TemplatesScreen: FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: {},
   row: {
     flexDirection: 'row',
   },

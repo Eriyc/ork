@@ -1,4 +1,5 @@
 import {UserGreeting} from '@/components';
+import {useUser} from '@/stores';
 import {Link} from '@react-navigation/native';
 import React, {FC} from 'react';
 import {View, StyleSheet} from 'react-native';
@@ -6,14 +7,18 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {Surface, Text} from 'react-native-paper';
 
 const HomeScreen: FC = () => {
+  const user = useUser(state => state.user);
+
   return (
     <ScrollView style={[styles.container]}>
-      <UserGreeting
-        username="Eric"
-        currentXp={876}
-        totalXp={1000}
-        style={[styles.sectionSpacing]}
-      />
+      {user && (
+        <UserGreeting
+          username={user.name.split(' ')[0]}
+          currentXp={876}
+          totalXp={1000}
+          style={[styles.sectionSpacing]}
+        />
+      )}
       <View>
         <View style={[styles.sectionHeader]}>
           <Text variant="bodyLarge">History</Text>

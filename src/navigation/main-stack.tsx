@@ -10,13 +10,20 @@ import {
   useRoute,
 } from '@react-navigation/native';
 import {SettingsScreen} from '@/screens/settings';
-import {IconButton} from 'react-native-paper';
+import {ActivityIndicator, IconButton} from 'react-native-paper';
 import {TemplatesScreen} from '@/screens/templates';
 import {HistoryScreen} from '@/screens/history';
 import {ExerciseListScreen} from '@/screens/exercise';
 import {ExerciseDetailsScreen} from '@/screens/exercise/details';
 import {exercises} from '@/data';
 import {WorkoutExercisePickerScreen} from '@/screens/exercise/picker';
+import {ORKLanding} from '@/screens/auth';
+import {useUser} from '@/stores';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {ViewStyle} from 'react-native';
+import {SignInScreen} from '@/screens/auth/sign-in';
+import {SignUpScreen} from '@/screens/auth/sign-up';
+import {ProfileScreen} from '@/screens/profile';
 
 type HomeStackRoutes = {
   overview: undefined;
@@ -26,10 +33,15 @@ type HomeStackRoutes = {
 
 type MainStackRoutes = {
   home: NavigatorScreenParams<HomeStackRoutes>;
+  profile: undefined;
   settings: undefined;
   history: undefined;
   exerciseDetails: {id: number};
   exercisePicker: {returnTo: keyof (MainStackRoutes & HomeStackRoutes)};
+
+  landing: undefined;
+  signIn: undefined;
+  signUp: undefined;
 };
 
 const Stack = createStackNavigator<MainStackRoutes>();
@@ -56,32 +68,65 @@ const HomeStack: FC = () => {
     </Tabs.Navigator>
   );
 };
-
 const findExerciseTitle = (id: number) =>
   exercises.find(e => e.id === id)?.title;
 
 export const MainStack: FC = () => {
+  const status = useUser(state => state.status);
+  const user = useUser(state => state.user);
+
+  const style: ViewStyle = {
+    flex: 1,
+    justifyContent: 'center',
+  };
+
+  if (status === 'loading') {
+    return (
+      <SafeAreaView style={style}>
+        <ActivityIndicator size="large" />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="home"
-        component={HomeStack}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen name="settings" component={SettingsScreen} />
-      <Stack.Screen name="history" component={HistoryScreen} />
-      <Stack.Screen
-        name="exercisePicker"
-        component={WorkoutExercisePickerScreen}
-      />
-      <Stack.Screen
-        name="exerciseDetails"
-        component={ExerciseDetailsScreen}
-        options={({route}) => ({
-          presentation: 'modal',
-          title: findExerciseTitle(route.params.id),
-        })}
-      />
+      {user ? (
+        <Stack.Group>
+          <Stack.Screen
+            name="home"
+            component={HomeStack}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen name="settings" component={SettingsScreen} />
+          <Stack.Screen name="history" component={HistoryScreen} />
+          <Stack.Screen name="profile" component={ProfileScreen} />
+          <Stack.Screen
+            name="exercisePicker"
+            component={WorkoutExercisePickerScreen}
+          />
+          <Stack.Screen
+            name="exerciseDetails"
+            component={ExerciseDetailsScreen}
+            options={({route}) => ({
+              presentation: 'modal',
+              title: findExerciseTitle(route.params.id),
+            })}
+          />
+        </Stack.Group>
+      ) : (
+        <Stack.Group>
+          <Stack.Screen
+            name="landing"
+            component={ORKLanding}
+            options={{
+              headerShown: false,
+              animationTypeForReplace: 'pop',
+            }}
+          />
+          <Stack.Screen name="signIn" component={SignInScreen} />
+          <Stack.Screen name="signUp" component={SignUpScreen} />
+        </Stack.Group>
+      )}
     </Stack.Navigator>
   );
 };

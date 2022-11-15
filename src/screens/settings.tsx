@@ -1,4 +1,5 @@
 import {ThemeSwitcher} from '@/components';
+import {useUser} from '@/stores';
 import React, {FC} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -7,6 +8,7 @@ import {Button, Text} from 'react-native-paper';
 
 const SettingsScreen: FC = () => {
   const instance = useMMKV();
+  const signOut = useUser(state => state.signOut);
 
   return (
     <ScrollView contentContainerStyle={[styles.container]}>
@@ -17,6 +19,7 @@ const SettingsScreen: FC = () => {
       </View>
       <ThemeSwitcher />
       <Button onPress={() => instance.clearAll()}>Clear local storage</Button>
+      <Button onPress={() => signOut()}>Sign Out</Button>
     </ScrollView>
   );
 };
