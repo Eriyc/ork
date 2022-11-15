@@ -2,7 +2,6 @@ import {sections as defaultSections} from '@/data';
 import {useUser} from '@/stores/user-store';
 import client from '@/utils/client';
 import {storage} from '@/utils/storage';
-import {nanoid} from 'nanoid';
 import {WorkoutState} from '../types';
 
 export const timerSlice: WorkoutState<'TimerSlice'> = (set, get) => ({
@@ -25,14 +24,14 @@ export const timerSlice: WorkoutState<'TimerSlice'> = (set, get) => ({
     });
     // TODO: Migrate to database
 
-    // give workout an id
-    const workoutId = nanoid();
-
-    const result = await client.from('workouts').insert({
+    const {data, error} = await client.rpc('create_workout', {
       creator_id: useUser.getState().user?.id,
+      started_at: new Date().toISOString(),
+      sections: get().sections.map(({id: _, ...s}) => s),
     });
 
-    console.log(result);
+    console.log(JSON.stringify(data));
+    console.log(JSON.stringify(error));
 
     /* const sections: SavedWorkoutSection[] = state.sections.map(
         ({data: _, ...section}) => ({
