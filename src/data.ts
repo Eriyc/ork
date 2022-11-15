@@ -1,6 +1,8 @@
 import {nanoid} from 'nanoid';
 import {WorkoutSection} from './stores';
 
+/* Temporary data before database connection is established */
+
 export type Muscle = {
   name: string;
   group: string;

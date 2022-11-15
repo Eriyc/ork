@@ -31,12 +31,33 @@ const RemoveButton = () => {
 };
 const renderRightActions = () => <RemoveButton />;
 
+const useFieldValue = (
+  initialValue?: number | string,
+): [string, (text: string) => void] => {
+  const [value, setValue] = useState(() =>
+    initialValue ? initialValue.toString() : '',
+  );
+
+  const handleChange = (text: string) => {
+    // remove everything but numbers and ".", followed by decimals
+    const replaced = text.replace(',', '.');
+    const onlyNumbers = /^\d*\.?\d*$/;
+
+    if (onlyNumbers.test(replaced)) {
+      setValue(replaced);
+    }
+  };
+
+  return [value, handleChange];
+};
+
 const WorkoutSetRow: FC<SetRowProps> = memo(
   ({set, index, sectionId}) => {
     const theme = useTheme();
     const styles = useMemo(() => createStyles(theme), [theme]);
-    const [weight, setWeight] = useState(set.weight.value);
-    const [reps, setReps] = useState(set.reps.value);
+
+    const [weight, setWeight] = useFieldValue(set.weight.value);
+    const [reps, setReps] = useFieldValue(set.reps.value);
 
     const [done, setDone] = useState(false);
 
@@ -71,15 +92,17 @@ const WorkoutSetRow: FC<SetRowProps> = memo(
             style={[styles.textInput, done && styles.done]}
             value={weight ? weight.toString() : ''}
             placeholder={set.weight.placeholder?.toString()}
-            onChangeText={text => setWeight(parseFloat(text))}
+            onChangeText={setWeight}
             contextMenuHidden
+            keyboardType="decimal-pad"
           />
           <TextInput
             style={[styles.textInput, done && styles.done]}
             value={reps ? reps.toString() : ''}
             placeholder={set.reps.placeholder?.toString()}
-            onChangeText={text => setReps(parseInt(text, 10))}
+            onChangeText={setReps}
             contextMenuHidden
+            keyboardType="number-pad"
           />
           <Pressable style={[styles.button]} onPress={() => setDone(d => !d)}>
             <Icon name="check" color={theme.colors.onBackground} size={24} />
