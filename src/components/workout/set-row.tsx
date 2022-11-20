@@ -1,5 +1,5 @@
 import {Set, useWorkout, WorkoutSection} from '@/stores';
-import React, {FC, memo, useMemo, useState} from 'react';
+import React, {FC, memo, useEffect, useMemo, useState} from 'react';
 import {StyleSheet, SectionListRenderItem, Pressable} from 'react-native';
 import {Swipeable} from 'react-native-gesture-handler';
 import {
@@ -32,11 +32,15 @@ const RemoveButton = () => {
 const renderRightActions = () => <RemoveButton />;
 
 const useFieldValue = (
-  initialValue?: number | string,
+  initialValue: number | string,
+  sectionId: string,
+  setId: string,
+  path: string,
 ): [string, (text: string) => void] => {
   const [value, setValue] = useState(() =>
     initialValue ? initialValue.toString() : '',
   );
+  const updateSet = useWorkout(state => state.updateSet);
 
   const handleChange = (text: string) => {
     // remove everything but numbers and ".", followed by decimals
@@ -44,7 +48,9 @@ const useFieldValue = (
     const onlyNumbers = /^\d*\.?\d*$/;
 
     if (onlyNumbers.test(replaced)) {
-      setValue(replaced);
+      updateSet(sectionId, setId, {
+        [path]: replaced,
+      });
     }
   };
 
@@ -56,8 +62,18 @@ const WorkoutSetRow: FC<SetRowProps> = memo(
     const theme = useTheme();
     const styles = useMemo(() => createStyles(theme), [theme]);
 
-    const [weight, setWeight] = useFieldValue(set.weight.value);
-    const [reps, setReps] = useFieldValue(set.reps.value);
+    const [weight, setWeight] = useFieldValue(
+      set.weight || '',
+      sectionId,
+      set.id,
+      'weight',
+    );
+    const [reps, setReps] = useFieldValue(
+      set.reps || '',
+      sectionId,
+      set.id,
+      'reps',
+    );
 
     const [done, setDone] = useState(false);
 
@@ -90,16 +106,16 @@ const WorkoutSetRow: FC<SetRowProps> = memo(
           </TouchableRipple>
           <TextInput
             style={[styles.textInput, done && styles.done]}
-            value={weight ? weight.toString() : ''}
-            placeholder={set.weight.placeholder?.toString()}
+            value={weight}
+            placeholder={`${set.weight || ''}`}
             onChangeText={setWeight}
             contextMenuHidden
             keyboardType="decimal-pad"
           />
           <TextInput
             style={[styles.textInput, done && styles.done]}
-            value={reps ? reps.toString() : ''}
-            placeholder={set.reps.placeholder?.toString()}
+            value={reps}
+            placeholder={`${set.reps || ''}`}
             onChangeText={setReps}
             contextMenuHidden
             keyboardType="number-pad"
@@ -143,7 +159,7 @@ const createStyles = (theme: MD3Theme) =>
       flex: 2,
       marginHorizontal: 4,
       justifyContent: 'center',
-      textAlign: 'center',
+      textAlign: 'auto',
     },
     small: {
       flex: 1,

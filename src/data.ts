@@ -66,8 +66,8 @@ export const sections: WorkoutSection[] = [
   {
     data: [
       {
-        weight: {value: undefined, placeholder: undefined},
-        reps: {value: undefined, placeholder: undefined},
+        weight: undefined,
+        reps: undefined,
         id: nanoid(),
       },
     ],

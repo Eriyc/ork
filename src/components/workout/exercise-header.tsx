@@ -10,6 +10,7 @@ type SetRowProps = {
 
 const WorkoutExerciseHeader: FC<SetRowProps> = ({section}) => {
   const removeSection = useWorkout(state => state.removeSection);
+
   const exercise = useMemo(
     () => exercises.find(e => e.id === section.exerciseId),
     [section.exerciseId],
@@ -52,7 +53,7 @@ const WorkoutExerciseHeader: FC<SetRowProps> = ({section}) => {
           variant="labelLarge"
           style={[styles.header, styles.bigHeader]}
           allowFontScaling={false}>
-          Weight
+          Weight (kg)
         </Text>
         <Text
           variant="labelLarge"

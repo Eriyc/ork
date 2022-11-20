@@ -5,10 +5,6 @@ export type WeightUnit = 'kg' | 'lbs';
 export type DistanceUnit = 'm' | 'ft' | 'km' | 'mi';
 export type SetType = 'normal' | 'drop' | 'warmup' | 'failure';
 export type WeightType = 'value' | 'plates';
-type WithPlaceholderValue<T> = {
-  value?: T;
-  placeholder?: T;
-};
 
 export type WorkoutSection = {
   id: string;
@@ -24,8 +20,8 @@ export type SavedWorkoutSection = Omit<WorkoutSection, 'data'> & {
 
 export type Set = {
   id: string;
-  weight: WithPlaceholderValue<number>;
-  reps: WithPlaceholderValue<number>;
+  weight?: number;
+  reps?: number;
 };
 export type SavedSet = Set & {sectionId: string};
 
@@ -55,6 +51,12 @@ export type SetSlice = {
   ) => void;
   removeSection: (sectionId: WorkoutSection['id']) => void;
   removeSet: (sectionId: WorkoutSection['id'], setIndex: Set['id']) => void;
+
+  updateSet: (
+    sectionId: string,
+    setId: string,
+    data: {weight: number; reps: number},
+  ) => void;
 };
 
 type SliceMap = {
