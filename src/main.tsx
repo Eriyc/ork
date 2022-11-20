@@ -5,7 +5,6 @@ import React, {FC} from 'react';
 import {ThemeProvider} from './theme';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {ORKNavigation} from './navigation';
-import {UserListener} from './stores';
 import {StoreProvider} from './models';
 import {observer} from 'mobx-react-lite';
 
@@ -14,9 +13,7 @@ const ORKMain: FC = observer(() => {
     <SafeAreaProvider>
       <ThemeProvider>
         <StoreProvider>
-          <UserListener>
-            <ORKNavigation />
-          </UserListener>
+          <ORKNavigation />
         </StoreProvider>
       </ThemeProvider>
     </SafeAreaProvider>

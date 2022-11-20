@@ -18,13 +18,10 @@ export const setSlice: WorkoutState<'SetSlice'> = (set, get) => ({
     });
   },
   addSetToSection: (sectionId, _index, _type) => {
-    const previousSet = get().sections.find(section => section.id === sectionId)
-      ?.data[0];
+    const previousSet = get().sections.find(section => section.id === sectionId)?.data[0];
 
     set(state => {
-      const sectionIndex = state.sections.findIndex(
-        section => section.id === sectionId,
-      );
+      const sectionIndex = state.sections.findIndex(section => section.id === sectionId);
 
       state.sections[sectionIndex].data.push({
         weight: previousSet?.weight,
@@ -35,26 +32,18 @@ export const setSlice: WorkoutState<'SetSlice'> = (set, get) => ({
   },
   removeSection: sectionId =>
     set(state => {
-      state.sections = state.sections.filter(
-        section => section.id !== sectionId,
-      );
+      state.sections = state.sections.filter(section => section.id !== sectionId);
     }),
   removeSet: (sectionId, setId) => {
     set(state => {
-      const sectionIndex = state.sections.findIndex(
-        section => section.id === sectionId,
-      );
+      const sectionIndex = state.sections.findIndex(section => section.id === sectionId);
 
-      state.sections[sectionIndex].data = state.sections[
-        sectionIndex
-      ].data.filter(s => s.id !== setId);
+      state.sections[sectionIndex].data = state.sections[sectionIndex].data.filter(s => s.id !== setId);
     });
   },
   updateSet: (sectionId, setId, data) => {
     const sectionIndex = get().sections.findIndex(s => s.id === sectionId);
-    const setIndex = get().sections[sectionIndex].data.findIndex(
-      s => s.id === sectionId,
-    );
+    const setIndex = get().sections[sectionIndex].data.findIndex(s => s.id === sectionId);
 
     set(state => {
       state.sections[sectionIndex].data[setIndex].reps = data.reps;
