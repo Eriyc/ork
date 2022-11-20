@@ -1,10 +1,10 @@
-import {useUser} from '@/stores';
+import {useAuthStore} from '@/models';
 import React, {FC} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {ActivityIndicator, Text} from 'react-native-paper';
 
 const ProfileScreen: FC = () => {
-  const user = useUser(state => state.user);
+  const {user} = useAuthStore();
 
   if (!user) {
     return <ActivityIndicator />;
@@ -13,9 +13,8 @@ const ProfileScreen: FC = () => {
   return (
     <View style={[styles.container]}>
       <Text>{user.id}</Text>
-      <Text>{user.name}</Text>
+      <Text>{user.displayname}</Text>
       <Text>{user.email}</Text>
-      <Text>{user.provider}</Text>
     </View>
   );
 };

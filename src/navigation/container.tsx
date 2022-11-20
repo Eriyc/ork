@@ -7,8 +7,7 @@ const ORKNavigation: FC = () => {
   const {theme} = useThemeConfig();
 
   return (
-    <NavigationContainer
-      theme={theme === 'dark' ? darkNavTheme : lightNavTheme}>
+    <NavigationContainer theme={theme === 'dark' ? darkNavTheme : lightNavTheme}>
       <MainStack />
     </NavigationContainer>
   );

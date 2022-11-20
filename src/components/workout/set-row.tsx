@@ -2,15 +2,7 @@ import {Set, useWorkout, WorkoutSection} from '@/stores';
 import React, {FC, memo, useEffect, useMemo, useState} from 'react';
 import {StyleSheet, SectionListRenderItem, Pressable} from 'react-native';
 import {Swipeable} from 'react-native-gesture-handler';
-import {
-  MD3Colors,
-  MD3Theme,
-  Surface,
-  Text,
-  TextInput,
-  TouchableRipple,
-  useTheme,
-} from 'react-native-paper';
+import {MD3Colors, MD3Theme, Surface, Text, TextInput, TouchableRipple, useTheme} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type SetRowProps = {
@@ -37,9 +29,7 @@ const useFieldValue = (
   setId: string,
   path: string,
 ): [string, (text: string) => void] => {
-  const [value, setValue] = useState(() =>
-    initialValue ? initialValue.toString() : '',
-  );
+  const [value, setValue] = useState(() => (initialValue ? initialValue.toString() : ''));
   const updateSet = useWorkout(state => state.updateSet);
 
   const handleChange = (text: string) => {
@@ -62,18 +52,8 @@ const WorkoutSetRow: FC<SetRowProps> = memo(
     const theme = useTheme();
     const styles = useMemo(() => createStyles(theme), [theme]);
 
-    const [weight, setWeight] = useFieldValue(
-      set.weight || '',
-      sectionId,
-      set.id,
-      'weight',
-    );
-    const [reps, setReps] = useFieldValue(
-      set.reps || '',
-      sectionId,
-      set.id,
-      'reps',
-    );
+    const [weight, setWeight] = useFieldValue(set.weight || '', sectionId, set.id, 'weight');
+    const [reps, setReps] = useFieldValue(set.reps || '', sectionId, set.id, 'reps');
 
     const [done, setDone] = useState(false);
 
@@ -86,16 +66,8 @@ const WorkoutSetRow: FC<SetRowProps> = memo(
     };
 
     return (
-      <Swipeable
-        renderRightActions={renderRightActions}
-        onSwipeableOpen={handleSwipe}>
-        <Surface
-          style={[
-            styles.row,
-            index % 2 === 1 && styles.evenRow,
-            done && styles.done,
-          ]}
-          elevation={0}>
+      <Swipeable renderRightActions={renderRightActions} onSwipeableOpen={handleSwipe}>
+        <Surface style={[styles.row, index % 2 === 1 && styles.evenRow, done && styles.done]} elevation={0}>
           <TouchableRipple style={[styles.button]}>
             <Text>{index + 1}</Text>
           </TouchableRipple>
@@ -175,10 +147,8 @@ const createStyles = (theme: MD3Theme) =>
     done: {backgroundColor: MD3Colors.tertiary60},
   });
 
-const renderSetRow: SectionListRenderItem<Set, WorkoutSection> = ({
-  item,
-  index,
-  section,
-}) => <WorkoutSetRow set={item} index={index} sectionId={section.id} />;
+const renderSetRow: SectionListRenderItem<Set, WorkoutSection> = ({item, index, section}) => (
+  <WorkoutSetRow set={item} index={index} sectionId={section.id} />
+);
 
 export {WorkoutSetRow, renderSetRow};

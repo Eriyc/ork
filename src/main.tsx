@@ -6,17 +6,21 @@ import {ThemeProvider} from './theme';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {ORKNavigation} from './navigation';
 import {UserListener} from './stores';
+import {StoreProvider} from './models';
+import {observer} from 'mobx-react-lite';
 
-const ORKMain: FC = () => {
+const ORKMain: FC = observer(() => {
   return (
-    <ThemeProvider>
-      <UserListener>
-        <SafeAreaProvider>
-          <ORKNavigation />
-        </SafeAreaProvider>
-      </UserListener>
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider>
+        <StoreProvider>
+          <UserListener>
+            <ORKNavigation />
+          </UserListener>
+        </StoreProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
-};
+});
 
 export default ORKMain;

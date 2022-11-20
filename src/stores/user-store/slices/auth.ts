@@ -1,17 +1,13 @@
 import client from '@/utils/client';
 import {AuthState} from '../types';
-import {openInAuthBrowser} from '../utils/auth-browser';
+import {openInAuthBrowser} from '../../../utils/auth-browser';
 
 const fetchUserData = async () => {
   const {
     data: {user},
   } = await client.auth.getUser();
 
-  const {data: profile} = await client
-    .from('profiles')
-    .select('*')
-    .eq('id', user?.id)
-    .single();
+  const {data: profile} = await client.from('profiles').select('*').eq('id', user?.id).single();
 
   return {user, profile};
 };
