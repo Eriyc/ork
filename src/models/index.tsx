@@ -1,25 +1,23 @@
-import React, {createContext, FC, PropsWithChildren, useContext, useEffect, useState} from 'react';
+import React, {createContext, FC, PropsWithChildren, useContext} from 'react';
 import {Instance, types} from 'mobx-state-tree';
 import {AuthenticationStoreModel, createAuthenticationStoreDefaultModel} from './authentication-store';
 import {LoadingComponent} from '@/components';
 
-export const rootStore = types.model({
-  authenticationStore: AuthenticationStoreModel,
-});
+export const rootStore = types
+  .model({
+    authenticationStore: AuthenticationStoreModel,
+  })
+  .create({
+    authenticationStore: createAuthenticationStoreDefaultModel(),
+  });
 
 const RootStoreContext = createContext<null | Instance<typeof rootStore>>(null);
 export const StoreProvider: FC<PropsWithChildren> = ({children}) => {
-  const [store, setStore] = useState<Instance<typeof rootStore> | null>(null);
-
-  useEffect(() => {
-    setStore(
-      rootStore.create({
-        authenticationStore: createAuthenticationStoreDefaultModel(),
-      }),
-    );
-  }, []);
-
-  return <RootStoreContext.Provider value={store}>{store ? children : <LoadingComponent />}</RootStoreContext.Provider>;
+  return (
+    <RootStoreContext.Provider value={rootStore}>
+      {rootStore ? children : <LoadingComponent />}
+    </RootStoreContext.Provider>
+  );
 };
 
 export function useStores() {

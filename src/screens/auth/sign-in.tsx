@@ -1,10 +1,9 @@
-import {useUser} from '@/stores';
 import React, {FC} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Button, Text, TextInput} from 'react-native-paper';
 
 const SignInScreen: FC = () => {
-  const signIn = useUser(state => state.signInWithEmailAndPassword);
+  const signIn = (v1: string, v2: string) => {};
 
   return (
     <View style={[styles.container]}>

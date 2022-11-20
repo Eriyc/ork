@@ -3,18 +3,9 @@ import {useMainNavigation} from '@/navigation';
 import React, {FC} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import {
-  Avatar,
-  Divider,
-  Surface,
-  Text,
-  TouchableRipple,
-} from 'react-native-paper';
+import {Avatar, Divider, Surface, Text, TouchableRipple} from 'react-native-paper';
 
-const ExerciseCard: FC<{exercise: Exercise; onPress: (id: number) => void}> = ({
-  exercise,
-  onPress,
-}) => {
+const ExerciseCard: FC<{exercise: Exercise; onPress: (id: number) => void}> = ({exercise, onPress}) => {
   return (
     <Surface key={exercise.id}>
       <TouchableRipple onPress={() => onPress(exercise.id)}>
@@ -40,9 +31,7 @@ const ExerciseListScreen: FC = () => {
     <View style={[styles.container]}>
       <FlatList
         data={exercises}
-        renderItem={({item}) => (
-          <ExerciseCard exercise={item} onPress={handleNavigate} />
-        )}
+        renderItem={({item}) => <ExerciseCard exercise={item} onPress={handleNavigate} />}
         ItemSeparatorComponent={Divider}
       />
     </View>
