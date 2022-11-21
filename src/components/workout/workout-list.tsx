@@ -14,7 +14,7 @@ const _WorkoutListComponent: FC<WorkoutListProps> = ({workout}) => {
   return (
     <FlatList
       style={[styles.container]}
-      data={workout.sections.slice() /* #slice() converts to an array */}
+      data={workout.sections.slice() /* #slice() converts to an array, mobx workaround */}
       renderItem={renderExerciseComponent}
       keyExtractor={item => item.id}
       ListFooterComponent={AddExerciseButtonComponent}
