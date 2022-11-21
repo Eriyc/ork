@@ -52,11 +52,15 @@ const WorkoutSetRow: FC<SetRowProps> = observer(({set, index}) => {
           style={[styles.textInput, set.completed && styles.done]}
           contextMenuHidden
           keyboardType="decimal-pad"
+          onChangeText={text => set.updateWeight(text)}
+          value={set.weight ? set.weight.toString() : ''}
         />
         <TextInput
           style={[styles.textInput, set.completed && styles.done]}
           contextMenuHidden
           keyboardType="number-pad"
+          onChangeText={text => set.updateReps(parseInt(text, 10))}
+          value={set.reps ? set.reps.toString() : ''}
         />
         <Pressable style={[styles.button]} onPress={handleCompletePress}>
           <Icon name="check" color={theme.colors.onBackground} size={24} />

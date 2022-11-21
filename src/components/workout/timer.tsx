@@ -16,9 +16,7 @@ const WorkoutTimer: FC = memo(() => {
   const times = useWorkout(state => state.times);
   const timer = useRef<NodeJS.Timeout>();
 
-  const [stopwatch, setStopwatch] = useState(() =>
-    toHHMMSS(new Date(calculateElapsedTime(times))),
-  );
+  const [stopwatch, setStopwatch] = useState(() => toHHMMSS(new Date(calculateElapsedTime(times))));
 
   useEffect(() => {
     if (times.length % 2 === 1) {

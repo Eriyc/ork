@@ -15,7 +15,9 @@ const _TemplatesScreen: FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+  },
   row: {
     flexDirection: 'row',
   },

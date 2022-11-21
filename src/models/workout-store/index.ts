@@ -11,6 +11,10 @@ export const WorkoutStoreModel = types
     addSection: (exerciseId: number) => {
       self.sections.push(SectionModel.create({exerciseId, sets: [SetModel.create()]}));
     },
+    removeSection: (sectionId: string) => {
+      const section = self.sections.find(s => s.id === sectionId);
+      if (section) self.sections.remove(section);
+    },
   }));
 
 type WorkoutStoreType = Instance<typeof WorkoutStoreModel>;

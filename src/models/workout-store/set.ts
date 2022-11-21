@@ -7,6 +7,8 @@ export const SetModel = types
   .props({
     id: types.optional(types.identifier, nanoid),
     completed: types.optional(types.boolean, false),
+    weight: types.maybe(types.string),
+    reps: types.maybe(types.number),
   })
   .views(self => ({
     get label(): string {
@@ -20,6 +22,12 @@ export const SetModel = types
     },
     setCompleted: (value: boolean) => {
       self.completed = value;
+    },
+    updateWeight: (value: string) => {
+      self.weight = value;
+    },
+    updateReps: (value: number) => {
+      self.reps = value;
     },
   }));
 

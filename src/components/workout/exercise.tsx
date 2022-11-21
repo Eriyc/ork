@@ -38,7 +38,7 @@ const WorkoutExerciseComponent: FC<ExerciseProps> = observer(({item}) => {
         <View style={[styles.row, styles.info]}>
           <Text variant="titleSmall">{item.exercise.title}</Text>
           <Menu anchor={<IconButton icon="dots-vertical" onPress={openMenu} />} onDismiss={closeMenu} visible={visible}>
-            <Menu.Item style={styles.menuItem} leadingIcon="delete" title="Remove" onPress={() => null} />
+            <Menu.Item style={styles.menuItem} leadingIcon="delete" title="Remove" onPress={item.remove} />
           </Menu>
         </View>
         <Header />

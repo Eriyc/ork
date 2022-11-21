@@ -1,6 +1,7 @@
 import {Exercise, exercises} from '@/data';
-import {Instance, SnapshotOut, types} from 'mobx-state-tree';
+import {getParent, Instance, SnapshotOut, types} from 'mobx-state-tree';
 import {nanoid} from 'nanoid';
+import {WorkoutStore} from '.';
 import {SetModel} from './set';
 
 export const SectionModel = types
@@ -25,6 +26,9 @@ export const SectionModel = types
       if (set) {
         self.sets.remove(set);
       }
+    },
+    remove: () => {
+      getParent<WorkoutStore>(self, 2).removeSection(self.id);
     },
   }));
 
