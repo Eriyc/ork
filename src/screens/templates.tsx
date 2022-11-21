@@ -1,34 +1,15 @@
-import {WorkoutSectionList, WorkoutTimer} from '@/components';
-import {useWorkout} from '@/stores';
+import {WorkoutListComponent} from '@/components';
+import {useWorkoutStore} from '@/models';
 import React, {FC} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {IconButton, Text} from 'react-native-paper';
+import {observer} from 'mobx-react-lite';
 
-const TemplatesScreen: FC = () => {
-  const workout = useWorkout();
+const _TemplatesScreen: FC = () => {
+  const workout = useWorkoutStore();
 
   return (
     <View style={[styles.container]}>
-      {/*       <Button mode="contained-tonal">Start an empty workout</Button>
-       */}
-      <View>
-        <Text>timer ({workout.workoutStatus})</Text>
-        <WorkoutTimer />
-        <View style={[styles.row]}>
-          <IconButton
-            icon={workout.workoutStatus !== 'working' ? 'play' : 'pause'}
-            mode="contained"
-            onPress={workout.toggleTimer}
-          />
-          <IconButton
-            icon="stop"
-            mode="contained-tonal"
-            onPress={workout.endWorkout}
-            disabled={workout.workoutStatus !== 'working'}
-          />
-        </View>
-      </View>
-      <WorkoutSectionList />
+      <WorkoutListComponent workout={workout} />
     </View>
   );
 };
@@ -39,5 +20,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
+
+const TemplatesScreen = observer(_TemplatesScreen);
 
 export {TemplatesScreen};

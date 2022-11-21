@@ -1,14 +1,14 @@
-import {Set, useWorkout, WorkoutSection} from '@/stores';
-import React, {FC, memo, useEffect, useMemo, useState} from 'react';
-import {StyleSheet, SectionListRenderItem, Pressable} from 'react-native';
+import React, {FC, useMemo} from 'react';
+import {StyleSheet, Pressable} from 'react-native';
 import {Swipeable} from 'react-native-gesture-handler';
 import {MD3Colors, MD3Theme, Surface, Text, TextInput, TouchableRipple, useTheme} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Set} from '@/models/workout-store/set';
+import {observer} from 'mobx-react-lite';
 
 type SetRowProps = {
   set: Set;
   index: number;
-  sectionId: WorkoutSection['id'];
 };
 
 const RemoveButton = () => {
@@ -23,84 +23,48 @@ const RemoveButton = () => {
 };
 const renderRightActions = () => <RemoveButton />;
 
-const useFieldValue = (
-  initialValue: number | string,
-  sectionId: string,
-  setId: string,
-  path: string,
-): [string, (text: string) => void] => {
-  const [value, setValue] = useState(() => (initialValue ? initialValue.toString() : ''));
-  const updateSet = useWorkout(state => state.updateSet);
+const WorkoutSetRow: FC<SetRowProps> = observer(({set, index}) => {
+  const theme = useTheme();
+  const styles = useMemo(() => createStyles(theme), [theme]);
 
-  const handleChange = (text: string) => {
-    // remove everything but numbers and ".", followed by decimals
-    const replaced = text.replace(',', '.');
-    const onlyNumbers = /^\d*\.?\d*$/;
+  const handleCompletePress = () => {
+    set.setCompleted(!set.completed);
+  };
 
-    if (onlyNumbers.test(replaced)) {
-      updateSet(sectionId, setId, {
-        [path]: replaced,
-      });
+  const handleSwipe = (dir: 'left' | 'right') => {
+    if (dir === 'right') {
+      set.remove();
     }
   };
 
-  return [value, handleChange];
-};
-
-const WorkoutSetRow: FC<SetRowProps> = memo(
-  ({set, index, sectionId}) => {
-    const theme = useTheme();
-    const styles = useMemo(() => createStyles(theme), [theme]);
-
-    const [weight, setWeight] = useFieldValue(set.weight || '', sectionId, set.id, 'weight');
-    const [reps, setReps] = useFieldValue(set.reps || '', sectionId, set.id, 'reps');
-
-    const [done, setDone] = useState(false);
-
-    const removeSet = useWorkout(state => state.removeSet);
-
-    const handleSwipe = (dir: 'left' | 'right') => {
-      if (dir === 'right') {
-        removeSet(sectionId, set.id);
-      }
-    };
-
-    return (
-      <Swipeable renderRightActions={renderRightActions} onSwipeableOpen={handleSwipe}>
-        <Surface style={[styles.row, index % 2 === 1 && styles.evenRow, done && styles.done]} elevation={0}>
-          <TouchableRipple style={[styles.button]}>
-            <Text>{index + 1}</Text>
-          </TouchableRipple>
-          <TouchableRipple style={[styles.textInput]}>
-            <Text allowFontScaling={false} style={[styles.center]}>
-              10 x 40kg
-            </Text>
-          </TouchableRipple>
-          <TextInput
-            style={[styles.textInput, done && styles.done]}
-            value={weight}
-            placeholder={`${set.weight || ''}`}
-            onChangeText={setWeight}
-            contextMenuHidden
-            keyboardType="decimal-pad"
-          />
-          <TextInput
-            style={[styles.textInput, done && styles.done]}
-            value={reps}
-            placeholder={`${set.reps || ''}`}
-            onChangeText={setReps}
-            contextMenuHidden
-            keyboardType="number-pad"
-          />
-          <Pressable style={[styles.button]} onPress={() => setDone(d => !d)}>
-            <Icon name="check" color={theme.colors.onBackground} size={24} />
-          </Pressable>
-        </Surface>
-      </Swipeable>
-    );
-  },
-  (prev, next) => prev.index === next.index && prev.set.id === next.set.id,
-);
+  return (
+    <Swipeable renderRightActions={renderRightActions} onSwipeableOpen={handleSwipe}>
+      <Surface style={[styles.row, index % 2 === 1 && styles.evenRow, set.completed && styles.done]} elevation={0}>
+        <TouchableRipple style={[styles.button]}>
+          <Text>{set.label}</Text>
+        </TouchableRipple>
+        <TouchableRipple style={[styles.textInput]}>
+          <Text allowFontScaling={false} style={[styles.center]}>
+            10 x 40kg
+          </Text>
+        </TouchableRipple>
+        <TextInput
+          style={[styles.textInput, set.completed && styles.done]}
+          contextMenuHidden
+          keyboardType="decimal-pad"
+        />
+        <TextInput
+          style={[styles.textInput, set.completed && styles.done]}
+          contextMenuHidden
+          keyboardType="number-pad"
+        />
+        <Pressable style={[styles.button]} onPress={handleCompletePress}>
+          <Icon name="check" color={theme.colors.onBackground} size={24} />
+        </Pressable>
+      </Surface>
+    </Swipeable>
+  );
+});
 
 const createStyles = (theme: MD3Theme) =>
   StyleSheet.create({
@@ -147,8 +111,4 @@ const createStyles = (theme: MD3Theme) =>
     done: {backgroundColor: MD3Colors.tertiary60},
   });
 
-const renderSetRow: SectionListRenderItem<Set, WorkoutSection> = ({item, index, section}) => (
-  <WorkoutSetRow set={item} index={index} sectionId={section.id} />
-);
-
-export {WorkoutSetRow, renderSetRow};
+export {WorkoutSetRow};

@@ -1,6 +1,6 @@
 import {exercises} from '@/data';
+import {useWorkoutStore} from '@/models';
 import {useMainNavigation, useMainRoute} from '@/navigation';
-import {useWorkout} from '@/stores';
 import React, {FC} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Button} from 'react-native-paper';
@@ -10,14 +10,14 @@ const WorkoutExercisePickerScreen: FC = () => {
   const {
     params: {returnTo},
   } = useMainRoute<'exercisePicker'>();
-  const addExercise = useWorkout(state => state.addSection);
+  const {addSection} = useWorkoutStore();
 
   const goBack = () => {
     navigation.navigate(returnTo as any);
   };
 
   const onSelect = (id: number) => {
-    addExercise(id);
+    addSection(id);
     goBack();
   };
 

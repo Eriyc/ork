@@ -3,7 +3,7 @@ import {useWorkout} from '@/stores';
 import React, {FC} from 'react';
 import {View, StyleSheet, SectionList} from 'react-native';
 import {Button} from 'react-native-paper';
-import {renderExerciseHeader} from './exercise-header';
+import {renderExerciseHeader} from './exercise';
 import {renderSetRow} from './set-row';
 
 const WorkoutSectionList: FC = () => {
@@ -20,22 +20,9 @@ const WorkoutSectionList: FC = () => {
       keyExtractor={({id}) => id}
       stickySectionHeadersEnabled={false}
       renderSectionHeader={renderExerciseHeader}
-      ListFooterComponent={
-        <Button
-          onPress={() =>
-            navigation.navigate('exercisePicker', {
-              returnTo: 'templates',
-            })
-          }>
-          Add exercise
-        </Button>
-      }
       renderSectionFooter={({section}) => (
         <View style={styles.sectionFooter}>
-          <Button
-            onPress={() => addSet(section.id, section.data.length, 'normal')}>
-            Add new set
-          </Button>
+          <Button onPress={() => addSet(section.id, section.data.length, 'normal')}>Add new set</Button>
         </View>
       )}
     />
