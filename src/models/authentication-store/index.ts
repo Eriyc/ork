@@ -19,6 +19,12 @@ export const AuthenticationStoreModel = types
     },
   }))
   .actions(self => ({
+    afterCreate() {
+      console.log('hello');
+
+      self.user?.fetchData();
+    },
+
     signIn: flow(function* (provider: Provider) {
       self.setStatus('pending');
 

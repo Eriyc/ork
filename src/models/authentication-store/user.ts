@@ -31,6 +31,8 @@ export const UserModel = types
   .actions(self => ({
     fetchData: flow(function* () {
       const {profile, user}: AccountData = yield fetchUserData(self.id);
+      console.log(profile);
+
       self.avatar = profile.avatar;
       self.displayname = profile.displayname;
       self.email = user.email;

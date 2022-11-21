@@ -23,14 +23,8 @@ const ThemeButton: FC<{
           backgroundColor: selected ? colors.primary : colors.surface,
         },
       ]}>
-      <TouchableRipple
-        onPress={() => onPress(theme)}
-        style={[styles.touchable]}>
-        <Icon
-          name={icon}
-          color={selected ? colors.onPrimary : colors.onSurface}
-          size={32}
-        />
+      <TouchableRipple onPress={() => onPress(theme)} style={[styles.touchable]}>
+        <Icon name={icon} color={selected ? colors.onPrimary : colors.onSurface} size={32} />
       </TouchableRipple>
     </Surface>
   );
@@ -43,24 +37,9 @@ const ThemeSwitcher: FC = () => {
 
   return (
     <View style={[styles.container]}>
-      <ThemeButton
-        theme="light"
-        icon="weather-sunny"
-        onPress={changeTheme}
-        selected={selectedTheme === 'light'}
-      />
-      <ThemeButton
-        theme="dark"
-        icon="weather-night"
-        onPress={changeTheme}
-        selected={selectedTheme === 'dark'}
-      />
-      <ThemeButton
-        theme="device"
-        icon="cellphone-cog"
-        onPress={changeTheme}
-        selected={selectedTheme === 'device'}
-      />
+      <ThemeButton theme="light" icon="weather-sunny" onPress={changeTheme} selected={selectedTheme === 'light'} />
+      <ThemeButton theme="dark" icon="weather-night" onPress={changeTheme} selected={selectedTheme === 'dark'} />
+      <ThemeButton theme="device" icon="cellphone-cog" onPress={changeTheme} selected={selectedTheme === 'device'} />
     </View>
   );
 };
