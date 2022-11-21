@@ -11,14 +11,7 @@ const HomeScreen: FC = () => {
 
   return (
     <ScrollView style={[styles.container]}>
-      {user && (
-        <UserGreeting
-          username={user.displayname.split(' ')[0]}
-          currentXp={876}
-          totalXp={1000}
-          style={[styles.sectionSpacing]}
-        />
-      )}
+      {user && <UserGreeting user={user} style={[styles.sectionSpacing]} />}
       <View>
         <View style={[styles.sectionHeader]}>
           <Text variant="bodyLarge">History</Text>

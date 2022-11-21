@@ -2,33 +2,29 @@ import {useMainNavigation} from '@/navigation';
 import React, {FC} from 'react';
 import {View, StyleSheet, StyleProp, ViewStyle, Pressable} from 'react-native';
 import {Avatar, ProgressBar, Text} from 'react-native-paper';
+import {User} from '@/models/authentication-store/user';
 
 type UserGreetingProps = {
-  username: string;
-  totalXp: number;
-  currentXp: number;
+  user: User;
   style?: StyleProp<ViewStyle>;
 };
 
-const UserGreeting: FC<UserGreetingProps> = ({
-  currentXp,
-  totalXp,
-  username,
-  style,
-}) => {
+const UserGreeting: FC<UserGreetingProps> = ({user, style}) => {
   const navigation = useMainNavigation();
+
+  const xp = 1000;
+  const needed = 1023;
+
   return (
-    <Pressable
-      style={[styles.userSection, style]}
-      onPress={() => navigation.navigate('profile')}>
-      <Avatar.Icon icon="account" />
+    <Pressable style={[styles.userSection, style]} onPress={() => navigation.navigate('profile')}>
+      {user.avatar ? <Avatar.Image source={{uri: user.avatar}} /> : <Avatar.Icon icon="account" />}
       <View style={[styles.xpBarContainer]}>
         <Text variant="headlineSmall" allowFontScaling={false}>
-          Time to exercise {username}
+          Time to exercise {user.displayname.split(' ')[0]}
         </Text>
-        <ProgressBar progress={currentXp / totalXp} style={[styles.xpBar]} />
+        <ProgressBar progress={xp / needed} style={[styles.xpBar]} />
         <Text variant="labelLarge" allowFontScaling={false}>
-          {currentXp} / {totalXp} XP
+          {xp} / {needed} XP
         </Text>
       </View>
     </Pressable>
