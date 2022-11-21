@@ -5,18 +5,19 @@ import React, {FC} from 'react';
 import {ThemeProvider} from './theme';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {ORKNavigation} from './navigation';
-import {UserListener} from './stores';
+import {StoreProvider} from './models';
+import {observer} from 'mobx-react-lite';
 
-const ORKMain: FC = () => {
+const ORKMain: FC = observer(() => {
   return (
-    <ThemeProvider>
-      <UserListener>
-        <SafeAreaProvider>
+    <SafeAreaProvider>
+      <ThemeProvider>
+        <StoreProvider>
           <ORKNavigation />
-        </SafeAreaProvider>
-      </UserListener>
-    </ThemeProvider>
+        </StoreProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
-};
+});
 
 export default ORKMain;

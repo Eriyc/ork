@@ -14,10 +14,7 @@ const GoogleAuthButton: FC<Props> = ({onPress, action}) => {
         <TouchableRipple style={[styles.container]} onPress={onPress}>
           <View style={[styles.content]}>
             <View style={[styles.iconContainer]}>
-              <Image
-                style={[styles.icon]}
-                source={require('@/assets/google-icon.png')}
-              />
+              <Image style={[styles.icon]} source={require('@/assets/google-icon.png')} />
             </View>
             <Text style={[styles.label]}>{action} with Google</Text>
           </View>

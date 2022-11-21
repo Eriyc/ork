@@ -3,6 +3,7 @@ import {View, StyleSheet} from 'react-native';
 import {Button, Text, TextInput} from 'react-native-paper';
 
 const SignUpScreen: FC = () => {
+  const signUp = (v1: string, v2: string) => {};
   return (
     <View style={[styles.container]}>
       <Text variant="displayLarge">Sign Up</Text>
@@ -16,7 +17,7 @@ const SignUpScreen: FC = () => {
           <TextInput mode="outlined" />
           <Text style={{textAlign: 'right'}}>Forgot your password?</Text>
         </View>
-        <Button mode="contained">Sign In</Button>
+        <Button mode="contained">Sign Up</Button>
       </View>
     </View>
   );

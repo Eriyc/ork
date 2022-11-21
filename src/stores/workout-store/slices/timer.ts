@@ -1,7 +1,6 @@
 import {sections as defaultSections} from '@/data';
-import {useUser} from '@/stores/user-store';
+import {rootStore} from '@/models';
 import client from '@/utils/client';
-import {storage} from '@/utils/storage';
 import {WorkoutState} from '../types';
 
 export const timerSlice: WorkoutState<'TimerSlice'> = (set, get) => ({
@@ -25,7 +24,7 @@ export const timerSlice: WorkoutState<'TimerSlice'> = (set, get) => ({
     // TODO: Migrate to database
 
     const {data, error} = await client.rpc('create_workout', {
-      creator_id: useUser.getState().user?.id,
+      creator_id: rootStore.authenticationStore.user?.id,
       started_at: new Date().toISOString(),
       sections: get().sections.map(({id: _, ...s}) => s),
     });
@@ -65,14 +64,3 @@ export const timerSlice: WorkoutState<'TimerSlice'> = (set, get) => ({
     });
   },
 });
-
-const updateStorage = (path: string, items: any[]) => {
-  const savedItemsString = storage.getItem(path);
-  const savedItems: any[] = savedItemsString
-    ? JSON.parse(savedItemsString)
-    : [];
-
-  savedItems.push(...items);
-  const itemsString = JSON.stringify(savedItems);
-  storage.setItem(path, itemsString);
-};

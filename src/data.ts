@@ -1,6 +1,8 @@
 import {nanoid} from 'nanoid';
 import {WorkoutSection} from './stores';
 
+/* Temporary data before database connection is established */
+
 export type Muscle = {
   name: string;
   group: string;
@@ -64,8 +66,8 @@ export const sections: WorkoutSection[] = [
   {
     data: [
       {
-        weight: {value: undefined, placeholder: undefined},
-        reps: {value: undefined, placeholder: undefined},
+        weight: undefined,
+        reps: undefined,
         id: nanoid(),
       },
     ],

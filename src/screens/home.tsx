@@ -1,5 +1,5 @@
 import {UserGreeting} from '@/components';
-import {useUser} from '@/stores';
+import {useAuthStore} from '@/models';
 import {Link} from '@react-navigation/native';
 import React, {FC} from 'react';
 import {View, StyleSheet} from 'react-native';
@@ -7,13 +7,13 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {Surface, Text} from 'react-native-paper';
 
 const HomeScreen: FC = () => {
-  const user = useUser(state => state.user);
+  const {user} = useAuthStore();
 
   return (
     <ScrollView style={[styles.container]}>
       {user && (
         <UserGreeting
-          username={user.name.split(' ')[0]}
+          username={user.displayname.split(' ')[0]}
           currentXp={876}
           totalXp={1000}
           style={[styles.sectionSpacing]}
