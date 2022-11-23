@@ -76,7 +76,6 @@ const createStyles = (theme: MD3Theme) =>
     row: {
       display: 'flex',
       flexDirection: 'row',
-      marginHorizontal: 4,
       padding: 8,
       backgroundColor: theme.colors.surface,
       elevation: 0,

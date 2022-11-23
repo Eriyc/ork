@@ -9,6 +9,8 @@ import {Surface, Text} from 'react-native-paper';
 const HomeScreen: FC = () => {
   const {user} = useAuthStore();
 
+  console.log(user);
+
   return (
     <ScrollView style={[styles.container]}>
       {user && <UserGreeting user={user} style={[styles.sectionSpacing]} />}

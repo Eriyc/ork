@@ -20,8 +20,6 @@ export const AuthenticationStoreModel = types
   }))
   .actions(self => ({
     afterCreate() {
-      console.log('hello');
-
       self.user?.fetchData();
     },
 
@@ -44,6 +42,7 @@ export const AuthenticationStoreModel = types
             id: userId,
             email: user.email,
             displayname: profile.displayname,
+            avatar: profile.avatar,
           });
 
           self.user = userModel;
