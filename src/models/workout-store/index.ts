@@ -15,6 +15,9 @@ export const WorkoutStoreModel = types
       const section = self.sections.find(s => s.id === sectionId);
       if (section) self.sections.remove(section);
     },
+    cancel: () => {
+      self.sections.replace([]);
+    },
   }));
 
 type WorkoutStoreType = Instance<typeof WorkoutStoreModel>;

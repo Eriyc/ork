@@ -6,7 +6,7 @@ import {Button, IconButton, Menu, Surface, Text} from 'react-native-paper';
 import {ExerciseColumnsHeaderComponent} from './exercise-columns-header';
 import {WorkoutSetRow} from './set-row';
 
-type ExerciseProps = ListRenderItemInfo<Section> & {};
+export type ExerciseProps = ListRenderItemInfo<Section> & {};
 
 const WorkoutExerciseComponent: FC<ExerciseProps> = observer(({item}) => {
   const [visible, setVisible] = useState(false);
@@ -29,7 +29,9 @@ const WorkoutExerciseComponent: FC<ExerciseProps> = observer(({item}) => {
           <WorkoutSetRow set={set} index={index} key={set.id} />
         ))}
       </View>
-      <Button onPress={item.addSet}>Add set</Button>
+      <Button style={[styles.addSetButton]} onPress={item.addSet} mode="elevated">
+        Add set
+      </Button>
     </View>
   );
 });
@@ -49,8 +51,10 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 4,
     borderTopRightRadius: 4,
   },
+  addSetButton: {
+    marginHorizontal: 16,
+    marginVertical: 8,
+  },
 });
 
-const renderExerciseComponent = (props: ExerciseProps) => <WorkoutExerciseComponent {...props} />;
-
-export {WorkoutExerciseComponent, renderExerciseComponent};
+export {WorkoutExerciseComponent};
