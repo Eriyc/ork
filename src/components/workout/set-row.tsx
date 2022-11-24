@@ -45,7 +45,7 @@ const WorkoutSetRow: FC<SetRowProps> = observer(({set, index}) => {
         </TouchableRipple>
         <TouchableRipple style={[styles.textInput]}>
           <Text allowFontScaling={false} style={[styles.center]}>
-            10 x 40kg
+            -
           </Text>
         </TouchableRipple>
         <TextInput
