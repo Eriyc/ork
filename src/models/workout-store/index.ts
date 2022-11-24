@@ -6,9 +6,11 @@ export const WorkoutStoreModel = types
   .model('WorkoutStore')
   .props({
     sections: types.optional(types.array(SectionModel), []),
+    active: types.optional(types.boolean, true),
   })
   .actions(self => ({
     addSection: (exerciseId: number) => {
+      self.active = true;
       self.sections.push(SectionModel.create({exerciseId, sets: [SetModel.create()]}));
     },
     removeSection: (sectionId: string) => {
@@ -17,6 +19,10 @@ export const WorkoutStoreModel = types
     },
     cancel: () => {
       self.sections.replace([]);
+    },
+    finish: () => {
+      self.active = false;
+      console.log('woohoo 🎉');
     },
   }));
 

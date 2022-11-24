@@ -1,15 +1,17 @@
+import {Set} from '@/models/workout-store/set';
+import {observer} from 'mobx-react-lite';
 import React, {FC, useMemo} from 'react';
-import {StyleSheet, Pressable} from 'react-native';
+import {Pressable, StyleSheet} from 'react-native';
 import {Swipeable} from 'react-native-gesture-handler';
 import {MD3Colors, MD3Theme, Surface, Text, TextInput, TouchableRipple, useTheme} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Set} from '@/models/workout-store/set';
-import {observer} from 'mobx-react-lite';
 
 type SetRowProps = {
   set: Set;
   index: number;
 };
+
+const DONE_COLOR = MD3Colors.tertiary50;
 
 const RemoveButton = () => {
   const theme = useTheme();
@@ -21,6 +23,7 @@ const RemoveButton = () => {
     </TouchableRipple>
   );
 };
+
 const renderRightActions = () => <RemoveButton />;
 
 const WorkoutSetRow: FC<SetRowProps> = observer(({set, index}) => {
@@ -49,18 +52,24 @@ const WorkoutSetRow: FC<SetRowProps> = observer(({set, index}) => {
           </Text>
         </TouchableRipple>
         <TextInput
+          underlineColor={set.completed ? DONE_COLOR : undefined}
           style={[styles.textInput, set.completed && styles.done]}
           contextMenuHidden
           keyboardType="decimal-pad"
           onChangeText={text => set.updateWeight(text)}
           value={set.weight ? set.weight.toString() : ''}
+          textColor={theme.colors.onSurface}
+          dense
         />
         <TextInput
+          underlineColor={set.completed ? DONE_COLOR : undefined}
           style={[styles.textInput, set.completed && styles.done]}
           contextMenuHidden
           keyboardType="number-pad"
           onChangeText={text => set.updateReps(parseInt(text, 10))}
           value={set.reps ? set.reps.toString() : ''}
+          textColor={theme.colors.onSurface}
+          dense
         />
         <Pressable style={[styles.button]} onPress={handleCompletePress}>
           <Icon name="check" color={theme.colors.onBackground} size={24} />
@@ -72,10 +81,10 @@ const WorkoutSetRow: FC<SetRowProps> = observer(({set, index}) => {
 
 const createStyles = (theme: MD3Theme) =>
   StyleSheet.create({
-    container: {},
     row: {
       display: 'flex',
       flexDirection: 'row',
+      alignItems: 'center',
       padding: 8,
       backgroundColor: theme.colors.surface,
       elevation: 0,
@@ -95,9 +104,9 @@ const createStyles = (theme: MD3Theme) =>
       color: theme.colors.onError,
     },
     textInput: {
-      flex: 2,
+      flex: 1.5,
       marginHorizontal: 4,
-      justifyContent: 'center',
+      textAlignVertical: 'center',
       textAlign: 'auto',
     },
     small: {
@@ -111,7 +120,7 @@ const createStyles = (theme: MD3Theme) =>
     center: {
       textAlign: 'center',
     },
-    done: {backgroundColor: MD3Colors.tertiary60},
+    done: {backgroundColor: DONE_COLOR},
   });
 
 export {WorkoutSetRow};

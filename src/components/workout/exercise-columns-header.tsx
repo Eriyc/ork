@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   header: {textTransform: 'uppercase'},
   bigHeader: {
-    flex: 2,
+    flex: 1.5,
     marginHorizontal: 4,
     textAlign: 'center',
   },

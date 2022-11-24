@@ -28,7 +28,7 @@ const WorkoutListFooterComponent: FC = () => {
         }>
         Add exercise
       </Button>
-      {true && ( // is workout active
+      {workout.active && ( // is workout active
         <Button onPress={handleCancel} style={[styles.button]} textColor={theme.colors.error}>
           cancel workout
         </Button>

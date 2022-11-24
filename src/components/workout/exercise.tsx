@@ -1,7 +1,7 @@
 import {Section} from '@/models/workout-store/section';
 import {observer} from 'mobx-react-lite';
-import React, {FC, useState} from 'react';
-import {StyleSheet, View, ListRenderItemInfo} from 'react-native';
+import React, {FC, useRef, useState} from 'react';
+import {StyleSheet, View, ListRenderItemInfo, Pressable, Animated} from 'react-native';
 import {Button, IconButton, Menu, Surface, Text} from 'react-native-paper';
 import {ExerciseColumnsHeaderComponent} from './exercise-columns-header';
 import {WorkoutSetRow} from './set-row';
@@ -13,22 +13,29 @@ const WorkoutExerciseComponent: FC<ExerciseProps> = observer(({item}) => {
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
+  const longPress = useRef(new Animated.Value(0)).current;
+
   return (
     <View>
-      <Surface style={[styles.container]}>
-        <View style={[styles.row, styles.info]}>
-          <Text variant="titleSmall">{item.exercise.title}</Text>
-          <Menu anchor={<IconButton icon="dots-vertical" onPress={openMenu} />} onDismiss={closeMenu} visible={visible}>
-            <Menu.Item style={styles.menuItem} leadingIcon="delete" title="Remove" onPress={item.remove} />
-          </Menu>
-        </View>
-        <ExerciseColumnsHeaderComponent />
-      </Surface>
-      <View>
+      <Pressable onLongPress={() => longPress.setValue(1)} onPressOut={() => longPress.setValue(0)}>
+        <Surface style={[styles.container]}>
+          <View style={[styles.row, styles.info]}>
+            <Text variant="titleSmall">{item.exercise.title}</Text>
+            <Menu
+              anchor={<IconButton icon="dots-vertical" onPress={openMenu} />}
+              onDismiss={closeMenu}
+              visible={visible}>
+              <Menu.Item style={styles.menuItem} leadingIcon="delete" title="Remove" onPress={item.remove} />
+            </Menu>
+          </View>
+          <ExerciseColumnsHeaderComponent />
+        </Surface>
+      </Pressable>
+      <Animated.View>
         {item.sets.map((set, index) => (
           <WorkoutSetRow set={set} index={index} key={set.id} />
         ))}
-      </View>
+      </Animated.View>
       <Button style={[styles.addSetButton]} onPress={item.addSet} mode="elevated">
         Add set
       </Button>
