@@ -1,6 +1,17 @@
+import {toJS} from 'mobx';
 import {Instance, SnapshotOut, types} from 'mobx-state-tree';
 import {SectionModel} from './section';
 import {SetModel} from './set';
+
+type ToDatabaseSet = {
+  reps: number | null;
+  weight: number | null;
+};
+
+type ToDatabaseSection = {
+  exerciseId: number;
+  sets: ToDatabaseSet[];
+};
 
 export const WorkoutStoreModel = types
   .model('WorkoutStore')
@@ -21,7 +32,17 @@ export const WorkoutStoreModel = types
       self.sections.replace([]);
     },
     finish: () => {
-      self.active = false;
+      // self.active = false;
+
+      const sections: ToDatabaseSection[] = toJS(self.sections).map(section => ({
+        exerciseId: section.exerciseId,
+        sets: section.sets.map<ToDatabaseSet>(set => ({
+          reps: set.reps || null,
+          weight: set.weight ? parseFloat(set.weight) : null,
+        })),
+      }));
+      console.log(sections[0]);
+
       console.log('woohoo 🎉');
     },
   }));
