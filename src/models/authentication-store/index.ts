@@ -77,10 +77,6 @@ export const createAuthenticationStoreDefaultModel = () => {
   const userObj = userString ? JSON.parse(userString) : undefined;
   const user = userObj ? UserModel.create(userObj) : null;
 
-  if (user) {
-    // hydrate user with data from database on fresh start
-    client.auth.initialize().then(user.fetchData);
-  }
   const store = AuthenticationStoreModel.create({
     isAuthenticated: !!user,
     user,

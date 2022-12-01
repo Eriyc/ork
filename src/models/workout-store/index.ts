@@ -1,5 +1,8 @@
+import {WeightType} from '@/db-types';
+import client from '@/utils/client';
 import {toJS} from 'mobx';
-import {Instance, SnapshotOut, types} from 'mobx-state-tree';
+import {getParentOfType, Instance, SnapshotOut, types} from 'mobx-state-tree';
+import {rootStoreModel} from '../root-store';
 import {SectionModel} from './section';
 import {SetModel} from './set';
 
@@ -11,6 +14,7 @@ type ToDatabaseSet = {
 type ToDatabaseSection = {
   exerciseId: number;
   sets: ToDatabaseSet[];
+  weight_unit: WeightType;
 };
 
 export const WorkoutStoreModel = types
@@ -31,18 +35,26 @@ export const WorkoutStoreModel = types
     cancel: () => {
       self.sections.replace([]);
     },
-    finish: () => {
+    finish: async () => {
       // self.active = false;
 
       const sections: ToDatabaseSection[] = toJS(self.sections).map(section => ({
         exerciseId: section.exerciseId,
+        weight_unit: WeightType.KG,
         sets: section.sets.map<ToDatabaseSet>(set => ({
           reps: set.reps || null,
           weight: set.weight ? parseFloat(set.weight) : null,
+          rpe: null,
         })),
       }));
-      console.log(sections[0]);
 
+      const {data, error} = await client.rpc('create_workout', {
+        creator_id: getParentOfType(self, rootStoreModel).authenticationStore.user?.id,
+        started_at: new Date(),
+        sections,
+      });
+
+      console.log(data, error);
       console.log('woohoo 🎉');
     },
   }));
@@ -55,3 +67,5 @@ export interface WorkoutStoreSnapshot extends WorkoutStoreSnapshotType {}
 export const createWorkoutStoreDefaultModel = () => {
   return WorkoutStoreModel.create({sections: []});
 };
+
+export * from './types';

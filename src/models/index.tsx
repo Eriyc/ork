@@ -1,19 +1,15 @@
 import React, {createContext, FC, PropsWithChildren, useContext} from 'react';
-import {Instance, types} from 'mobx-state-tree';
+import {Instance} from 'mobx-state-tree';
 import {LoadingComponent} from '@/components';
-import {AuthenticationStoreModel, createAuthenticationStoreDefaultModel} from './authentication-store';
-import {createWorkoutStoreDefaultModel, WorkoutStoreModel} from './workout-store';
+import {createAuthenticationStoreDefaultModel} from './authentication-store';
+import {createWorkoutStoreDefaultModel} from './workout-store';
 import {observer} from 'mobx-react-lite';
+import {rootStoreModel} from './root-store';
 
-export const rootStore = types
-  .model({
-    authenticationStore: AuthenticationStoreModel,
-    workoutStore: WorkoutStoreModel,
-  })
-  .create({
-    authenticationStore: createAuthenticationStoreDefaultModel(),
-    workoutStore: createWorkoutStoreDefaultModel(),
-  });
+const rootStore = rootStoreModel.create({
+  authenticationStore: createAuthenticationStoreDefaultModel(),
+  workoutStore: createWorkoutStoreDefaultModel(),
+});
 
 const RootStoreContext = createContext<null | Instance<typeof rootStore>>(null);
 export const StoreProvider: FC<PropsWithChildren> = observer(({children}) => {
