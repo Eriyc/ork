@@ -19,6 +19,10 @@ export const AuthenticationStoreModel = types
     },
   }))
   .actions(self => ({
+    afterCreate() {
+      self.user?.fetchData();
+    },
+
     signIn: flow(function* (provider: Provider) {
       self.setStatus('pending');
 
@@ -38,6 +42,7 @@ export const AuthenticationStoreModel = types
             id: userId,
             email: user.email,
             displayname: profile.displayname,
+            avatar: profile.avatar,
           });
 
           self.user = userModel;
@@ -72,10 +77,6 @@ export const createAuthenticationStoreDefaultModel = () => {
   const userObj = userString ? JSON.parse(userString) : undefined;
   const user = userObj ? UserModel.create(userObj) : null;
 
-  if (user) {
-    // hydrate user with data from database on fresh start
-    client.auth.initialize().then(user.fetchData);
-  }
   const store = AuthenticationStoreModel.create({
     isAuthenticated: !!user,
     user,

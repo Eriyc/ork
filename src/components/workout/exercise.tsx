@@ -1,54 +1,44 @@
 import {Section} from '@/models/workout-store/section';
 import {observer} from 'mobx-react-lite';
-import React, {FC, useState} from 'react';
-import {StyleSheet, View, ListRenderItemInfo} from 'react-native';
+import React, {FC, useRef, useState} from 'react';
+import {StyleSheet, View, ListRenderItemInfo, Pressable, Animated} from 'react-native';
 import {Button, IconButton, Menu, Surface, Text} from 'react-native-paper';
+import {ExerciseColumnsHeaderComponent} from './exercise-columns-header';
 import {WorkoutSetRow} from './set-row';
 
-type ExerciseProps = ListRenderItemInfo<Section> & {};
-
-const Header = () => {
-  return (
-    <View style={[styles.row]}>
-      <Text variant="labelLarge" style={[styles.header, styles.smallHeader]} allowFontScaling={false}>
-        Set
-      </Text>
-      <Text variant="labelLarge" style={[styles.header, styles.bigHeader]} allowFontScaling={false}>
-        Previous
-      </Text>
-      <Text variant="labelLarge" style={[styles.header, styles.bigHeader]} allowFontScaling={false}>
-        Weight (kg)
-      </Text>
-      <Text variant="labelLarge" style={[styles.header, styles.bigHeader]} allowFontScaling={false}>
-        Reps
-      </Text>
-      <View style={[styles.smallHeader]} />
-    </View>
-  );
-};
+export type ExerciseProps = ListRenderItemInfo<Section> & {};
 
 const WorkoutExerciseComponent: FC<ExerciseProps> = observer(({item}) => {
   const [visible, setVisible] = useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
+  const longPress = useRef(new Animated.Value(0)).current;
+
   return (
     <View>
-      <Surface style={[styles.container]}>
-        <View style={[styles.row, styles.info]}>
-          <Text variant="titleSmall">{item.exercise.title}</Text>
-          <Menu anchor={<IconButton icon="dots-vertical" onPress={openMenu} />} onDismiss={closeMenu} visible={visible}>
-            <Menu.Item style={styles.menuItem} leadingIcon="delete" title="Remove" onPress={item.remove} />
-          </Menu>
-        </View>
-        <Header />
-      </Surface>
-      <View>
+      <Pressable onLongPress={() => longPress.setValue(1)} onPressOut={() => longPress.setValue(0)}>
+        <Surface style={[styles.container]}>
+          <View style={[styles.row, styles.info]}>
+            <Text variant="titleSmall">{item.exercise.title}</Text>
+            <Menu
+              anchor={<IconButton icon="dots-vertical" onPress={openMenu} />}
+              onDismiss={closeMenu}
+              visible={visible}>
+              <Menu.Item style={styles.menuItem} leadingIcon="delete" title="Remove" onPress={item.remove} />
+            </Menu>
+          </View>
+          <ExerciseColumnsHeaderComponent />
+        </Surface>
+      </Pressable>
+      <Animated.View>
         {item.sets.map((set, index) => (
           <WorkoutSetRow set={set} index={index} key={set.id} />
         ))}
-      </View>
-      <Button onPress={item.addSet}>Add set</Button>
+      </Animated.View>
+      <Button style={[styles.addSetButton]} onPress={item.addSet} mode="elevated">
+        Add set
+      </Button>
     </View>
   );
 });
@@ -64,23 +54,14 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   container: {
-    marginHorizontal: 4,
     padding: 8,
     borderTopLeftRadius: 4,
     borderTopRightRadius: 4,
   },
-  header: {textTransform: 'uppercase'},
-  bigHeader: {
-    flex: 2,
-    marginHorizontal: 4,
-    textAlign: 'center',
-  },
-  smallHeader: {
-    flex: 0.8,
-    textAlign: 'center',
+  addSetButton: {
+    marginHorizontal: 16,
+    marginVertical: 8,
   },
 });
 
-const renderExerciseComponent = (props: ExerciseProps) => <WorkoutExerciseComponent {...props} />;
-
-export {WorkoutExerciseComponent, renderExerciseComponent};
+export {WorkoutExerciseComponent};

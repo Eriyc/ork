@@ -1,14 +1,14 @@
 export type WorkoutSectionSet = {
-  id: string;
-  section_id: string;
   weight: number | null;
   reps: number | null;
   rpe: number | null;
 };
 
 export type WorkoutSection = {
-  id: string;
+  index: number;
   workout_id: string;
+  exercise_id: string;
+  sets: WorkoutSectionSet[];
 };
 
 export type Workout = {
@@ -18,3 +18,8 @@ export type Workout = {
   started_at: string;
   finished_at: string;
 };
+
+export enum WeightType {
+  KG = 'kg',
+  LBS = 'lbs',
+}

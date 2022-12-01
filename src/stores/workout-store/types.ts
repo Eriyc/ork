@@ -44,19 +44,11 @@ export type TimerSlice = {
 export type SetSlice = {
   sections: WorkoutSection[];
   addSection: (exerciseId: Exercise['id']) => Promise<void>;
-  addSetToSection: (
-    sectionId: WorkoutSection['id'],
-    index: number,
-    type: SetType,
-  ) => void;
+  addSetToSection: (sectionId: WorkoutSection['id'], index: number, type: SetType) => void;
   removeSection: (sectionId: WorkoutSection['id']) => void;
   removeSet: (sectionId: WorkoutSection['id'], setIndex: Set['id']) => void;
 
-  updateSet: (
-    sectionId: string,
-    setId: string,
-    data: {weight: number; reps: number},
-  ) => void;
+  updateSet: (sectionId: string, setId: string, data: {weight: number; reps: number}) => void;
 };
 
 type SliceMap = {
@@ -65,15 +57,6 @@ type SliceMap = {
 };
 export type AllSlices = TimerSlice & SetSlice;
 
-export type Middleware = [
-  ['zustand/persist', unknown],
-  ['zustand/immer', never],
-  ['zustand/devtools', never],
-];
+export type Middleware = [['zustand/persist', unknown], ['zustand/immer', never], ['zustand/devtools', never]];
 
-export type WorkoutState<T extends keyof SliceMap> = StateCreator<
-  AllSlices,
-  Middleware,
-  [],
-  SliceMap[T]
->;
+export type WorkoutState<T extends keyof SliceMap> = StateCreator<AllSlices, Middleware, [], SliceMap[T]>;

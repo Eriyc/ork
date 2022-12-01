@@ -4,42 +4,31 @@ import {Link} from '@react-navigation/native';
 import React, {FC} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {Surface, Text} from 'react-native-paper';
+import {Text} from 'react-native-paper';
 
 const HomeScreen: FC = () => {
   const {user} = useAuthStore();
 
   return (
     <ScrollView style={[styles.container]}>
-      {user && (
-        <UserGreeting
-          username={user.displayname.split(' ')[0]}
-          currentXp={876}
-          totalXp={1000}
-          style={[styles.sectionSpacing]}
-        />
-      )}
+      {user && <UserGreeting user={user} style={[styles.sectionSpacing]} />}
       <View>
         <View style={[styles.sectionHeader]}>
-          <Text variant="bodyLarge">History</Text>
           <Link to="/history">
-            <Text variant="labelMedium">SHOW MORE</Text>
+            <Text variant="labelMedium" style={[styles.label]}>
+              View workout history
+            </Text>
           </Link>
         </View>
-        <Surface style={[styles.historyCard]}>
-          <Text>Afternoon Workout</Text>
-          <Text variant="bodySmall">- 10 pushups</Text>
-        </Surface>
-        <Surface style={[styles.historyCard]}>
-          <Text>Morning Workout</Text>
-          <Text variant="bodySmall">- 10 situps</Text>
-        </Surface>
       </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  label: {
+    textTransform: 'uppercase',
+  },
   container: {
     padding: 8,
   },

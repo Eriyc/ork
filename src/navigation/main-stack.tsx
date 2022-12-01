@@ -20,6 +20,7 @@ import {ProfileScreen} from '@/screens/profile';
 
 import {observer} from 'mobx-react-lite';
 import {useAuthStore} from '@/models';
+import {FinishWorkoutButtonComponent} from '@/components';
 
 type HomeStackRoutes = {
   overview: undefined;
@@ -47,6 +48,8 @@ const renderSettingsButton = ({navigation}: {navigation: NavigationProp<any>}) =
   <IconButton icon="cog" onPress={() => navigation.navigate('settings')} />
 );
 
+const renderFinishWorkoutButton = () => <FinishWorkoutButtonComponent />;
+
 const HomeStack: FC = () => {
   return (
     <Tabs.Navigator>
@@ -57,7 +60,13 @@ const HomeStack: FC = () => {
           headerRight: () => renderSettingsButton({navigation}),
         })}
       />
-      <Tabs.Screen name="templates" component={TemplatesScreen} />
+      <Tabs.Screen
+        name="templates"
+        component={TemplatesScreen}
+        options={() => ({
+          headerRight: () => renderFinishWorkoutButton(),
+        })}
+      />
       <Tabs.Screen name="exercises" component={ExerciseListScreen} />
     </Tabs.Navigator>
   );

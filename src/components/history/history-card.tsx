@@ -1,30 +1,31 @@
-import {Workout, WorkoutSection, WorkoutSectionSet} from '@/db-types';
-import React, {FC, useMemo} from 'react';
+import {WeightType} from '@/db-types';
+import {FetchWorkoutData} from '@/models/workout-store';
+import {from_now} from '@/utils';
+import {calculateTotalVolume} from '@/utils/workout';
+import React, {FC, memo, useMemo} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Avatar, MD3Theme, Surface, Text, useTheme} from 'react-native-paper';
 
-interface WorkoutWithSections extends Workout {
-  creator: {
-    displayname: string;
-    avatar?: string;
-  };
-  sections: (WorkoutSection & {
-    sets: WorkoutSectionSet[];
-  })[];
-}
-
 type HistoryCardComponentProps = {
-  workout: WorkoutWithSections;
+  workout: FetchWorkoutData;
 };
 
-const HistoryCardComponent: FC<HistoryCardComponentProps> = ({workout}) => {
+const HistoryCardComponent: FC<HistoryCardComponentProps> = memo(({workout}) => {
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
+  const published = useMemo(() => from_now(workout.started_at), [workout.started_at]);
+  const volume = useMemo(() => calculateTotalVolume(workout), [workout]);
 
   return (
     <Surface style={[styles.container]} key={workout.id}>
-      <Text variant="bodyLarge" style={[styles.title]}>
-        Workout title
+      <View style={styles.titleContainer}>
+        <Text variant="bodyLarge" style={[styles.title]}>
+          Workout title
+        </Text>
+        <Text>{published}</Text>
+      </View>
+      <Text>
+        {volume} {WeightType.KG}
       </Text>
       <View style={[styles.author]}>
         {workout.creator.avatar ? (
@@ -36,18 +37,25 @@ const HistoryCardComponent: FC<HistoryCardComponentProps> = ({workout}) => {
       </View>
       <View>
         {workout.sections.map(section => (
-          <Text key={section.id}>{section.sets.length} sets of (exercise)</Text>
+          <Text key={section.workout_id + section.index}>
+            {section.sets.length} sets of {section.exercise.name}
+          </Text>
         ))}
       </View>
     </Surface>
   );
-};
+});
 
 const createStyles = (theme: MD3Theme) =>
   StyleSheet.create({
     container: {
       padding: 15,
       borderRadius: theme.roundness * 2,
+    },
+    titleContainer: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
     },
     title: {
       fontWeight: '700',

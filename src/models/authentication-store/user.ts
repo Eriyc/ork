@@ -1,4 +1,5 @@
 import client from '@/utils/client';
+import {storage} from '@/utils/storage';
 import {flow, Instance, SnapshotOut, types} from 'mobx-state-tree';
 
 export type AccountData = {
@@ -31,9 +32,13 @@ export const UserModel = types
   .actions(self => ({
     fetchData: flow(function* () {
       const {profile, user}: AccountData = yield fetchUserData(self.id);
+
       self.avatar = profile.avatar;
       self.displayname = profile.displayname;
       self.email = user.email;
+
+      console.log(JSON.stringify(self));
+      storage.setItem('@user', JSON.stringify(self));
     }),
   }));
 
