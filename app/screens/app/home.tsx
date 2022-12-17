@@ -9,19 +9,18 @@ import {
   SpacingComponent,
   Title,
 } from '@/components';
-import { useAuth, useCurrentUser } from '@/contexts/auth-context';
+import { useAuth } from '@/contexts/auth-context';
 
 const HomeScreen: FC = () => {
   const { t } = useTranslation();
   const { logout } = useAuth();
-  const user = useCurrentUser();
   const { theme } = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
 
   return (
     <Layout>
       <SpacingComponent>
-        <Title>{t('common:ork')}</Title>
+        <Title>{t('common:greeting')}</Title>
       </SpacingComponent>
       <HomeHeaderComponent />
       <Button variant="danger_secondary" onPress={logout}>
@@ -31,7 +30,7 @@ const HomeScreen: FC = () => {
   );
 };
 
-const createStyles = (theme: Theme) =>
+const createStyles = (_theme: Theme) =>
   StyleSheet.create({
     container: {},
   });

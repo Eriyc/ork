@@ -5,9 +5,11 @@ import {
 } from '@react-navigation/native-stack';
 import { HomeScreen } from '@/screens/app/home';
 import { useNavigation } from '@react-navigation/native';
+import { MyProfileScreen } from '@/screens/app/my-profile';
 
 export type AppStackParamList = {
   Home: undefined;
+  MyProfile: undefined;
 };
 
 // use this with the hook useNavigation like this:
@@ -26,6 +28,13 @@ export const AppNavigator: React.FC = () => {
       <Stack.Screen
         name={'Home'}
         component={HomeScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'MyProfile'}
+        component={MyProfileScreen}
         options={{
           headerShown: false,
         }}

@@ -4,9 +4,9 @@ import { supabase } from '@/services/supabase-client';
 export type UserProfile = {
   id: string;
   email: string;
-  first_name: string | undefined;
-  last_name: string | undefined;
   username: string;
+  avatar_url: string | null;
+  created_at: Date;
 };
 
 export const getUserProfile = async (id: string) => {

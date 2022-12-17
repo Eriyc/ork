@@ -1,20 +1,25 @@
 import React, { FC, PropsWithChildren, useMemo } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ViewStyle, StyleProp } from 'react-native';
 import { Theme, useTheme } from '@/themes';
 
 type Edge = 'top' | 'right' | 'bottom' | 'left' | 'horizontal' | 'vertical';
 
 type SpacingComponentProps = {
   sides?: Edge[];
+  style?: StyleProp<ViewStyle>;
 } & PropsWithChildren;
 
-const SpacingComponent: FC<SpacingComponentProps> = ({ sides, children }) => {
+const SpacingComponent: FC<SpacingComponentProps> = ({
+  sides,
+  children,
+  style,
+}) => {
   const { theme } = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
 
   const classes = sides ? sides.map(side => styles[side]) : styles.all;
 
-  return <View style={[classes]}>{children}</View>;
+  return <View style={[classes, style]}>{children}</View>;
 };
 
 const createStyles = (_theme: Theme) =>
