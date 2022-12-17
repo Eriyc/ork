@@ -4,12 +4,16 @@ import { useTranslation } from 'react-i18next';
 import { Theme, useTheme } from '@/themes';
 import {
   BackButton,
+  IconButton,
+  Label,
   Layout,
+  ScreenHeaderComponent,
   SpacingComponent,
   Text,
   Title,
 } from '@/components';
 import { useCurrentUser } from '@/contexts/auth-context';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const MyProfileScreen: FC = () => {
   const { t } = useTranslation();
@@ -20,12 +24,7 @@ const MyProfileScreen: FC = () => {
 
   return (
     <Layout>
-      <SpacingComponent sides={['horizontal']} style={[styles.header]}>
-        <BackButton />
-        <SpacingComponent sides={['left']}>
-          <Title>{t('common:profile')}</Title>
-        </SpacingComponent>
-      </SpacingComponent>
+      <ScreenHeaderComponent title={t('common:profile')} />
       <SpacingComponent style={[styles.avatarSection]}>
         <View style={[styles.avatar]}>
           {currentUser.avatar_url ? (
@@ -36,9 +35,38 @@ const MyProfileScreen: FC = () => {
             </Text>
           )}
         </View>
-        <SpacingComponent sides={['top']}>
-          <Text>{currentUser.username}</Text>
+        <SpacingComponent sides={['left']}>
+          <Label>Usename</Label>
+          <View style={[styles.usernameSection]}>
+            <Text>{currentUser.username}</Text>
+            <IconButton
+              name="pencil"
+              backgroundColor="transparent"
+              color={theme.colors.mainTextColor}
+            />
+          </View>
+          <View style={[styles.stats]}>
+            <View style={styles.stat}>
+              <Icon
+                name="account"
+                size={28}
+                color={theme.colors.mainTextColor}
+              />
+              <Text>223K</Text>
+            </View>
+            <View style={styles.stat}>
+              <Icon
+                name="arm-flex"
+                size={28}
+                color={theme.colors.mainTextColor}
+              />
+              <Text>98</Text>
+            </View>
+          </View>
         </SpacingComponent>
+      </SpacingComponent>
+      <SpacingComponent>
+        <Text>Activity</Text>
       </SpacingComponent>
     </Layout>
   );
@@ -46,13 +74,9 @@ const MyProfileScreen: FC = () => {
 
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
-    header: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
     avatarSection: {
-      justifyContent: 'center',
-      alignItems: 'center',
+      alignItems: 'flex-start',
+      flexDirection: 'row',
     },
     avatar: {
       backgroundColor: theme.colors.primary,
@@ -65,6 +89,21 @@ const createStyles = (theme: Theme) =>
     greeting: {
       fontWeight: '700',
       fontSize: 32,
+    },
+    flex: {
+      flex: 1,
+    },
+    usernameSection: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    stats: {
+      flexDirection: 'row',
+      justifyContent: 'space-evenly',
+    },
+    stat: {
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   });
 
