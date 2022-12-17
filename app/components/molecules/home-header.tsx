@@ -1,15 +1,13 @@
 import React, { FC, useMemo } from 'react';
 import { View, StyleSheet, Image, Pressable } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { Theme, useTheme } from '@/themes';
 import { Text } from '../atoms/text';
 import { useCurrentUser } from '@/contexts/auth-context';
 import { SpacingComponent } from '../atoms/spacing';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useAppNavigation } from '@/navigators/app-navigator';
+import { IconButton } from '../atoms/icon-button';
 
 const HomeHeaderComponent: FC = () => {
-  const { t } = useTranslation();
   const { theme } = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
 
@@ -34,13 +32,11 @@ const HomeHeaderComponent: FC = () => {
         <View style={[styles.textContainer]}>
           <Text>{currentUser.username}</Text>
         </View>
-        <View style={styles.icon}>
-          <Icon
-            color={theme.colors.mainTextColor}
-            size={24}
-            name="chevron-right"
-          />
-        </View>
+        <IconButton
+          name="chevron-right"
+          backgroundColor="transparent"
+          color={theme.colors.mainTextColor}
+        />
       </SpacingComponent>
     </Pressable>
   );

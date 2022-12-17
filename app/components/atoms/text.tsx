@@ -16,7 +16,11 @@ export const Text: FC<PropsWithChildren & { style?: StyleProp<TextStyle> }> = ({
   const { theme } = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  return <BaseText style={[styles.text, style]}>{children}</BaseText>;
+  return (
+    <BaseText maxFontSizeMultiplier={1.5} style={[styles.text, style]}>
+      {children}
+    </BaseText>
+  );
 };
 
 const createStyles = (theme: Theme) =>

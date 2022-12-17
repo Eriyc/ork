@@ -10,6 +10,11 @@ import { getUserProfile } from '@/queries/users';
 import type { UserProfile } from '@/queries/users';
 import { useSupabaseMutation } from '@/hooks/use-supabase-mutation';
 import { FC } from 'react';
+import { PostgrestError } from '@supabase/supabase-js';
+
+type SupabaseResponse =
+  | { data: object; error: null }
+  | { data: null; error: PostgrestError };
 
 interface AuthContextProps {
   currentUser: UserProfile | null;
@@ -21,7 +26,7 @@ interface AuthContextProps {
   loginWithEmailAndPassword: (email: string, password: string) => Promise<void>;
   updateCurrentUser: (
     fields: Partial<Omit<UserProfile, 'id' | 'email'>>,
-  ) => void;
+  ) => Promise<SupabaseResponse>;
   logout: () => void;
 }
 
@@ -66,10 +71,19 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     setLoading(false);
   };
 
-  const updateCurrentUser = (
+  const updateCurrentUser = async (
     fields: Partial<Omit<UserProfile, 'id' | 'email'>>,
-  ) => {
-    setCurrentUser(prevUser => (prevUser ? { ...prevUser, ...fields } : null));
+  ): Promise<SupabaseResponse> => {
+    const response = await execute(supabase.from('profiles').update(fields));
+    const { error } = response as SupabaseResponse;
+
+    if (!error) {
+      setCurrentUser(prevUser =>
+        prevUser ? { ...prevUser, ...fields } : null,
+      );
+    }
+
+    return response as SupabaseResponse;
   };
 
   const registerWithEmailAndPassword = async (

@@ -5,23 +5,40 @@ import { StyleSheet } from 'react-native';
 import {
   Button,
   HomeHeaderComponent,
+  IconButton,
   Layout,
-  SpacingComponent,
-  Title,
+  ScreenHeaderComponent,
 } from '@/components';
 import { useAuth } from '@/contexts/auth-context';
+import { useAppNavigation } from '@/navigators/app-navigator';
 
 const HomeScreen: FC = () => {
   const { t } = useTranslation();
   const { logout } = useAuth();
   const { theme } = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
+  const navigation = useAppNavigation();
+
+  const settingsButton = useMemo(
+    () => (
+      <IconButton
+        onPress={() => navigation.navigate('Settings')}
+        backgroundColor="transparent"
+        name="cog"
+        color={theme.colors.mainTextColor}
+      />
+    ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [theme.colors.mainTextColor],
+  );
 
   return (
     <Layout>
-      <SpacingComponent>
-        <Title>{t('common:greeting')}</Title>
-      </SpacingComponent>
+      <ScreenHeaderComponent
+        title={t('common:greeting')}
+        hideBackButton
+        rightActions={[settingsButton]}
+      />
       <HomeHeaderComponent />
       <Button variant="danger_secondary" onPress={logout}>
         {t('auth:signOut')}

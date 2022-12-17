@@ -8,5 +8,8 @@
   "email": "Email",
   "password": "Password",
   "ork": "Ork",
-  "profile": "Your profile"
+  "profile": "Your profile",
+  "editUsername": "Edit username",
+  "username": "Username",
+  "settings": "Settings"
 }

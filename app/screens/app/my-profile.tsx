@@ -3,17 +3,16 @@ import { View, StyleSheet, Image } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Theme, useTheme } from '@/themes';
 import {
-  BackButton,
   IconButton,
   Label,
   Layout,
   ScreenHeaderComponent,
   SpacingComponent,
   Text,
-  Title,
 } from '@/components';
 import { useCurrentUser } from '@/contexts/auth-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useAppNavigation } from '@/navigators/app-navigator';
 
 const MyProfileScreen: FC = () => {
   const { t } = useTranslation();
@@ -21,6 +20,7 @@ const MyProfileScreen: FC = () => {
   const styles = useMemo(() => createStyles(theme), [theme]);
 
   const currentUser = useCurrentUser();
+  const navigation = useAppNavigation();
 
   return (
     <Layout>
@@ -35,11 +35,16 @@ const MyProfileScreen: FC = () => {
             </Text>
           )}
         </View>
-        <SpacingComponent sides={['left']}>
+        <SpacingComponent sides={['left']} style={[styles.flex]}>
           <Label>Usename</Label>
           <View style={[styles.usernameSection]}>
-            <Text>{currentUser.username}</Text>
+            <Text style={[styles.flex]}>{currentUser.username}</Text>
             <IconButton
+              onPress={() =>
+                navigation.navigate('EditUsername', {
+                  username: currentUser.username,
+                })
+              }
               name="pencil"
               backgroundColor="transparent"
               color={theme.colors.mainTextColor}

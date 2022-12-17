@@ -17,7 +17,9 @@ const ScreenHeaderComponent: FC<ScreenHeaderProps> = props => {
   return (
     <SpacingComponent sides={['horizontal']} style={[styles.header]}>
       {!props.hideBackButton && <BackButton />}
-      <SpacingComponent sides={['left']} style={[styles.flex]}>
+      <SpacingComponent
+        sides={props.hideBackButton ? ['right'] : ['left']}
+        style={[styles.flex]}>
         <Title>{props.title}</Title>
       </SpacingComponent>
       {props.rightActions && props.rightActions.map(component => component)}
@@ -25,7 +27,7 @@ const ScreenHeaderComponent: FC<ScreenHeaderProps> = props => {
   );
 };
 
-const createStyles = (theme: Theme) =>
+const createStyles = (_theme: Theme) =>
   StyleSheet.create({
     container: {},
     header: {

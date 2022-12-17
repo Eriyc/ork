@@ -10,6 +10,7 @@ import { useTheme, Theme } from '@/themes';
 
 type ButtonVariants = 'danger' | 'primary' | 'secondary' | 'danger_secondary';
 type ButtonProps = {
+  disabled?: boolean;
   variant?: ButtonVariants;
   onPress?: (event: GestureResponderEvent) => void;
 };
@@ -31,6 +32,7 @@ export const Button: FC<PropsWithChildren & ButtonProps> = ({
         variant && styles[variant],
         styles.button,
         pressed && !isAndroid && styles.highlight,
+        props.disabled && styles.disabled,
       ]}>
       <BaseText style={[styles.text, variant && styles[variant]]}>
         {children}
@@ -47,6 +49,7 @@ const createStyles = (theme: Theme) =>
       fontWeight: '500',
     },
     button: {
+      alignItems: 'center',
       marginBottom: 8,
       borderRadius: 4,
       paddingHorizontal: 16,
@@ -71,5 +74,8 @@ const createStyles = (theme: Theme) =>
     danger_secondary: {
       backgroundColor: theme.palette.valencia['50'],
       color: theme.palette.valencia['700'],
+    },
+    disabled: {
+      opacity: 0.5,
     },
   });

@@ -8,6 +8,7 @@ export { IconButton } from './atoms/icon-button';
 export { SpacingComponent } from './atoms/spacing';
 
 export { HomeHeaderComponent } from './molecules/home-header';
+export { SettingsRowComponent } from './molecules/settings-row';
 export { BackButton } from './molecules/back-button';
 
 export { ScreenHeaderComponent } from './organisms/screen-header';

@@ -8,7 +8,11 @@ export const Title: FC<PropsWithChildren> = ({ children }) => {
   const { theme } = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  return <BaseText style={styles.text}>{children}</BaseText>;
+  return (
+    <BaseText allowFontScaling={false} style={styles.text}>
+      {children}
+    </BaseText>
+  );
 };
 
 const createStyles = (theme: Theme) =>

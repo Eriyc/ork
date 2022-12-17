@@ -39,6 +39,8 @@ const createStyles = (theme: Theme) =>
       padding: 16,
       borderRadius: 4,
       backgroundColor: theme.palette.emerald['200'],
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   });
 
