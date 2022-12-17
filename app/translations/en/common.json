@@ -1,0 +1,11 @@
+{
+  "greeting": "Rise and grind",
+  "required": "This field is required",
+  "login": "Login",
+  "logout": "Logout",
+  "register": "Sign up",
+  "update": "Update",
+  "email": "Email",
+  "password": "Password",
+  "ork": "Ork"
+}

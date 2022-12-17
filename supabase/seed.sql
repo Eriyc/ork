@@ -1,0 +1,1 @@
+INSERT INTO public.exercises (label, description) values ('Pushup', 'Lower yourself to the ground'), ('Tricep Dip', 'Lean backwards and do a dip'), ('Chest Dip', 'Lean forwards and do a dip');
