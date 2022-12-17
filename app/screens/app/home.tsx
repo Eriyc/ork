@@ -26,6 +26,7 @@ const HomeScreen: FC = () => {
         backgroundColor="transparent"
         name="cog"
         color={theme.colors.mainTextColor}
+        key="settings"
       />
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps

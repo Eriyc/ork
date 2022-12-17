@@ -42,7 +42,7 @@ const SettingsRowComponent: FC<SettingsRowProps> = ({
   );
 };
 
-const createStyles = (theme: Theme) =>
+const createStyles = (_theme: Theme) =>
   StyleSheet.create({
     pressed: {
       opacity: 0.8,

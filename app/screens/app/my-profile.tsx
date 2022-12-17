@@ -36,7 +36,7 @@ const MyProfileScreen: FC = () => {
           )}
         </View>
         <SpacingComponent sides={['left']} style={[styles.flex]}>
-          <Label>Usename</Label>
+          <Label>Username</Label>
           <View style={[styles.usernameSection]}>
             <Text style={[styles.flex]}>{currentUser.username}</Text>
             <IconButton

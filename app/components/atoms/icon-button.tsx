@@ -22,6 +22,7 @@ const IconButton: FC<IconButtonProps> = ({
   const styles = useMemo(() => createStyles(theme), [theme]);
   return (
     <Pressable
+      pointerEvents={onPress ? 'auto' : 'none'}
       onPress={onPress}
       style={[styles.container, backgroundColor ? { backgroundColor } : {}]}>
       <Icon

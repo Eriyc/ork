@@ -17,16 +17,18 @@ const SettingsScreen: FC = () => {
   return (
     <Layout>
       <ScreenHeaderComponent title={t('common:settings')} />
-      <ScrollView>
+      <ScrollView contentContainerStyle={[styles.container]}>
         <SettingsRowComponent label="Account" icon="account-box" />
       </ScrollView>
     </Layout>
   );
 };
 
-const createStyles = (theme: Theme) =>
+const createStyles = (_theme: Theme) =>
   StyleSheet.create({
-    container: {},
+    container: {
+      marginVertical: 16,
+    },
   });
 
 export { SettingsScreen };
