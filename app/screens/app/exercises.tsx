@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   ExerciseListComponent,
-  Layout,
   ScreenHeaderComponent,
+  Layout,
 } from '@/components';
 import { useExercises } from '@/contexts/exercise-context';
 

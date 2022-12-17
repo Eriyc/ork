@@ -110,8 +110,11 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         password,
       }),
     );
+
     if (error) {
+      // failed to sign out. account removed?
       setLoading(false);
+      setCurrentUser(null);
     }
   };
 
