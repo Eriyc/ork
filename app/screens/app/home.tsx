@@ -1,7 +1,6 @@
 import React, { FC, useMemo } from 'react';
-import { Theme, useTheme } from '@/themes';
+import { useTheme } from '@/themes';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet } from 'react-native';
 import {
   Button,
   HomeHeaderComponent,
@@ -16,7 +15,6 @@ const HomeScreen: FC = () => {
   const { t } = useTranslation();
   const { logout } = useAuth();
   const { theme } = useTheme();
-  const styles = useMemo(() => createStyles(theme), [theme]);
   const navigation = useAppNavigation();
 
   const settingsButton = useMemo(
@@ -47,10 +45,5 @@ const HomeScreen: FC = () => {
     </Layout>
   );
 };
-
-const createStyles = (_theme: Theme) =>
-  StyleSheet.create({
-    container: {},
-  });
 
 export { HomeScreen };
