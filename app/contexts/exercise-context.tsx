@@ -1,5 +1,9 @@
 import { useSupabaseMutation } from '@/hooks/use-supabase-mutation';
-import { Exercise, getExercises } from '@/queries/exercises';
+import {
+  Exercise,
+  ExerciseWithMuscles,
+  getExercises,
+} from '@/queries/exercises';
 import { storage } from '@/services/storage';
 import React, {
   createContext,
@@ -12,7 +16,7 @@ import React, {
 import { useMMKVObject } from 'react-native-mmkv';
 
 interface ExerciseContextProps {
-  exercises: Exercise[];
+  exercises: ExerciseWithMuscles[];
 }
 
 const ExerciseContext = createContext<ExerciseContextProps | undefined>(
@@ -24,8 +28,11 @@ const getExercisesFromCache = () => {
 };
 
 export const ExerciseProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [cache] = useMMKVObject<Exercise[]>('exercises');
-  const [exercises, setExercises] = useState<Exercise[]>(cache ?? []);
+  const [cache] = useMMKVObject<ExerciseWithMuscles[]>('exercises');
+  const [exercises, setExercises] = useState<ExerciseWithMuscles[]>(
+    cache ?? [],
+  );
+
   const [loading, setLoading] = useState(true);
 
   const { execute, loading: fetching } = useSupabaseMutation();

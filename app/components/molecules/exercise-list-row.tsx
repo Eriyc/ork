@@ -4,20 +4,28 @@ import {
   StyleSheet,
   ListRenderItem,
   ListRenderItemInfo,
+  Pressable,
 } from 'react-native';
 import { Theme, useTheme } from '@/themes';
-import { Exercise } from '@/queries/exercises';
+import { ExerciseWithMuscles } from '@/queries/exercises';
 import { Text } from '../atoms/text';
+import { Label } from '../atoms/label';
+import { useAppNavigation } from '@/navigators/app-navigator';
 
-type ExerciseListRowProps = ListRenderItemInfo<Exercise>;
+type ExerciseListRowProps = ListRenderItemInfo<ExerciseWithMuscles>;
 
 const ExerciseListRow: FC<ExerciseListRowProps> = ({ item }) => {
   const { theme } = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
+
+  const navigation = useAppNavigation();
+
   return (
-    <View style={[styles.container]}>
+    <Pressable
+      style={[styles.container]}
+      onPress={() => navigation.navigate('ExerciseDetails', { id: item.id })}>
       <Text>{item.label}</Text>
-    </View>
+    </Pressable>
   );
 };
 
@@ -26,7 +34,7 @@ const createStyles = (_theme: Theme) =>
     container: { padding: 16 },
   });
 
-const renderExercise: ListRenderItem<Exercise> = props => (
+const renderExercise: ListRenderItem<ExerciseWithMuscles> = props => (
   <ExerciseListRow {...props} />
 );
 

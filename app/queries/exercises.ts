@@ -13,20 +13,27 @@ export type ExerciseMuscleConnection = {
   heads: string[];
 };
 
+export type ExerciseWithMuscles = Exercise & {
+  muscles: {
+    role: ExerciseMuscleConnection['role'];
+    name: Muscle['name'];
+    id: Muscle['id'];
+    heads: ExerciseMuscleConnection['heads'];
+  }[];
+};
+
 export type Exercise = {
   id: number;
   label: string;
   description?: string;
-  muscles: ExerciseMuscleConnection[];
 };
 
-export const getExercises = async (): Promise<Exercise[]> => {
+export const getExercises = async (): Promise<ExerciseWithMuscles[]> => {
   try {
     const { data, error } = await supabase.rpc('get_exercises');
     if (error) throw new Error(`Error ${error.code}: ${error.message}`);
     if (data !== null) {
-      console.log(data[0]);
-      return data as Exercise[];
+      return data as ExerciseWithMuscles[];
     }
     return [];
   } catch (error) {
