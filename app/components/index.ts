@@ -12,6 +12,7 @@ export { SettingsRowComponent } from './molecules/settings-row';
 export { BackButton } from './molecules/back-button';
 
 export { ScreenHeaderComponent } from './organisms/screen-header';
+export { ExerciseListComponent } from './organisms/exercise-list';
 
 export { Layout } from './templates/layout';
 export { Form } from './templates/form';

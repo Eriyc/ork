@@ -4,6 +4,7 @@ import { Theme, useTheme } from '@/themes';
 import { SpacingComponent } from '../atoms/spacing';
 import { BackButton } from '../molecules/back-button';
 import { Title } from '../atoms/title';
+import { useAppNavigation } from '@/navigators/app-navigator';
 
 type ScreenHeaderProps = {
   hideBackButton?: boolean;
@@ -14,9 +15,13 @@ type ScreenHeaderProps = {
 const ScreenHeaderComponent: FC<ScreenHeaderProps> = props => {
   const { theme } = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
+
+  const navigation = useAppNavigation();
+  const showBackButton = !props.hideBackButton && navigation.canGoBack();
+
   return (
     <SpacingComponent sides={['horizontal']} style={[styles.header]}>
-      {!props.hideBackButton && <BackButton />}
+      {showBackButton && <BackButton />}
       <SpacingComponent
         sides={props.hideBackButton ? ['right'] : ['left']}
         style={[styles.flex]}>

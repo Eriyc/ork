@@ -12,13 +12,16 @@ import './app/translations/i18n';
 import 'react-native-url-polyfill/auto';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AppNavigator } from '@/navigators/app-navigator';
+import { ExerciseProvider } from '@/contexts/exercise-context';
 
 const App: FC = () => {
   return (
     <SafeAreaProvider>
       <ThemeProvider>
         <AuthProvider>
-          <Root />
+          <ExerciseProvider>
+            <Root />
+          </ExerciseProvider>
         </AuthProvider>
       </ThemeProvider>
     </SafeAreaProvider>

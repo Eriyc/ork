@@ -1,7 +1,5 @@
-import React, { FC, useMemo } from 'react';
-import { StyleSheet } from 'react-native';
+import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Theme, useTheme } from '@/themes';
 import {
   Button,
   Input,
@@ -20,8 +18,6 @@ type FormValues = {
 
 const EditUsernameScreen: FC = () => {
   const { t } = useTranslation();
-  const { theme } = useTheme();
-  const styles = useMemo(() => createStyles(theme), [theme]);
   const { updateCurrentUser } = useAuth();
 
   const {
@@ -80,10 +76,5 @@ const EditUsernameScreen: FC = () => {
     </Layout>
   );
 };
-
-const createStyles = (theme: Theme) =>
-  StyleSheet.create({
-    container: {},
-  });
 
 export { EditUsernameScreen };

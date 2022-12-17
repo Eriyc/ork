@@ -10,11 +10,15 @@ import { MyProfileScreen } from '@/screens/app/my-profile';
 import { SettingsScreen } from '@/screens/app/settings';
 
 import { EditUsernameScreen } from '@/screens/input/edit-username';
+import { ExercisesScreen } from '@/screens/app/exercises';
 
 export type AppStackParamList = {
   Home: undefined;
   MyProfile: undefined;
   Settings: undefined;
+
+  // exercises
+  Exercises: undefined;
 
   // input
   EditUsername: { username: string };
@@ -46,6 +50,13 @@ export const AppNavigator: React.FC = () => {
         <Stack.Screen name={'Home'} component={HomeScreen} />
         <Stack.Screen name={'MyProfile'} component={MyProfileScreen} />
         <Stack.Screen name={'Settings'} component={SettingsScreen} />
+      </Stack.Group>
+
+      <Stack.Group
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <Stack.Screen name="Exercises" component={ExercisesScreen} />
       </Stack.Group>
 
       <Stack.Group

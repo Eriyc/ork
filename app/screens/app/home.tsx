@@ -7,6 +7,7 @@ import {
   IconButton,
   Layout,
   ScreenHeaderComponent,
+  SpacingComponent,
 } from '@/components';
 import { useAuth } from '@/contexts/auth-context';
 import { useAppNavigation } from '@/navigators/app-navigator';
@@ -39,9 +40,16 @@ const HomeScreen: FC = () => {
         rightActions={[settingsButton]}
       />
       <HomeHeaderComponent />
-      <Button variant="danger_secondary" onPress={logout}>
-        {t('auth:signOut')}
-      </Button>
+      <SpacingComponent>
+        <Button
+          variant="primary"
+          onPress={() => navigation.navigate('Exercises')}>
+          TEMP: Exercises
+        </Button>
+        <Button variant="danger" onPress={logout}>
+          {t('auth:signOut')}
+        </Button>
+      </SpacingComponent>
     </Layout>
   );
 };
