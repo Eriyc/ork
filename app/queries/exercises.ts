@@ -5,6 +5,7 @@ export type Muscle = {
   name: string;
   heads: string[];
   aliases: string[];
+  musclegroup: string;
 };
 
 export type ExerciseMuscleConnection = {
@@ -19,6 +20,7 @@ export type ExerciseWithMuscles = Exercise & {
     name: Muscle['name'];
     id: Muscle['id'];
     heads: ExerciseMuscleConnection['heads'];
+    musclegroup: string;
   }[];
 };
 

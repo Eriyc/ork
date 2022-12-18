@@ -6,6 +6,7 @@ export { Title } from './atoms/title';
 export { Button } from './atoms/button';
 export { IconButton } from './atoms/icon-button';
 export { SpacingComponent } from './atoms/spacing';
+export { ChipComponent } from './atoms/chip';
 
 export { HomeHeaderComponent } from './molecules/home-header';
 export { SettingsRowComponent } from './molecules/settings-row';

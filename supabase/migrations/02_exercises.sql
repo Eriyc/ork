@@ -33,7 +33,7 @@ FROM exercises e
 LEFT JOIN
 (
 	SELECT  em.exercise_id
-	       ,json_agg(json_build_object('name',m.name,'role',em.role,'id',m.id,'heads',em.heads)) AS muscles
+	       ,json_agg(json_build_object('name',m.name,'role',em.role,'id',m.id,'heads',em.heads,'musclegroup',m.musclegroup)) AS muscles
 	FROM exercises_muscles em
 	LEFT JOIN muscles m
 	ON m.id = em.muscle_id
