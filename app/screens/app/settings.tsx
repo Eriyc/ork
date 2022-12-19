@@ -18,7 +18,10 @@ const SettingsScreen: FC = () => {
     <Layout>
       <ScreenHeaderComponent title={t('common:settings')} />
       <ScrollView contentContainerStyle={[styles.container]}>
-        <SettingsRowComponent label="Account" icon="account-box" />
+        <SettingsRowComponent
+          label={t('settings:account')}
+          icon="account-box"
+        />
       </ScrollView>
     </Layout>
   );

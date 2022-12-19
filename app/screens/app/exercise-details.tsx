@@ -5,6 +5,7 @@ import { Theme, useTheme } from '@/themes';
 import {
   Label,
   Layout,
+  MusclesInformationComponent,
   ScreenHeaderComponent,
   SpacingComponent,
   Text,
@@ -30,25 +31,7 @@ const ExerciseDetailsScreen: FC = () => {
       <SpacingComponent>
         <Text>{exercise.description}</Text>
       </SpacingComponent>
-      <SpacingComponent>
-        <Text>Targets</Text>
-        {exercise.muscles
-          .filter(m => m.role === 'target')
-          .map(muscle => (
-            <Label key={muscle.id + muscle.role}>
-              {muscle.name} {muscle.heads?.join(', ')}
-            </Label>
-          ))}
-        <SpacingComponent sides={['top']} />
-        <Text>Synergists</Text>
-        {exercise.muscles
-          .filter(m => m.role === 'synergist')
-          .map(muscle => (
-            <Label key={muscle.id + muscle.role}>
-              {muscle.name} {muscle.heads?.join(', ')}
-            </Label>
-          ))}
-      </SpacingComponent>
+      <MusclesInformationComponent muscles={exercise.muscles} />
     </Layout>
   );
 };

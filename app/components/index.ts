@@ -7,6 +7,7 @@ export { Button } from './atoms/button';
 export { IconButton } from './atoms/icon-button';
 export { SpacingComponent } from './atoms/spacing';
 export { ChipComponent } from './atoms/chip';
+export { Surface } from './atoms/surface';
 
 export { HomeHeaderComponent } from './molecules/home-header';
 export { SettingsRowComponent } from './molecules/settings-row';
@@ -14,6 +15,7 @@ export { BackButton } from './molecules/back-button';
 
 export { ScreenHeaderComponent } from './organisms/screen-header';
 export { ExerciseListComponent } from './organisms/exercise-list';
+export { MusclesInformationComponent } from './organisms/muscle-information';
 
 export { Layout } from './templates/layout';
 export { Form } from './templates/form';

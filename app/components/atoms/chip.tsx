@@ -24,12 +24,13 @@ const createStyles = (theme: Theme) =>
   StyleSheet.create({
     text: {
       textTransform: 'capitalize',
+      color: theme.colors.mainTextColor,
     },
     container: {
       borderRadius: 4,
       paddingHorizontal: 8,
       paddingVertical: 4,
-      backgroundColor: theme.colors.primary,
+      backgroundColor: theme.palette.emerald['700'],
     },
   });
 
