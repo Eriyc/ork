@@ -1,7 +1,7 @@
 name: Build iOS app to TestFlight
 
 on:
-  push:
+  pull_request:
     branches: ['main']
 
 jobs:
