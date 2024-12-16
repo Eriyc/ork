@@ -17,6 +17,8 @@ export interface AuthState {
   user: AuthUser | null;
   isAuthenticated: boolean;
   method: AuthMethod;
+
+  reset: () => void;
 }
 
 export interface AuthCommand<T = unknown> {
@@ -32,5 +34,6 @@ export enum AuthMethod {
   PASSWORD = "PASSWORD",
   OAUTH = "OAUTH",
   PASSKEY = "PASSKEY",
+  LOCAL = "LOCAL",
   NONE = "NONE",
 }

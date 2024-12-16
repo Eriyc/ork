@@ -2,10 +2,9 @@ import { observable } from "@legendapp/state";
 
 import { AuthExecutor, AuthMethod, AuthState } from "./types";
 import { LoginCommand, LogoutCommand, RefreshCommand } from "./commands";
-import { LocalRefreshCommand } from "./commands/local";
+import { LocalLogoutCommand, LocalRefreshCommand } from "./commands/local";
 
-// Create observable state
-export const authState$ = observable<AuthState>({
+const initialState: Omit<AuthState, "reset"> = {
   tokens: {
     accessToken: null,
     refreshToken: null,
@@ -14,6 +13,12 @@ export const authState$ = observable<AuthState>({
   user: null,
   isAuthenticated: false,
   method: AuthMethod.NONE,
+};
+
+// Create observable state
+export const authState$ = observable<AuthState>({
+  ...initialState,
+  reset: () => authState$.assign(initialState),
 });
 
 // Main Auth class
@@ -24,7 +29,16 @@ export class Auth {
     await this.executor.execute(command, credentials);
   }
 
-  async logout(command: LogoutCommand): Promise<void> {
+  async logout(): Promise<void> {
+    let command: LogoutCommand;
+    switch (authState$.method.get()) {
+      case AuthMethod.NONE:
+        return;
+
+      default:
+        command = new LocalLogoutCommand();
+        break;
+    }
     await this.executor.execute(command, undefined);
   }
 
