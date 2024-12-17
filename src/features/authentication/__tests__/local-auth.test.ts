@@ -1,4 +1,5 @@
-import { Auth, authState$ } from "../auth";
+import { Auth } from "../auth";
+import { authState$ } from "../state";
 import { LocalLoginCommand } from "../commands";
 import { MockAuthExecutor } from "../executors/mock-executor";
 

@@ -1,25 +1,12 @@
-import { observable } from "@legendapp/state";
-
-import { AuthExecutor, AuthMethod, AuthState } from "./types";
-import { LoginCommand, LogoutCommand, RefreshCommand } from "./commands";
+import { AuthExecutor } from "./types";
+import {
+  AuthMethod,
+  LoginCommand,
+  LogoutCommand,
+  RefreshCommand,
+} from "./commands/types";
 import { LocalLogoutCommand, LocalRefreshCommand } from "./commands/local";
-
-const initialState: Omit<AuthState, "reset"> = {
-  tokens: {
-    accessToken: null,
-    refreshToken: null,
-    accessTokenExpiration: null,
-  },
-  user: null,
-  isAuthenticated: false,
-  method: AuthMethod.NONE,
-};
-
-// Create observable state
-export const authState$ = observable<AuthState>({
-  ...initialState,
-  reset: () => authState$.assign(initialState),
-});
+import { authState$ } from "./state";
 
 // Main Auth class
 export class Auth {

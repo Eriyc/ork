@@ -4,13 +4,13 @@
     "slug": "ork",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/images/icon.png",
+    "icon": "./src/assets/images/adaptive-icon.png",
     "scheme": "ork",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "dev.dgren.ork"
+      "bundleIdentifier": "dev.dgren.ork" 
     },
     "android": {
       "adaptiveIcon": {

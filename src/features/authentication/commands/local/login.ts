@@ -1,5 +1,6 @@
-import { authState$ } from "../../auth";
-import { AuthMethod, AuthUser } from "../../types";
+import { authState$ } from "../../state";
+import type { AuthUser } from "../../types";
+import { AuthMethod } from "../types";
 import { LoginCommand } from "../types";
 import { nanoid } from "nanoid";
 

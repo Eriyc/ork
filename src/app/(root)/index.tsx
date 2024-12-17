@@ -1,8 +1,14 @@
-import { Text } from "react-native";
-import { useAuth } from "~/features/authentication";
+import { View } from "react-native";
+import { BannerLogo } from "~/components/banner-logo";
 
 export default function Root() {
-  const auth = useAuth();
-
-  return <Text>Root</Text>;
+  return (
+    <View className="flex-1">
+      <View className="h-24">
+        <View className="p-4">
+          <BannerLogo />
+        </View>
+      </View>
+    </View>
+  );
 }

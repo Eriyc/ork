@@ -1,7 +1,6 @@
 import { nanoid } from "nanoid";
-import { AuthMethod } from "../../types";
-import { RefreshCommand } from "../types";
-import { authState$ } from "../../auth";
+import { AuthMethod, RefreshCommand } from "../types";
+import { authState$ } from "../../state";
 
 export class LocalRefreshCommand extends RefreshCommand {
   constructor() {

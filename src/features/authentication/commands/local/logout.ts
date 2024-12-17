@@ -1,4 +1,4 @@
-import { authState$ } from "../../auth";
+import { authState$ } from "../../state";
 import { LogoutCommand } from "../types";
 
 export class LocalLogoutCommand extends LogoutCommand {

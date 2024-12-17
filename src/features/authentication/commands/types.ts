@@ -1,4 +1,15 @@
-import { AuthCommand, AuthMethod } from "../types";
+export enum AuthMethod {
+  PASSWORD = "PASSWORD",
+  OAUTH = "OAUTH",
+  PASSKEY = "PASSKEY",
+  LOCAL = "LOCAL",
+  NONE = "NONE",
+}
+
+export interface AuthCommand<T = unknown> {
+  method: AuthMethod;
+  execute(params: T): Promise<void>;
+}
 
 // Base command classes for different auth operations
 export abstract class LoginCommand<T> implements AuthCommand<T> {
