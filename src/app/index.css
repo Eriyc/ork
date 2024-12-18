@@ -34,11 +34,11 @@
   .dark:root {
     --background: 155 30% 0%;
     --foreground: 155 29% 98%;
-    --muted: 155 5% 5%;
+    --muted: 155 5% 10%;
     --muted-foreground: 155 8% 67%;
     --popover: 155 30% 0%;
     --popover-foreground: 155 29% 98%;
-    --card: 155 0% 5%;
+    --card: 155 0% 7%;
     --card-foreground: 155 29% 98%;
     --border: 155 13% 15%;
     --input: 155 13% 15%;

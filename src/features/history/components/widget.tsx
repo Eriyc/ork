@@ -1,6 +1,8 @@
 import { observer } from "@legendapp/state/react";
+import React from "react";
 import { View } from "react-native";
 import { Text } from "~/components/ui";
+import { cn } from "~/lib/utils";
 
 const generateData = () => {
   const data = [];
@@ -35,6 +37,10 @@ const generateData = () => {
     });
   }
 
+  for (let i = 0; i < data.length % 7; i++) {
+    data.push(null);
+  }
+
   return data;
 };
 
@@ -63,17 +69,25 @@ export const HistoryWidget = observer(() => {
     weeks.push(data.slice(i, i + 7));
   }
 
+  const today = new Date();
+
   return (
     <View className="border border-solid border-muted bg-card rounded-lg p-4 max-w-screen-sm">
       <Text className="font-semibold mb-4">
-        Workout history for {formatDate(new Date())}
+        Workout history for {formatDate(today)}
       </Text>
       <View className="justify-center items-center">
         <View className="gap-2">
           {weeks.map((week, weekIndex) => (
             <View key={`week-${weekIndex}`} className="flex flex-row gap-2">
               {week.map((day, dayIndex) => (
-                <View key={`week-${weekIndex}-day-${dayIndex}`} className="w-8">
+                <View
+                  key={`week-${weekIndex}-day-${dayIndex}`}
+                  className={cn("w-8 relative")}
+                >
+                  {today.getUTCDate() === day?.date.getUTCDate() && (
+                    <View className="absolute -top-1 -left-1 h-10 w-10 border border-muted-foreground rounded-lg" />
+                  )}
                   {day ? (
                     day.value ? (
                       <View
@@ -96,7 +110,10 @@ export const HistoryWidget = observer(() => {
         <View className="flex flex-row gap-2 mt-2">
           {weekdays.map((day, index) => (
             <View className="w-8" key={day}>
-              <Text key={`day-${index}`} className="text-center">
+              <Text
+                key={`day-${index}`}
+                className="text-center text-muted-foreground"
+              >
                 {day[0]}
               </Text>
             </View>
