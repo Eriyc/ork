@@ -13,9 +13,8 @@ import { globalStorage } from "~/lib/storage";
 import { useEffect, useState } from "react";
 import { useColorScheme } from "~/lib/use-color-scheme";
 
-const auth = new Auth(new StandardAuthExecutor());
-
 SplashScreen.preventAutoHideAsync();
+
 const LIGHT_THEME: Theme = {
   dark: false,
   colors: NAV_THEME.light,
@@ -26,6 +25,8 @@ const DARK_THEME: Theme = {
   colors: NAV_THEME.dark,
   fonts: NAV_THEME.fonts,
 };
+
+const auth = new Auth(new StandardAuthExecutor());
 
 export default function RootLayout() {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
